@@ -28,7 +28,7 @@ the reader.
 |-----|----------|
 | `vsb models` | `list_models` |
 | `vsb schema <slug>` | `get_model` |
-| `vsb pricing` / `vsb estimate` | `estimate_cost` |
+| `vsb estimate` | `estimate_cost` |
 | `vsb run <slug>` | `generate` |
 | `vsb status <job_id>` | `get_job` |
 | `vsb jobs` | `list_jobs` |
@@ -36,6 +36,16 @@ the reader.
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |
+
+This table is a copy. The pairing itself lives on the `@tool` decorator in
+`core/mcp/tools.py`, and `manage.py mcp_surface` prints it. If the two ever
+disagree, the server is right and this file is stale.
+
+**Models are not in this table, and never will be.** Both surfaces read
+`/api/v1/registry/`, so a model added to Visual Sandbox appears in
+`list_models` and in `vsb models` with nothing changed in either client.
+Never assume a model exists because you remember it; never assume one is
+missing because it is not named here. Call `list_models`.
 
 ## The order of work
 

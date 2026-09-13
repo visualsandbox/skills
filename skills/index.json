@@ -3,7 +3,7 @@
   "skills": [
     {
       "name": "vsb",
-      "description": "Use the vsb CLI to generate AI media via Visual Sandbox — image, video, audio, 3D, vector. This is THE Visual Sandbox skill — its name is \"vsb\", not \"visual-sandbox\". Trigger when the user mentions \"Visual Sandbox\" in any form, \"vsb\", \"nano banana\", \"generate an image/video/audio\", \"run a model\", or asks to produce media via shell. Always pipe through --json when output will be parsed by an agent.",
+      "description": "Use the vsb CLI to generate AI media via Visual Sandbox — image, video, audio, 3D, vector. This is THE Visual Sandbox skill — its name is \"vsb\", not \"visual-sandbox\". Trigger when the user mentions \"Visual Sandbox\" in any form, \"vsb\", \"nano banana\", \"generate an image/video/audio\", \"run a model\", or asks to produce media via shell. Covers both surfaces: the visual-sandbox MCP tools and the vsb CLI. Always pipe through --json when output will be parsed by an agent.",
       "files": [
         {
           "path": "references/full-reference.md",
@@ -11,21 +11,26 @@
           "bytes": 13550
         },
         {
+          "path": "references/mcp.md",
+          "sha256": "a18cc9817d09823b8377a67673a364f87db984a11cbc1d036b89bb3a16fdbdb3",
+          "bytes": 4323
+        },
+        {
           "path": "SKILL.md",
-          "sha256": "917c76bdd28958e802795f1baf108324eafd4b1210ee54815fcebca758367752",
-          "bytes": 16847
+          "sha256": "48768169ad755db13c340d0513e01e654a5bb2969aaed9da828a7ab52a982cc8",
+          "bytes": 21315
         }
       ]
     },
     {
       "name": "vsb-audio",
-      "description": "Generate sound effects (and, in v0.2, speech + music) via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, or voice generation via the vsb CLI. Async — use `vsb run audio/<slug> --async` then poll with `vsb status`.",
+      "description": "Generate sound effects and full music tracks via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, background music, a soundtrack, or voice generation via the vsb CLI. SFX runs are quick; music scales with track length. Submit with `--async` then poll with `vsb status` for anything long.",
       "renamed_from": "audio",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c310e90e188347a250cf4e5a4c882a62127588b668a92b456a625caf0e95efaf",
-          "bytes": 3181
+          "sha256": "4ca63433a274ee64b1e6404d86ecdecd6212dd9aeb8043ce7224ef5567e2482a",
+          "bytes": 7156
         }
       ]
     },
@@ -47,8 +52,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "7b7fd919a7fdc6e30892dfb14f2d4fa89baab0a4b58e5c1f69615061b4ced5c3",
-          "bytes": 6896
+          "sha256": "5f4ec598e65f4c169f5722c3a92142a501aa5cf97682e1e8a3275d5c9a2864b8",
+          "bytes": 8255
         }
       ]
     },
@@ -59,8 +64,19 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "e29715911106de1cd45fe9e47cabad59067ce331865d20f5c8d9bd3960240720",
-          "bytes": 7531
+          "sha256": "8d2d40b0a06bd61be1ae145324590ce7b89dd6f94398ce0879d22e730d167821",
+          "bytes": 8049
+        }
+      ]
+    },
+    {
+      "name": "vsb-motion",
+      "description": "Build motion-graphics videos that combine Visual Sandbox generated media (images, video, audio) with programmatic animation — Remotion compositions plus copy-paste remocn components (kinetic titles, shader backgrounds, transitions, UI sims). Trigger when the user wants an animated intro/promo/product demo, \"motion graphics\", \"animate this image\", \"remotion\", \"remocn\", kinetic typography, or any video that mixes generated assets with designed motion. Renders locally with `npx remotion render` — the only paid step is the vsb generation of the assets.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "597043dbafdc3fe68e58f398e426ae695f8a7364a24ddc51c65a842cef76c284",
+          "bytes": 6977
         }
       ]
     },
@@ -107,8 +123,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c2645916ef955248ea8935aa4ffeb71492075cd2a4813722242aa6c44353972a",
-          "bytes": 8249
+          "sha256": "900baa272c39fa3b962b72adaad1b766bb407c00560e41bd20fc83b9d62d547c",
+          "bytes": 8779
         }
       ]
     },
@@ -157,8 +173,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "d50222026d65a30a6a936989abe9a75dc5f4a9a8bb09498f9a473d38d0cff6e2",
-          "bytes": 6885
+          "sha256": "15ffa81925380863ccec4413f3d9fdb5bde5e44b81141c63ef6d6f5aba15ea17",
+          "bytes": 7626
         }
       ]
     }
