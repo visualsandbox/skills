@@ -11,6 +11,11 @@ description: >
 
 # Image generation with vsb
 
+> **On the MCP surface?** If the `visual-sandbox` MCP tools are in your
+> tool list, use `generate` and `get_job` instead of the shell commands
+> below. The model choice and the prompt craft on this page still apply.
+> See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
+
 Image runs are sync — `vsb run image/<slug>` blocks until done (typically
 5–10s). No `--async` needed. Pipe `--json` and `--download "<template>"` to
 capture results. `--download` only if the user opted into local saves —

@@ -1,8 +1,53 @@
-# Visual Sandbox Skills
+# Visual Sandbox Skills and Claude plugin
 
-Agent skills for [Visual Sandbox](https://visualsandbox.com) — drop-in knowledge packs that teach Claude Code (and other agent runtimes) how to generate AI media via the `vsb` CLI.
+Everything an AI agent needs to generate media with
+[Visual Sandbox](https://visualsandbox.com): the knowledge packs that teach it
+how to prompt each model, and the plugin that gives it the tools to run them.
 
-Each skill is a single `SKILL.md` (plus optional `references/`) with YAML frontmatter that the agent runtime reads to decide when the skill applies.
+This repository is two things at once.
+
+**A Claude Code plugin.** `.claude-plugin/` + `.mcp.json` at the root ship the
+skills, four slash commands, and the hosted MCP server as one install:
+
+```bash
+claude plugin marketplace add vladartym/vsb-skills
+claude plugin install visual-sandbox@visual-sandbox
+```
+
+That adds the `visual-sandbox` MCP server at `https://visualsandbox.com/mcp`.
+The first tool call opens a browser, you press Approve, and it is connected.
+No token to copy. Then `/image a red bicycle in the rain` works straight away.
+
+**A skill library for the `vsb` CLI.** Each skill is a single `SKILL.md` (plus
+optional `references/`) with YAML frontmatter the agent runtime reads to decide
+when the skill applies. The CLI embeds them in its binary and `vsb setup`
+writes them to `~/.claude/skills/`.
+
+Both surfaces do the same work. The `vsb` trunk skill opens with
+[Two ways to run](skills/vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli),
+which sends an agent holding MCP tools to
+[the MCP reference](skills/vsb/references/mcp.md) and everyone else to the CLI.
+
+## Commands the plugin adds
+
+| Command | What it does |
+|---------|--------------|
+| `/image <what to show>` | Pick a model, write the prompt well, generate, show the picture |
+| `/video <what happens>` | Price it first, wait for a yes, then generate |
+| `/models [filter]` | The catalogue with prices, cheapest first |
+| `/balance` | Credit left, and what the last ten runs cost |
+
+## The MCP tools
+
+`list_models`, `get_model`, `estimate_cost`, `generate`, `get_job`,
+`list_jobs`, `upload_media`, `list_presets`, `get_preset`, `get_balance` —
+one for each `vsb` command. Add the server on its own, without the plugin:
+
+```bash
+claude mcp add --transport http visual-sandbox https://visualsandbox.com/mcp
+```
+
+Every generation is charged to the connected account. Nothing is free.
 
 ## Skills
 

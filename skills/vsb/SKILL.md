@@ -5,16 +5,34 @@ description: >
   audio, 3D, vector. This is THE Visual Sandbox skill — its name is "vsb",
   not "visual-sandbox". Trigger when the user mentions "Visual Sandbox" in
   any form, "vsb", "nano banana", "generate an image/video/audio", "run a
-  model", or asks to produce media via shell. Always pipe through --json
+  model", or asks to produce media via shell. Covers both surfaces: the
+  visual-sandbox MCP tools and the vsb CLI. Always pipe through --json
   when output will be parsed by an agent.
 ---
 
-# vsb CLI
+# Visual Sandbox: the MCP tools and the vsb CLI
 
 `vsb` is the Visual Sandbox command-line tool. Pretty output for humans, structured JSON for agents. Every successful run charges the configured account — costs are real.
 
 For full reference (every command, every flag, every exit code), see
 [references/full-reference.md](references/full-reference.md).
+
+## Two ways to run: MCP tools or the CLI
+
+Visual Sandbox answers on two surfaces, and they do the same work.
+
+**If the `visual-sandbox` MCP tools are in your tool list, use them.** Call
+`list_models`, `get_model`, `generate` and `get_job` instead of running a
+shell. The tool set matches the commands below one for one, the finished
+image comes back in the answer, and there is nothing to download. Read
+[references/mcp.md](references/mcp.md) for the mapping, the order of work,
+and the four CLI rules that do not apply there (background shells,
+`--download`, `open -a Preview`, `--json`).
+
+**Otherwise use the `vsb` CLI, described below.**
+
+Pick one surface for a task and stay on it. Everything about prompt craft,
+model choice, cost and share links is the same either way.
 
 ## Critical rules (read first)
 

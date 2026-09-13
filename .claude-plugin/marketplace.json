@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "visual-sandbox",
+  "description": "The Visual Sandbox plugin: the hosted MCP server plus the skills that teach an agent to prompt every model well.",
+  "owner": {
+    "name": "Vlad Artym",
+    "url": "https://visualsandbox.com"
+  },
+  "plugins": [
+    {
+      "name": "visual-sandbox",
+      "description": "Generate images, video, audio, 3D and vector with Visual Sandbox. Pay per generation, no subscription.",
+      "source": "./",
+      "category": "productivity",
+      "version": "1.0.0"
+    }
+  ]
+}

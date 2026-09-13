@@ -10,6 +10,11 @@ description: >
 
 # Audio generation with vsb
 
+> **On the MCP surface?** If the `visual-sandbox` MCP tools are in your
+> tool list, use `generate` and `get_job` instead of the shell commands
+> below. The model choice and the prompt craft on this page still apply.
+> See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
+
 Audio runs are async. Submit with `--async`, poll with `vsb status`. Most
 sound-effect generations finish in 5–30 seconds.
 

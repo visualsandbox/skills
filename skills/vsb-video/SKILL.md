@@ -10,6 +10,11 @@ description: >
 
 # Video generation with vsb
 
+> **On the MCP surface?** If the `visual-sandbox` MCP tools are in your
+> tool list, use `generate` and `get_job` instead of the shell commands
+> below. The model choice and the prompt craft on this page still apply.
+> See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
+
 Video runs are slow (30s–3min). **Always use `--async`**, then poll with `vsb status`. Don't block a sync `vsb run` on a 2-minute job — the CLI will sit there and re-poll, blowing your terminal session.
 
 Agents: don't block the conversation on a running job either — start it, keep talking, check later. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).

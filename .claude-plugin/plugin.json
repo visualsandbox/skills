@@ -1,0 +1,20 @@
+{
+  "name": "visual-sandbox",
+  "description": "Generate images, video, audio, 3D and vector with Visual Sandbox. Adds the hosted MCP server and the prompt-craft skills for every model family.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vlad Artym",
+    "url": "https://github.com/vladartym"
+  },
+  "homepage": "https://visualsandbox.com",
+  "repository": "https://github.com/vladartym/vsb-skills",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "image-generation",
+    "video-generation",
+    "audio-generation",
+    "nano-banana",
+    "ai-media"
+  ]
+}
