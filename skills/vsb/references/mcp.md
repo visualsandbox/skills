@@ -36,6 +36,9 @@ the reader.
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |
+| `vsb topup` | `top_up` |
+| `vsb skills list` | `list_skills` |
+| `vsb skills install <name>` | `get_skill` |
 
 This table is a copy. The pairing itself lives on the `@tool` decorator in
 `core/mcp/tools.py`, and `manage.py mcp_surface` prints it. If the two ever
@@ -47,8 +50,23 @@ disagree, the server is right and this file is stale.
 Never assume a model exists because you remember it; never assume one is
 missing because it is not named here. Call `list_models`.
 
+## Where the skill packs come from on this surface
+
+There is no `.claude/skills/` folder here. The MCP serves the packs itself:
+`list_skills` names them, `get_skill` returns one. They are read live from
+`github.com/vladartym/vsb-skills`, the same repository the CLI embeds and
+the plugin ships, and each file is checked against the sha256 in that repo's
+`index.json` before it is handed over.
+
+They are also listed as MCP resources under `skill://<name>`, so a client
+that lets a person attach a document can attach one without a tool call.
+
+**Read the pack that fits before writing a prompt.** The tools can run any
+model; the packs are why the output is worth looking at.
+
 ## The order of work
 
+0. `get_skill` for the craft. `vsb-image-prompting` before any image prompt.
 1. `list_models` to find a model. Filter by `modality`.
 2. `get_model` to read the input fields. Do this before the first run with a
    model. Field names differ from model to model.
@@ -76,6 +94,10 @@ for it, and then fetch the URL yourself.
 `generate`. For a file on disk, read it, then pass it to `upload_media` as a
 base64 data URI. `upload_media` returns the hosted URL to use.
 
+**You cannot pay for anything.** `top_up` returns a checkout link for a
+person to open. It charges nothing, and there is no tool that does. Never
+tell the user credit has been added — only that the link is ready.
+
 **Report the share page, not the CDN URL.** Every job answer carries
 `share_url`. Give the user that link. A `cdn.visualsandbox.com` URL is for
 chaining one run into the next, never for the user to read.
@@ -102,6 +124,6 @@ A refusal comes back as text, not as a crash. Read it and correct the call.
 |---------------|------------|
 | a missing field | Call `get_model` and supply the field. |
 | `cli:run` or another scope | The token is too narrow. Tell the user to mint a new one. |
-| credit | Call `get_balance`, then send the user to the top-up page. |
+| credit | Call `top_up` and give the person the link it returns. |
 | `email_unverified` | The account must confirm its email before it can generate. |
 | a model that is turned off | Call `list_models` and pick another model. |
