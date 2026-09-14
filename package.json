@@ -1,6 +1,6 @@
 {
   "name": "vsb-skills",
-  "version": "0.2.26",
+  "version": "0.2.28",
   "private": true,
   "description": "Agent skill packs for Visual Sandbox — consumed by the vsb CLI.",
   "license": "MIT",

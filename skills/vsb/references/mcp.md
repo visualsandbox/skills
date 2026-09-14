@@ -50,6 +50,29 @@ disagree, the server is right and this file is stale.
 Never assume a model exists because you remember it; never assume one is
 missing because it is not named here. Call `list_models`.
 
+## Name the canvas: `sandbox_name`
+
+Pass `sandbox_name` to `generate`. It is what the person is working on, in a
+few words — "Coffee brand UGC ads", "Album cover v2". The first call opens a
+canvas with that name; every later call with the same name lands on the same
+canvas.
+
+**Send the same name on every `generate` in a task.** This surface holds no
+session: it answers one request at a time and cannot recognise a caller
+across calls, so the name is the only thing tying a task's runs together.
+Drop the name on the second call and that run goes to the library alone.
+
+`generate` returns `sandbox_name` and `sandbox_url` for the canvas it used.
+Give the person that link. Both come back null when no name was sent.
+
+How to write the name is one rule shared with the CLI — see rule 12 in
+[the main skill](../SKILL.md). In short: say the work, not the prompt; two to
+five words; use the person's own words for the subject.
+
+Two arguments, one job: `sandbox_uuid` puts a run on a canvas you already
+know the id of, and it beats `sandbox_name`. Reach for `sandbox_name` unless
+the person handed you a uuid.
+
 ## Where the skill packs come from on this surface
 
 There is no `.claude/skills/` folder here. The MCP serves the packs itself:

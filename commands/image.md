@@ -18,9 +18,13 @@ Do this:
    that fits the job and the budget. Say which one you picked and why, in one
    line.
 3. Call `get_model` on it and read the input fields.
-4. Call `generate`.
+4. Call `generate`. Pass `sandbox_name` — what the user is working on, in
+   two to five words, taken from their request. Say the work, not the prompt:
+   "Coffee brand UGC ads", not "a cinematic 9:16 selfie". Send the same name
+   on every later `generate` in this task, so it all lands on one canvas.
 5. Wait for `eta_seconds`, then call `get_job`. Repeat until it is finished.
-6. Show the image, give the `share_url`, and say what the run cost.
+6. Show the image, give the `share_url`, and say what the run cost. Give the
+   `sandbox_url` too — that is the canvas the work is collecting on.
 
 If the request is empty, ask what the picture should show before you spend
 anything. Never run a second time to "check" a result you already have.

@@ -151,8 +151,12 @@ Execute a model. The CLI walks `argv` collecting every `--<key> <value>` and
 | `--<input>=<value>` | Equivalent equals form. |
 | `--async` | Submit + return `{job_id}` without polling |
 | `--download [template]` | Save result media after completion. Template tokens: `{request_id}`, `{index}`, `{ext}`. Default: `./{request_id}_{index}.{ext}` |
+| `--sandbox-name "<title>"` | Name this session's canvas after the work. Applies only while the canvas is still unnamed. |
+| `--sandbox-uuid <uuid>` | Put this run on a specific canvas instead of this session's |
+| `--sandbox <uuid\|name>` | Same, by name or uuid prefix |
+| `--no-sandbox` | Keep this run off the canvas. It still lands in the library. |
 
-Reserved (NOT forwarded as inputs): `--async`, `--json`, `--help`, `--download`, `--logs`, `--api-key`.
+Reserved (NOT forwarded as inputs): `--async`, `--json`, `--help`, `--download`, `--logs`, `--api-key`, `--sandbox-name`, `--sandbox-uuid`, `--no-sandbox`.
 
 Sync return on success:
 
@@ -306,6 +310,45 @@ Override semantics for `run`:
 - `--input key=value` (repeatable) merges on top
 - `--inputs-json '{...}'` *replaces* base entirely (escape hatch)
 - `preset.refs` (file fields) hydrate any missing keys
+
+---
+
+## `vsb sandbox`
+
+Work with the canvases this account owns. Every session opens its own canvas —
+a new terminal tab, or a new Claude Code conversation, gets a new one.
+
+| Command | Purpose |
+|---------|---------|
+| `vsb sandbox name "<title>"` | Name this session's canvas after the work it holds |
+| `vsb sandbox current` | Which canvas this session writes to, and its link |
+| `vsb sandbox list [--archived]` | Every canvas, most recently used first |
+| `vsb sandbox use <uuid\|name>` | Point this session at an existing canvas |
+| `vsb sandbox new [name]` | Start a fresh canvas and bind this session to it |
+| `vsb sandbox open [target]` | Print the link and open it in a browser (`--print` to skip the browser) |
+| `vsb sandbox selection` | What the user has selected on the canvas right now |
+| `vsb sandbox nodes` | Every node on the canvas (`--full`, `--limit N`, `--kind`) |
+| `vsb sandbox node <uuid>` | Full detail for one node |
+
+### Naming
+
+A canvas starts as "Untitled Sandbox". Three things can name it, in order of
+strength:
+
+1. `vsb sandbox name "<title>"` — always wins, at any time.
+2. `--sandbox-name "<title>"` on a run — lands only while the name is still a
+   placeholder.
+3. The run's prompt — the fallback when nothing sent a title. It is a chopped
+   prompt, not a description of the work, so prefer 1 or 2.
+
+An automatic name never overwrites a name that is already set.
+
+```bash
+vsb sandbox name "Coffee brand UGC ads" --json
+# → {"uuid":"...","name":"Coffee brand UGC ads","url":"https://visualsandbox.com/sandbox/.../"}
+```
+
+Add `--sandbox-uuid <uuid>` to rename a canvas other than this session's.
 
 ---
 

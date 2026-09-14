@@ -46,10 +46,28 @@ model choice, cost and share links is the same either way.
 7. **Estimate cost first.** `vsb pricing <category>/<slug> --json` returns `user_cost_estimate`. Show it to the user before running expensive video models.
 8. **Auth.** Run `vsb setup` once — opens a browser to issue an API key, writes it to `~/.vsb/config.json`. Or set `VSB_API_KEY` in the env / `.env`. `vsb pricing` and most write endpoints require auth.
 9. **Every `vsb run` auto-attaches to the user's live sandbox.** Each completed generation becomes a draggable node on `https://visualsandbox.com/sandbox/`. To opt out for a one-off script, pass `--no-sandbox`. To target a non-default sandbox, pass `--sandbox-uuid <uuid>`. Runs with `n>1` (currently `image/gpt-image-2`) drop **one node per output image**; each gets its own `output_index` (0..N-1) so every variant is reachable on the canvas.
+    **Name that canvas after the work.** See rule 12.
 10. **Selection-aware prompts.** When the user's request references "this", "him", "the image", "selected", "that one" — or anything that implies a subject already on screen — call `vsb sandbox selection --json` first. Returns the node(s) the user has selected on the canvas: prompt, model, output URL. Pass the `output_url` as the input image to the next `vsb run` (e.g. `--image_urls "[\"<url>\"]"` for nano-banana). If selection is empty, ask the user to click a node before continuing.
     **Chain it once, never twice.** That `output_url` is a generated image; feeding a generated image back in as `image_input` a second time compounds quality loss on every pass. Before a second edit on the same picture, read [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md), and pass `--output_format png` (the default is `jpg` on every image model).
 11. **Canvas survey vs drill-in.** Use `vsb sandbox nodes --json --limit N` for a slim overview of the whole canvas (~360 B/node — newest first, just uuid + slug + url + position). When you've picked a target, `vsb sandbox node <uuid> --json` returns full detail (prompt + all output URLs + media_asset). This two-step keeps context cheap even on a 20+ node sandbox.
-12. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
+12. **Name the canvas the moment you know the task.** Each session opens its own canvas, and it starts as "Untitled Sandbox". As soon as the user says what they want — before the first run, not after — give it a name that says what is being worked on:
+
+    ```bash
+    vsb sandbox name "Coffee brand UGC ads" --json
+    ```
+
+    Or pass it on the first run instead, which saves a call: `vsb run image/nano-banana-2 --prompt "..." --sandbox-name "Coffee brand UGC ads"`. On the MCP surface, pass `sandbox_name` to `generate` — send the **same** name on every `generate` in the task, because that name is what keeps one task on one canvas there.
+
+    How to write the name:
+
+    - Say the work, not the prompt. "Coffee brand UGC ads", not "a cinematic 9:16 selfie of a woman holding".
+    - Two to five words. 60 characters is the hard cut.
+    - Use the user's own words for the subject. Their brand, their product, their character.
+    - Name it once per session. Do not rename on every run.
+
+    Rename later only when the user asks, or when the session clearly moves to different work — `vsb sandbox name "New name"` always wins. An automatic name never overwrites a name that is already set, so a second `--sandbox-name` on a later run is ignored.
+
+13. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
 
 ## Background generations (keep the conversation free)
 
@@ -129,6 +147,7 @@ open -a Preview "$DIR"/*
 | `vsb upload <path-or-url>` | Upload local file or remote URL to VS CDN |
 | `vsb download <url>` | Download a TikTok/IG/YouTube video to a local file (`--info` = metadata only, `--cookies <browser>` for login-walled) — see the `vsb-download` skill |
 | `vsb presets <list|get|run|create|delete>` | Manage saved model+inputs presets |
+| `vsb sandbox name "<title>"` | Name this session's canvas after the work — do it as soon as you know the task |
 | `vsb sandbox selection` | Read what the user has selected on the canvas (prompt, model, image URL) |
 | `vsb sandbox nodes` | List every node on the active sandbox (slim by default, `--full` for raw, `--limit N` to cap, `--kind generation\|upload` to filter) |
 | `vsb sandbox node <uuid>` | Full detail for one node — prompt, all output URLs, media_asset, position |
