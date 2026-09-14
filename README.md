@@ -60,6 +60,7 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-presets`](skills/vsb-presets/) | Run, save, override, and share reproducible model configurations |
 | [`vsb-nano-banana`](skills/vsb-nano-banana/) | Prompt the Nano Banana family well — edit-mode rules, text rendering, multi-reference blending |
 | [`vsb-image-prompting`](skills/vsb-image-prompting/) | Canonical prompt-craft trunk for every image model — anatomy, reference keep/ignore rules |
+| [`vsb-image-iteration`](skills/vsb-image-iteration/) | Edit an image more than once without generation loss — prompt stacking, contact sheet, crop-and-composite |
 | [`vsb-ugc-people`](skills/vsb-ugc-people/) | UGC-style single-person ad photos — selfie POV + talking-head formats for 9:16 TikTok/Reels |
 
 ## Install

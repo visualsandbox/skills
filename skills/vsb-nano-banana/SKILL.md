@@ -42,6 +42,13 @@ All three share the same `image_input` array, `aspect_ratio` enum, and
 
 ## Image edits (`image_input` set)
 
+> ⚠️ **Editing the same picture a second time degrades it.** The model never
+> edits — it redraws the whole image from scratch on every pass, so error
+> compounds. Before a second edit on one image, read
+> [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md). Also pass
+> `--output_format png` on any output you may feed back in; the default is
+> `jpg` and its compression stacks on every pass.
+
 When `image_input` is non-empty, the model is editing — the prompt should
 lead with the change and be explicit about what stays the same. The
 universal subject-anchor pattern (in

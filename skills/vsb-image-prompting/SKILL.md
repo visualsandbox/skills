@@ -20,7 +20,10 @@ description: >
 1. **Be specific.** Concrete subject, scene, light. Not "dog in park".
 2. **Positive framing.** Describe what's there, not what isn't. ("Empty street" ✓, "street with no cars" ✗.)
 3. **Use photography language.** `f/1.8 shallow DoF`, `golden hour`, `Rembrandt lighting` map to real transforms.
-4. **Iterate, don't one-shot.** Compound edits drift. One change per turn.
+4. **Iterate on the prompt, not on the pixels.** One change per turn — but
+   grow the prompt and re-run from the original. Feeding your own last output
+   back in as `image_input` compounds loss on every pass. See
+   [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md).
 
 ## Prompt anatomy
 
@@ -138,6 +141,7 @@ the command.
 - Model picker → [`vsb-image`](../vsb-image/SKILL.md)
 - Nano Banana quirks (text rendering, 14-ref blend, known limits) → [`vsb-nano-banana`](../vsb-nano-banana/SKILL.md)
 - UGC format (selfie POV / talking-head) → [`vsb-ugc-people`](../vsb-ugc-people/SKILL.md)
+- Editing the same image twice or more → [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md)
 - Selection-chain + sandbox patterns → [`vsb`](../vsb/SKILL.md)
 
 ## Pre-flight checklist

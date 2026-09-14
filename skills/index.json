@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "c7f8acae2bf462e41d933eed585c4b558fd653594a45498ee82f64d4a2f363e5",
+  "bundle": "d74f84ea4763dc805fdfa7ddafbfbecb97030d1f33cbef24173810bc71112760",
   "skills": [
     {
       "name": "vsb",
@@ -53,8 +53,19 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "5f4ec598e65f4c169f5722c3a92142a501aa5cf97682e1e8a3275d5c9a2864b8",
-          "bytes": 8255
+          "sha256": "3d1ff3375edaf0b7f3b9a48869b40e9ce8e98555c26cc4c67014122c2f40339a",
+          "bytes": 8709
+        }
+      ]
+    },
+    {
+      "name": "vsb-image-iteration",
+      "description": "Change an image more than once without it falling apart. Read this before the SECOND `vsb run` on the same picture — before chaining a sandbox node's `output_url` into the next run's `image_input`, before \"now make the shirt blue too\", and before any loop that feeds an output back in as an input. Covers generation loss (why every image model degrades on repeated edits), the four workflows that prevent it (prompt stacking, contact sheet, crop and composite, noise repair), and the `output_format` / `resolution` settings that decide the outcome. For writing the prompt itself, read [`vsb-image-prompting`](../vsb-image-prompting/SKILL.md) first.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "1f29431c5932f2844bb27a0a88e2e96cb55005ed2b929b550ad2f3dfd4f2c532",
+          "bytes": 13940
         }
       ]
     },
@@ -65,8 +76,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "8d2d40b0a06bd61be1ae145324590ce7b89dd6f94398ce0879d22e730d167821",
-          "bytes": 8049
+          "sha256": "d43768fee8e64ec83d54c3ae10360315012aba6782d690fd2cef3294eba21f35",
+          "bytes": 8352
         }
       ]
     },
@@ -77,8 +88,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "e85c5c8fe7eba6dc9bbaa8560d40a2fa967782b78225d91972555b729a55f762",
-          "bytes": 9266
+          "sha256": "12768d8c14e7774bd8c8b36144e5b68da18d234e7c7ab4459939faecb949b1aa",
+          "bytes": 9672
         }
       ]
     },

@@ -156,6 +156,14 @@ quality. Background removal and upscale are sub-cent.
 
 ## Common gotchas
 
+- **A second edit on the same image degrades it.** Every model redraws the
+  whole picture on each pass, so loss compounds. Never feed your own last
+  output back in as `image_input` — grow the prompt and re-run from the
+  original instead. Full workflows in
+  [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md).
+- **`output_format` defaults to `jpg` on every image model.** Pass
+  `--output_format png` whenever the output may become an input.
+
 - **Input field names vary by model** — Nano Banana uses an array (currently `image_input`), most enhance models take a single string (currently `image`), GPT Image 2 has its own shape. `vsb run` pre-validates against the schema, so just `vsb schema <slug>` once and copy the exact field name.
 - **`aspect_ratio: "match_input_image"` only makes sense in edit mode** (when reference images are set). For text-to-image alone it falls back to a default.
 - **`output_format` defaults to `jpg`.** If you want transparent PNG (e.g. for compositing), set `--output_format png` and remember the alpha channel is only meaningful for edit/cutout flows.
