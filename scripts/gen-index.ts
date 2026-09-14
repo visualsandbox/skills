@@ -4,10 +4,19 @@
  * frontmatter for `name` + `description`, and emits `skills/index.json`
  * with a sha256 + bytes record for every markdown file in the skill.
  *
- * Consumers (the `vsb` CLI) read this index to know:
+ * Consumers (the `vsb` CLI, and the MCP server) read this index to know:
  *   * which skills exist and their human-readable descriptions
  *   * which files belong to a skill (SKILL.md plus optional references/)
  *   * the expected sha256 of each file so a fetched copy can be verified
+ *   * `bundle`: one hash over all of them, so two surfaces can be compared
+ *
+ * `bundle` exists because the three surfaces serve different snapshots of
+ * this repository — the CLI embeds one at build time, the plugin ships the
+ * commit it was installed at, and the MCP reads `main` live. A release
+ * number cannot tell you which of those you are reading; this can.
+ *
+ * Note `version: 1` below is the *schema* version of this file, not a
+ * release number. It moves when the shape changes, and never otherwise.
  *
  * Run after editing any skill content:
  *   bun run scripts/gen-index.ts
@@ -117,5 +126,18 @@ for (const entry of readdirSync(SKILLS_DIR)) {
 }
 
 skills.sort((a, b) => a.name.localeCompare(b.name));
-writeFileSync(INDEX_PATH, `${JSON.stringify({ version: 1, skills }, null, 2)}\n`);
-console.log(`Wrote ${INDEX_PATH} — ${skills.length} skills`);
+
+/**
+ * One hash over every file in every skill. Computed from the per-file
+ * hashes rather than the JSON, so it does not move when this script changes
+ * how it formats the file.
+ */
+const bundle = sha256(
+  skills
+    .flatMap((skill) => skill.files.map((f) => `${skill.name}/${f.path}:${f.sha256}`))
+    .sort()
+    .join("\n"),
+);
+
+writeFileSync(INDEX_PATH, `${JSON.stringify({ version: 1, bundle, skills }, null, 2)}\n`);
+console.log(`Wrote ${INDEX_PATH} — ${skills.length} skills, bundle ${bundle.slice(0, 12)}`);

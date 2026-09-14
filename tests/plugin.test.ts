@@ -28,6 +28,16 @@ function frontmatter(body: string): string | null {
   return end === -1 ? null : body.slice(4, end);
 }
 
+describe("the repository's version", () => {
+  test("package.json carries one, and the plugin agrees with it", () => {
+    const pkg = readJson("package.json");
+    expect(pkg.version, "run: cd ../cli && bun run sync-version").toMatch(
+      /^\d+\.\d+\.\d+$/,
+    );
+    expect(readJson(".claude-plugin/plugin.json").version).toBe(pkg.version);
+  });
+});
+
 describe("the plugin manifest", () => {
   test("plugin.json parses and names the plugin", () => {
     const p = readJson(".claude-plugin/plugin.json");
@@ -187,6 +197,31 @@ describe("index.json, which the CLI verifies against", () => {
         );
       }
     }
+  });
+
+  test("carries a bundle hash over every file", () => {
+    // The three surfaces serve different snapshots of this repository — the
+    // CLI embeds one at build time, the plugin ships the commit it was
+    // installed at, the MCP reads main live. `bundle` is how you tell which
+    // one you are reading; a release number cannot.
+    const idx = index();
+    expect(idx.bundle, "run `bun run gen`").toMatch(/^[0-9a-f]{64}$/);
+    const recomputed = sha256(
+      idx.skills
+        .flatMap((s: { name: string; files: { path: string; sha256: string }[] }) =>
+          s.files.map((f) => `${s.name}/${f.path}:${f.sha256}`),
+        )
+        .sort()
+        .join("\n"),
+    );
+    expect(idx.bundle, "the bundle does not match the files it covers").toBe(recomputed);
+  });
+
+  test("version stays the schema version, not a release number", () => {
+    // sync-version.ts writes release numbers into package.json and the
+    // plugin manifests. Writing one here would break every reader that
+    // checks the shape of this file.
+    expect(index().version).toBe(1);
   });
 
   test("lists every file that is actually in each skill directory", () => {
