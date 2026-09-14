@@ -175,9 +175,10 @@ That is the polarity every mask-taking model uses.
 | Has a mask input | The mask goes straight to the model | The model's own output. It saw the whole picture for context and painted only inside the mask. |
 | Has none | The area is cropped, run alone, and pasted back | A composited picture. Pixels outside the crop were never sent, so they are bit-identical. |
 
-Today every model in the catalogue is the second kind — all four Nano Banana
-variants, `gpt-image-2`, `seedream-5-pro`, `flux-2-klein-9b`. **No Gemini image
-model takes a mask on any provider**: not Replicate, not fal.ai, not Google's
+`image/flux-fill-pro` is the first kind. Everything else is the second — all
+four Nano Banana variants, `gpt-image-2`, `seedream-5-pro`, `flux-2-klein-9b` —
+so the crop route is still what most edits take. **No Gemini image model takes
+a mask on any provider**: not Replicate, not fal.ai, not Google's
 own API. Google offers only *semantic masking*, which is the prompt wording in
 the template below, not a parameter. Check any model with:
 
