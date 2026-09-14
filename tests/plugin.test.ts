@@ -52,6 +52,19 @@ describe("the plugin manifest", () => {
     );
   });
 
+  test("the plugin version matches the CLI's, when the CLI is a sibling", () => {
+    // cli/package.json is where a version is decided; this is a copy, kept
+    // by cli/scripts/sync-version.ts. The CLI's CI checks out both repos and
+    // fails there too — this covers a workspace checkout.
+    const cliPkg = join(ROOT, "..", "cli", "package.json");
+    if (!existsSync(cliPkg)) return; // repo checked out on its own
+    const cli = JSON.parse(readFileSync(cliPkg, "utf-8"));
+    expect(
+      readJson(".claude-plugin/plugin.json").version,
+      "run: cd ../cli && bun run sync-version",
+    ).toBe(cli.version);
+  });
+
   test(".mcp.json points at the production server over https", () => {
     const servers = readJson(".mcp.json").mcpServers;
     expect(Object.keys(servers)).toEqual(["visual-sandbox"]);

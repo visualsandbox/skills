@@ -1,0 +1,17 @@
+{
+  "tools": [
+    { "name": "list_models", "description": "List the models this account can run, with the price per call." },
+    { "name": "get_model", "description": "Everything about one model: every input field, which are required, and the price." },
+    { "name": "estimate_cost", "description": "What one call to a model would cost, in US dollars. Charges nothing." },
+    { "name": "generate", "description": "Start a generation and charge this account for it. Returns a job id." },
+    { "name": "get_job", "description": "The state of one generation, and its output when it finishes." },
+    { "name": "list_jobs", "description": "Recent generations on this account." },
+    { "name": "upload_media", "description": "Put a local file on the CDN and return its URL." },
+    { "name": "list_presets", "description": "Saved recipes: a model plus the inputs that reproduce a look." },
+    { "name": "get_preset", "description": "One saved recipe in full." },
+    { "name": "get_balance", "description": "Credit left on this account, in US dollars." },
+    { "name": "top_up", "description": "A checkout link for adding credit. Charges nothing by itself." },
+    { "name": "list_skills", "description": "The Visual Sandbox skill packs: how to prompt each family of model." },
+    { "name": "get_skill", "description": "Read one skill pack." }
+  ]
+}
