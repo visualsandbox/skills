@@ -17,7 +17,7 @@ description: >
 
 Video runs are slow (30s–3min). **Always use `--async`**, then poll with `vsb status`. Don't block a sync `vsb run` on a 2-minute job — the CLI will sit there and re-poll, blowing your terminal session.
 
-Agents: don't block the conversation on a running job either — start it, keep talking, check later. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
+Agents: don't block the conversation on a running job either — start it, keep talking, check later. Put the blocking wait in a **background shell** (Claude Code: `run_in_background: true`) instead of a poll loop, so the harness notifies you when the job lands. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
 
 ## The async + poll pattern
 
@@ -31,17 +31,17 @@ JOB=$(vsb run video/veo-3.1-fast \
 
 echo "Job: $JOB"
 
-# 2. Poll. status can be queued | in_progress | completed | failed | cancelled.
-while true; do
-  S=$(vsb status "$JOB" --json | jq -r '.status')
-  echo "$S"
-  [[ "$S" == "completed" || "$S" == "failed" || "$S" == "cancelled" ]] && break
-  sleep 5
-done
+# 2. Wait in a BACKGROUND shell — --result blocks until the job is terminal,
+#    so the shell's exit is the "done" signal. No poll loop, no foreground sleep.
+vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json > "/tmp/vsb-$JOB.json" 2>&1
 
-# 3. Fetch result + download in one call
-vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json
+# 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:
+vsb status "$JOB" --json | jq -r '.status'
 ```
+
+Status can be `queued | in_progress | completed | failed | cancelled`. Open the
+finished clip for the user with `open <file>` (the default player, not Preview
+— Preview is for images, [vsb critical rule 12](../vsb/SKILL.md#critical-rules-read-first)).
 
 `--download` only if the user opted into local saves — otherwise fetch with
 `--result --json` alone and hand back the share page

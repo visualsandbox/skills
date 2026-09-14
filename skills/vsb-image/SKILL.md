@@ -17,10 +17,18 @@ description: >
 > See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
 
 Image runs are sync — `vsb run image/<slug>` blocks until done (typically
-5–10s). No `--async` needed. Pipe `--json` and `--download "<template>"` to
-capture results. `--download` only if the user opted into local saves —
-otherwise hand back the share page `https://visualsandbox.com/share/<job_id>/`,
-never a raw CDN URL ([vsb critical rule 5](../vsb/SKILL.md#critical-rules-read-first)).
+5–10s). No `--async` needed, but **still start the run in a background shell**
+(Claude Code: `run_in_background: true`) so the turn stays free and parallel
+variations fan out ([vsb critical rule 6](../vsb/SKILL.md#critical-rules-read-first)).
+
+Pipe `--json` and `--download "<template>"` to capture results, then
+**open every finished image in Preview** — `open -a Preview <file>` — so the
+user sees the picture instead of a link
+([vsb critical rule 12](../vsb/SKILL.md#critical-rules-read-first)). Download
+to a scratch folder (`mktemp -d`) for that; a **project** save still needs the
+opt-in from [vsb critical rule 5](../vsb/SKILL.md#critical-rules-read-first).
+Hand back the share page `https://visualsandbox.com/share/<job_id>/`, never a
+raw CDN URL.
 
 > **Before writing any image prompt, read
 > [`vsb-image-prompting`](../vsb-image-prompting/SKILL.md).** It covers the universal
@@ -45,6 +53,15 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Photoreal / text rendering / multi-ref edit | `image/gpt-image-2` | OpenAI. Best for legible typography, posters, product mockups. Slower + pricier than Nano Banana. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
 | Upscale | `image-enhance/upscale` | Same — `image-enhance` category. |
+
+**Tier up for detail-critical work.** The cheap defaults are for simple,
+throwaway, or high-volume generations. When the task is detail-critical —
+legible in-image text (signs, tattoos, posters, packaging), dense scenes with
+many named elements, ad creative the user will publish, or precise multi-ref
+identity edits — go straight to `image/nano-banana-pro` or `image/gpt-image-2`
+(gpt-image-2 when typography legibility is the single hardest constraint;
+nano-banana-pro for photoreal scenes that *contain* text or fine detail).
+The ~$0.15–0.20/image premium is cheaper than three failed $0.05 retries.
 
 ## Prompt patterns
 

@@ -222,3 +222,4 @@ vsb presets delete 8a7f...uuid --json
 - **Refs ≠ inputs.** Refs are file URLs saved with the preset. They auto-hydrate fields that you don't override. They never appear in `--input` output and they're not in the `inputs` dict you'd pass to `--inputs-json`.
 - **`--inputs-json` is destructive.** It wipes saved `inputs` (but not `refs`). Use sparingly — `--input k=v` (repeatable) is the safer override.
 - **Model deprecation breaks presets.** If a preset's `model_slug` is missing from the live registry, `vsb presets run` returns a clean error: "The preset may reference a deprecated or missing model." There's no auto-migration in v0.1.
+- **`inputs` is required on every surface — flow included.** A flow preset carries its real config in `steps`, but `create` still 422s ("Field required: payload.inputs") without a top-level `inputs`. Send `"inputs": {}`.

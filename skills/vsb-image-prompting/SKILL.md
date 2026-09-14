@@ -98,7 +98,16 @@ quality/resolution input, e.g. `nano-banana-pro`, `gpt-image-2`). Don't drop
 them — inspect `vsb pricing <slug> --json` to read the tier table and pick
 the cheapest tier you can live with.
 
-Cheapest row wins. Then verify it supports refs:
+Cheapest row wins **only when the user asked for cheapest and the task is
+simple**. Detail-critical work — legible in-image text (signs, tattoos,
+posters, packaging), dense multi-element scenes, publishable ad creative,
+precise multi-ref identity edits — skips the cheap rows entirely: go to
+`image/nano-banana-pro` or `image/gpt-image-2` (gpt-image-2 when typography
+legibility is the single hardest constraint; nano-banana-pro for photoreal
+scenes containing text or fine detail). One premium run beats three cheap
+retries.
+
+Then verify the pick supports refs:
 
 ```bash
 vsb schema image/<slug> --json | jq '.inputs.image_input'

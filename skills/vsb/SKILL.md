@@ -42,25 +42,77 @@ model choice, cost and share links is the same either way.
 4. **Inspect schema before running.** `vsb schema <slug> --json` shows exact field names, types, defaults, enums, and which are required.
 5. **Local saves are opt-in — ask the user first, including where.** Never pass `--download` by default. Every run already lands on their canvas at `https://visualsandbox.com/sandbox/`, so a local copy is optional. Ask once per session ("Want these saved locally? Current folder or somewhere else?") and remember the answer — bare `--download` writes to the current working directory; pass a path (`--download ./renders/`) to save elsewhere. When they do want files, use `--download`, never `curl` — the CLI handles auth headers, redirects, and naming templates (`{request_id}`, `{index}`, `{ext}`).
    When the user did **not** opt into local saves, present the result as its share page, not a raw CDN URL: `https://visualsandbox.com/share/<job_id>/` (against local dev, same path on the dev host, e.g. `http://127.0.0.1:8000/share/<job_id>/`). The `job_id` from `vsb run`/`vsb status` *is* the generation uuid the share page expects. Raw `cdn.visualsandbox.com` URLs are for machine use only — chaining a result into the next run (`--image_urls`, `image_input`), never as the user-facing "here's your image" link.
-6. **Image is sync, video and audio are async.** Image runs typically finish in ~5–10s — `vsb run image/...` blocks fine. Video/audio can take 30s–3min — use `--async`, then poll with `vsb status <job_id> --result --download <template>`. Never let a running job block the conversation — see [Background generations](#background-generations-keep-the-conversation-free).
+6. **Never run a generation in the foreground.** Start every `vsb run` in a background shell (Claude Code: `run_in_background: true`), note the id, and keep working — the harness notifies you when it exits. Image is sync (~5–10s) so the background shell itself is the wait; video and audio are async, so add `--async` and poll. A generation must never hold the turn hostage — see [Background generations](#background-generations-keep-the-conversation-free).
 7. **Estimate cost first.** `vsb pricing <category>/<slug> --json` returns `user_cost_estimate`. Show it to the user before running expensive video models.
 8. **Auth.** Run `vsb setup` once — opens a browser to issue an API key, writes it to `~/.vsb/config.json`. Or set `VSB_API_KEY` in the env / `.env`. `vsb pricing` and most write endpoints require auth.
 9. **Every `vsb run` auto-attaches to the user's live sandbox.** Each completed generation becomes a draggable node on `https://visualsandbox.com/sandbox/`. To opt out for a one-off script, pass `--no-sandbox`. To target a non-default sandbox, pass `--sandbox-uuid <uuid>`. Runs with `n>1` (currently `image/gpt-image-2`) drop **one node per output image**; each gets its own `output_index` (0..N-1) so every variant is reachable on the canvas.
 10. **Selection-aware prompts.** When the user's request references "this", "him", "the image", "selected", "that one" — or anything that implies a subject already on screen — call `vsb sandbox selection --json` first. Returns the node(s) the user has selected on the canvas: prompt, model, output URL. Pass the `output_url` as the input image to the next `vsb run` (e.g. `--image_urls "[\"<url>\"]"` for nano-banana). If selection is empty, ask the user to click a node before continuing.
 11. **Canvas survey vs drill-in.** Use `vsb sandbox nodes --json --limit N` for a slim overview of the whole canvas (~360 B/node — newest first, just uuid + slug + url + position). When you've picked a target, `vsb sandbox node <uuid> --json` returns full detail (prompt + all output URLs + media_asset). This two-step keeps context cheap even on a 20+ node sandbox.
+12. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
 
 ## Background generations (keep the conversation free)
 
-A running job must never hold the agent's turn hostage. Start it, note the id, keep working.
+A generation must never hold the agent's turn hostage. Start it in the
+background, note the id, keep working. This applies to **every** `vsb run`,
+image included — a sync image run still blocks the turn for 5–10s, and a
+batch of four blocks for a minute.
 
-- Start long jobs (video, audio, batches) with `--async --json`, capture `job_id`, move on immediately.
+**Start every run in a background shell.** In Claude Code that is the Bash
+tool with `run_in_background: true`; the harness calls you back when the
+command exits, so you never poll and never sleep in the foreground. Write the
+JSON to a file so you can read the result after the notification:
+
+```bash
+# background shell — returns immediately, notifies on exit
+vsb run image/nano-banana-2-lite --prompt "..." --json > /tmp/vsb-cat.json 2>&1
+```
+
+Then, on the completion notification, read `/tmp/vsb-cat.json`, and open the
+image (see [Show the result](#show-the-result-open-every-image-in-preview)).
+
+Rules for the async modalities (video, audio, batches):
+
+- Submit with `--async --json`, capture `job_id`, move on immediately.
 - Don't call `vsb status --result` right after starting — it blocks until the job finishes. Check `.status` non-blocking instead: `vsb status <job_id> --json | jq -r '.status'`.
 - Pending jobs carry `eta_seconds` (typical wall time for this model) and `elapsed_seconds` — sleep for roughly `eta_seconds - elapsed_seconds` before the next poll instead of a blind interval.
-- If the agent harness supports background shells (e.g. Claude Code `run_in_background`), run the wait there — `vsb status <job_id> --result --json` in a background task notifies on completion while the conversation continues.
+- Better than polling: put the blocking wait in a background shell — `vsb status <job_id> --result --json > /tmp/vsb-<job>.json` with `run_in_background: true`. It notifies on completion while the conversation continues.
 - Between other tasks (or when the user asks "is it done?"), sweep everything still running in one call: `vsb jobs --pending --json`. Works even when you never captured the ids (session restart, jobs started elsewhere).
 - Only after `status == "completed"`, fetch the result: `vsb status <job_id> --result --json`. Add `--download "./out/{request_id}.{ext}"` only if the user asked for local copies (critical rule 5).
 - When reporting a finished job, link its share page — `https://visualsandbox.com/share/<job_id>/` — and mention it's also on their canvas at `https://visualsandbox.com/sandbox/`. Don't paste raw CDN URLs (critical rule 5).
-- Keep serving other `vsb` requests (images, schema lookups, more runs) while jobs cook — async jobs are independent; parallel is fine.
+- Run independent generations in parallel — several background shells at once is correct, not rude. Fanning out four variations means four background runs, not four sequential blocks.
+
+## Show the result: open every image in Preview
+
+The user asked for a picture. Give them the picture, not a URL they have to
+click. Every time an image job completes, open it on their screen.
+
+```bash
+# after the job completes (macOS)
+DIR=$(mktemp -d)
+vsb status "$JOB" --result --download "$DIR/{request_id}-{index}.{ext}" --json > /dev/null
+open -a Preview "$DIR"/*
+```
+
+Or in one step on a sync image run:
+
+```bash
+DIR=$(mktemp -d)
+vsb run image/nano-banana-2-lite --prompt "..." --download "$DIR/{request_id}-{index}.{ext}" --json > /tmp/vsb-run.json
+open -a Preview "$DIR"/*
+```
+
+- **This is not a local save.** The scratch copy in `mktemp -d` is for viewing
+  only, so it does not need the critical-rule-5 opt-in. Keep asking before you
+  write files into the user's project or working directory.
+- **Multiple outputs open together.** `open -a Preview "$DIR"/*` opens them in
+  one Preview window the user can arrow through — do that instead of one call
+  per file.
+- **macOS only.** `open -a Preview` is a macOS command. On Linux use
+  `xdg-open`; if neither exists, skip the step and hand back the share page.
+- **Video and audio go to the default player**, not Preview: `open <file>`.
+- **Still link the share page** in your reply
+  (`https://visualsandbox.com/share/<job_id>/`) — Preview shows the image,
+  the share page is what the user keeps.
 
 ## Command index
 
@@ -118,17 +170,28 @@ While a job is pending, `eta_seconds` (how long this model typically takes, per-
 
 ## Quick patterns
 
-### 1. Fast image (sync + download)
+### 1. Fast image (background shell + Preview)
+
+Run it in a background shell so the turn stays free, download to a scratch
+folder, then open the file:
 
 ```bash
+# background shell (Claude Code: run_in_background: true)
+DIR=/tmp/vsb-cat && mkdir -p "$DIR"
 vsb run image/nano-banana \
   --prompt "a calico cat in a sunlit kitchen" \
   --aspect_ratio 16:9 \
-  --download "./out/{request_id}.{ext}" \
-  --json
+  --download "$DIR/{request_id}-{index}.{ext}" \
+  --json > "$DIR/job.json" 2>&1
 ```
 
-`--download` in these patterns assumes the user said yes to local saves (critical rule 5) — drop it otherwise and hand back the share page (`https://visualsandbox.com/share/<job_id>/`); the result is on their canvas either way.
+On the completion notification, read `$DIR/job.json` for the `job_id`, then
+`open -a Preview "$DIR"/*.{jpg,png,webp}` (critical rule 12).
+
+The scratch `--download` above is for viewing only. A **project** save — into
+the working directory or a folder the user named — still needs the opt-in from
+critical rule 5. Either way, hand back the share page
+(`https://visualsandbox.com/share/<job_id>/`), never a raw CDN URL.
 
 ### 2. Discover when the user gives a fuzzy task
 
@@ -141,12 +204,15 @@ vsb schema video/veo-3.1 --json | jq '.inputs'
 ### 3. Async + poll (video / audio)
 
 ```bash
+# 1. Submit — returns immediately with a job_id
 JOB=$(vsb run video/veo-3.1-fast --prompt "a tiger walking through tall grass" --async --json | jq -r '.job_id')
 
-# Poll yourself, or just call status with --result --download which waits-by-fetching:
-vsb status "$JOB" --json | jq '.status'
-# When status == "completed":
-vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json
+# 2. Wait in a BACKGROUND shell (Claude Code: run_in_background: true).
+#    --result blocks until the job finishes, so the notification is the "done" signal.
+vsb status "$JOB" --result --json > "/tmp/vsb-$JOB.json" 2>&1
+
+# 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:
+vsb status "$JOB" --json | jq -r '.status'
 ```
 
 ### 4. Upload a local image, then edit it
@@ -221,13 +287,20 @@ vsb status <job_id> --result --json | jq '.result.urls'
 `--result` blocks if the job is still running; for an instant peek skip it and
 inspect `.status` first.
 
-## When something breaks — offer to send feedback
+## When something breaks — report it (default ON)
 
 `vsb feedback` sends a message (and optional screenshot) straight to the Visual Sandbox team.
 
-- On a persistent error, a broken model, or anything the user is unhappy with, offer: "Want me to report this to the developer?"
-- Never send without asking first — feedback is tied to the user's account.
-- On yes, write a short paragraph yourself — what was run, what was expected, what actually happened (exact error message, exit code, `job_id` if there is one) — show it to the user, then send:
+- **Report by default.** Any real defect an agent hits mid-task — a failed
+  generation with a provider error, a CLI crash, a wrong/misleading error
+  message, a flag that doesn't behave as documented — send a `--kind bug`
+  report as part of handling the error, then tell the user it was sent
+  (include what you sent). Don't stop the task to ask permission first.
+- **Don't report**: your own mistakes (bad flag, missing file, wrong slug),
+  expected validation errors, or anything fixed by rereading `--help` or
+  `vsb schema`. Reports are for defects, not confusion.
+- Write a short paragraph — what was run, what was expected, what actually
+  happened (exact error message, exit code, `job_id` if there is one):
 
 ```bash
 vsb feedback "Ran image/nano-banana with image_input; expected an edited image, got exit 1 'ProviderError: upstream 500' after 3 retries. job_id 8f3..." --kind bug --json
