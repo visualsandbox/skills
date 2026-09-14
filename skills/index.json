@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "c404d155cacb69049b2140bff7ec521d7d7d494d4f5e9f72c8c959f8d8cc09fe",
+  "bundle": "bfbfc0eb709df342e75b7d004d35683407197421c5645d5cf3898d828966325d",
   "skills": [
     {
       "name": "vsb",
@@ -18,20 +18,20 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "48768169ad755db13c340d0513e01e654a5bb2969aaed9da828a7ab52a982cc8",
-          "bytes": 21315
+          "sha256": "0571d48118e053142779ce20f402250f27ce198dce7cc2cb4e596d0e676735da",
+          "bytes": 17732
         }
       ]
     },
     {
       "name": "vsb-audio",
-      "description": "Generate sound effects and full music tracks via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, background music, a soundtrack, or voice generation via the vsb CLI. SFX runs are quick; music scales with track length. Submit with `--async` then poll with `vsb status` for anything long.",
+      "description": "Generate sound effects (and, in v0.2, speech + music) via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, or voice generation via the vsb CLI. Async — use `vsb run audio/<slug> --async` then poll with `vsb status`.",
       "renamed_from": "audio",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "4ca63433a274ee64b1e6404d86ecdecd6212dd9aeb8043ce7224ef5567e2482a",
-          "bytes": 7156
+          "sha256": "299e28b104ae3ebe923bebcf2bd5e2c740cbb7caa3bf0bc6154645c8c202fba4",
+          "bytes": 3488
         }
       ]
     },
@@ -53,8 +53,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "5f4ec598e65f4c169f5722c3a92142a501aa5cf97682e1e8a3275d5c9a2864b8",
-          "bytes": 8255
+          "sha256": "9671199af2365f1f3e3d13f58ba7256d83574603d933479bc4d0b1b661311656",
+          "bytes": 7203
         }
       ]
     },
@@ -65,19 +65,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "8d2d40b0a06bd61be1ae145324590ce7b89dd6f94398ce0879d22e730d167821",
-          "bytes": 8049
-        }
-      ]
-    },
-    {
-      "name": "vsb-motion",
-      "description": "Build motion-graphics videos that combine Visual Sandbox generated media (images, video, audio) with programmatic animation — Remotion compositions plus copy-paste remocn components (kinetic titles, shader backgrounds, transitions, UI sims). Trigger when the user wants an animated intro/promo/product demo, \"motion graphics\", \"animate this image\", \"remotion\", \"remocn\", kinetic typography, or any video that mixes generated assets with designed motion. Renders locally with `npx remotion render` — the only paid step is the vsb generation of the assets.",
-      "files": [
-        {
-          "path": "SKILL.md",
-          "sha256": "597043dbafdc3fe68e58f398e426ae695f8a7364a24ddc51c65a842cef76c284",
-          "bytes": 6977
+          "sha256": "e29715911106de1cd45fe9e47cabad59067ce331865d20f5c8d9bd3960240720",
+          "bytes": 7531
         }
       ]
     },
@@ -124,8 +113,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "900baa272c39fa3b962b72adaad1b766bb407c00560e41bd20fc83b9d62d547c",
-          "bytes": 8779
+          "sha256": "3f7fef49e0c06195d594cd2e51ecd717bb4c10e6645f6b167ab85b5c5d912e4e",
+          "bytes": 8556
         }
       ]
     },
@@ -174,8 +163,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "15ffa81925380863ccec4413f3d9fdb5bde5e44b81141c63ef6d6f5aba15ea17",
-          "bytes": 7626
+          "sha256": "89fb73f3779ee4470824988e638b6c98b26d75fec1b659993dcd29b9d676f89e",
+          "bytes": 7192
         }
       ]
     }
