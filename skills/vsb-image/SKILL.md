@@ -51,6 +51,11 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Higher quality / 4K / web-grounded | `image/nano-banana-2` | Full NB2 — adds `resolution` (up to 4K) and web-search grounding. |
 | Top-tier Google output | `image/nano-banana-pro` | Most expensive of the family, sharpest detail. |
 | Photoreal / text rendering / multi-ref edit | `image/gpt-image-2` | OpenAI. Best for legible typography, posters, product mockups. Slower + pricier than Nano Banana. |
+| Cheapest text-to-image | `image/z-image-turbo` | Tongyi-MAI via PrunaAI. Cheapest image model in the catalog, 8-step, sub-second. Renders short English and Chinese text well. **Takes no reference image, so it cannot edit.** Apache 2.0 license. |
+| Fast iteration that still takes references | `image/flux-2-klein-9b` | Black Forest Labs. 4-step, sub-second, one endpoint for text-to-image and edit. Up to 5 references, output up to 4 MP. **FLUX Non-Commercial License — never use it for client work or paid ad creative.** |
+| Many references, product + character compositing | `image/seedream-5-pro` | ByteDance. Takes up to 10 references and holds detail at 1K or 2K. The edit-capable model with the highest reference count. Commercial use allowed. |
+| Change one region, keep every other pixel | `image/flux-fill-pro` | The only mask model in the catalog. It repaints the masked area and carries the rest of the photo through unchanged. It also outpaints. |
+| 360-degree panorama | `panorama/360-panorama` | Category is `panorama`, not `image`. Fixed 3824x1920 equirectangular PNG with GPano metadata, so viewers detect it as 360 on their own. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
 | Upscale | `image-enhance/upscale` | Same — `image-enhance` category. |
 
@@ -128,6 +133,89 @@ GPT Image 2 specifically excels when you need **legible, multi-line text** baked
 into the image. Quality enum is `auto|low|medium|high`. `n` (1–4) gives
 multiple variants in one call.
 
+### FLUX Fill Pro (masked edit and outpaint)
+
+The only model that edits through a mask. Everything outside the mask survives
+the run byte for byte, so use it for object removal, a product swap, new text
+on a sign, or a retouch. Fields are `image` (a single string, not an array),
+`mask`, and `outpaint`.
+
+```bash
+SRC=$(vsb upload ./kitchen.jpg --json | jq -r '.url')
+MASK=$(vsb upload ./kitchen-mask.png --json | jq -r '.url')
+
+vsb run image/flux-fill-pro \
+  --prompt "a white marble countertop, same warm window light, same grain" \
+  --image "$SRC" \
+  --mask "$MASK" \
+  --guidance 30 \
+  --download "./out/{request_id}.png" \
+  --json
+```
+
+Four rules decide the result:
+
+- The mask is black and white, the same size as the source. White repaints,
+  black keeps. The mask may instead ride in the source image's alpha channel.
+- Describe what must be there, not the edit. Write "a blue knit sweater". Do
+  not write "change the shirt". An empty prompt makes the model paint
+  something rather than nothing.
+- Mask a little wider than the object, and include its shadow and its
+  reflection. The model invents a new object to explain a shadow you leave
+  behind.
+- High `guidance` leaves a visible seam. Lower it to about 30 for retouching
+  and object removal, so the fill settles into the surrounding light and grain.
+
+To outpaint instead, set `--outpaint` to `zoom_out_1.5x`, `zoom_out_2x`,
+`make_square`, `extend_left`, `extend_right`, `extend_up`, or `extend_down`.
+An `outpaint` preset makes the model ignore the mask. Output size follows the
+input, so there is no aspect-ratio field and outpainting is the one case that
+changes the dimensions.
+
+### Seedream 5 Pro (up to 10 references)
+
+```bash
+vsb run image/seedream-5-pro \
+  --prompt "the bottle from Image A on the marble surface from Image B, studio softbox light" \
+  --image_input "[\"$URL1\",\"$URL2\"]" \
+  --resolution 2K \
+  --aspect_ratio 1:1 \
+  --json
+```
+
+One endpoint covers generate and edit, the same as Nano Banana. Iterate at
+`--resolution 1K`, then rerun the winning prompt at `2K` for print and crops.
+
+### Z-Image Turbo (cheapest, text-to-image only)
+
+```bash
+vsb run image/z-image-turbo \
+  --prompt "a neon ramen shop sign that reads 'MIDNIGHT', wet asphalt reflection, night" \
+  --aspect_ratio 3:2 \
+  --output_megapixels 2 \
+  --json
+```
+
+It has no reference-image field at all, so it cannot edit. Short English and
+Chinese text is its strength. Quote the exact text and name the surface it
+sits on. Long paragraphs break down.
+
+### 360 Panorama
+
+```bash
+vsb run panorama/360-panorama \
+  --prompt "a snowy pine forest clearing at blue hour, footprints in the snow" \
+  --quality high \
+  --upscale true \
+  --json
+```
+
+The category is `panorama`, not `image`. Output is a fixed 3824x1920
+equirectangular PNG, and `--upscale true` doubles it to 7648x3840. The file
+carries GPano metadata, so Pannellum, Facebook, and VR headsets detect it as
+360 without any manual tagging. Do not run it through an editor that strips
+metadata.
+
 ### Background removal
 
 ```bash
@@ -154,6 +242,14 @@ vsb pricing image/nano-banana --json | jq '.user_cost_estimate'
 Nano Banana family is cents-per-image. GPT Image 2 is ~$0.05–0.20 depending on
 quality. Background removal and upscale are sub-cent.
 
+`z-image-turbo`, `flux-2-klein-9b`, and `nano-banana-2` bill per output
+megapixel or per resolution tier, so `user_cost_estimate` comes back `null`
+and the tier table holds the numbers. Read it before you pick a size:
+
+```bash
+vsb pricing image/z-image-turbo --json | jq '.tiers'
+```
+
 ## Common gotchas
 
 - **A second edit on the same image degrades it.** Every model redraws the
@@ -161,10 +257,20 @@ quality. Background removal and upscale are sub-cent.
   output back in as `image_input` — grow the prompt and re-run from the
   original instead. Full workflows in
   [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md).
-- **`output_format` defaults to `jpg` on every image model.** Pass
-  `--output_format png` whenever the output may become an input.
+- **`output_format` defaults to `jpg` on every image model except
+  `flux-fill-pro`,** which defaults to `png` because a fill is usually the
+  input to the next fill. Pass `--output_format png` whenever the output may
+  become an input.
 
 - **Input field names vary by model** — Nano Banana uses an array (currently `image_input`), most enhance models take a single string (currently `image`), GPT Image 2 has its own shape. `vsb run` pre-validates against the schema, so just `vsb schema <slug>` once and copy the exact field name.
 - **`aspect_ratio: "match_input_image"` only makes sense in edit mode** (when reference images are set). For text-to-image alone it falls back to a default.
 - **`output_format` defaults to `jpg`.** If you want transparent PNG (e.g. for compositing), set `--output_format png` and remember the alpha channel is only meaningful for edit/cutout flows.
+- **`z-image-turbo` cannot edit.** It has no reference-image field. If the
+  task attaches any image, pick another model before you write the prompt.
+- **`flux-2-klein-9b` is non-commercial.** Never pick it for client work,
+  paid ad creative, or anything the user will sell. Use Nano Banana,
+  GPT Image 2, or Seedream 5 Pro instead.
+- **`flux-fill-pro` takes `image` as a single string, plus a `mask`.** It is
+  the only model with a mask. There is no brush tool in the composer yet, so
+  an explicit mask arrives as a file through the CLI.
 - **Don't loop `vsb run` inside a tight shell loop** — use a small batch (≤5 in parallel via `&`) to respect the provider's rate limit.

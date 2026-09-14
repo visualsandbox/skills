@@ -3,7 +3,7 @@ name: vsb-image-prompting
 renamed_from: image-prompting
 description: >
   Canonical prompt-craft skill for every image model in Visual Sandbox
-  (`image/nano-banana*`, `image/gpt-image-2`, `image/flux-2-klein-4b`, future
+  (`image/nano-banana*`, `image/gpt-image-2`, `image/flux-2-klein-9b`, future
   slugs). Read before writing any `vsb run image/<slug>` prompt — text-to-image
   or edit-with-reference. Covers the universal rules, the prompt-anatomy slot
   list, the reference-image keep / ignore formula (what to take from the

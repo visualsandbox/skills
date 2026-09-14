@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "9fccc168e780b952fcc8556b5e6cfd580ccf80a1a711ae23e0bcbd421a24a1d5",
+  "bundle": "9537e40735437ee2c95069f3aa7a1a7a7a93082ca0a6779982e75edce7b535be",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "20e86088a43dfc8da447e075eddbf752e7fd696027cf7028e2675a2f8bfd3394",
-          "bytes": 21675
+          "sha256": "db8cc7f095a68bcdd5fe029e4987eb7c41a5ba2f9fbcb74df8f7a182b5c20dab",
+          "bytes": 22360
         }
       ]
     },
@@ -53,8 +53,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "3d1ff3375edaf0b7f3b9a48869b40e9ce8e98555c26cc4c67014122c2f40339a",
-          "bytes": 8709
+          "sha256": "6c84d8702242b18ff05b200869f695d2f8be4483c7707e330a1b7af565d11d24",
+          "bytes": 13810
         }
       ]
     },
@@ -71,12 +71,12 @@
     },
     {
       "name": "vsb-image-prompting",
-      "description": "Canonical prompt-craft skill for every image model in Visual Sandbox (`image/nano-banana*`, `image/gpt-image-2`, `image/flux-2-klein-4b`, future slugs). Read before writing any `vsb run image/<slug>` prompt — text-to-image or edit-with-reference. Covers the universal rules, the prompt-anatomy slot list, the reference-image keep / ignore formula (what to take from the reference, what to ignore — watermarks, text overlays, original lighting, original background), and the \"enumerate models before picking cheapest\" rule. Model-specific quirks live in sibling skills (`vsb-nano-banana`, `vsb-ugc-people`).",
+      "description": "Canonical prompt-craft skill for every image model in Visual Sandbox (`image/nano-banana*`, `image/gpt-image-2`, `image/flux-2-klein-9b`, future slugs). Read before writing any `vsb run image/<slug>` prompt — text-to-image or edit-with-reference. Covers the universal rules, the prompt-anatomy slot list, the reference-image keep / ignore formula (what to take from the reference, what to ignore — watermarks, text overlays, original lighting, original background), and the \"enumerate models before picking cheapest\" rule. Model-specific quirks live in sibling skills (`vsb-nano-banana`, `vsb-ugc-people`).",
       "renamed_from": "image-prompting",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "d43768fee8e64ec83d54c3ae10360315012aba6782d690fd2cef3294eba21f35",
+          "sha256": "00c17df4bf606bb48d61d33853835cfdef70617d12c0b88d8370a9fa47434d51",
           "bytes": 8352
         }
       ]
@@ -174,8 +174,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "15ffa81925380863ccec4413f3d9fdb5bde5e44b81141c63ef6d6f5aba15ea17",
-          "bytes": 7626
+          "sha256": "e840c90c60840537bce685f4138fdd1cf927cf7c0522c84fcd3e5502592a63f4",
+          "bytes": 10396
         }
       ]
     }

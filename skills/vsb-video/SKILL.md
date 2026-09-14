@@ -59,6 +59,8 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Image-to-video with brush motion | `video/kling-v3-motion-control` | Kuaishou. Requires a seed image + a motion specification. Fine-grained control over what moves. |
 | General-purpose, cheap | `video/seedance-2` | ByteDance. Solid quality, lower cost. |
 | Same family, faster | `video/seedance-2-fast` | Lower quality but ~2× faster than `seedance-2`. |
+| Everything in one endpoint, multi-shot, native audio | `video/kling-v3-omni-video` | Kuaishou. Text-to-video, start and end frames, up to 7 reference images, reference-video edit or style transfer, lip-synced audio, and up to 6 shots in one clip. 3–15s, `standard` 720p / `pro` 1080p / `4k`. Slow, about 3 minutes. |
+| A portrait performs an audio file | `video/kling-avatar-v2` | Kuaishou. Audio-driven talking head. Feed one portrait plus one audio file and the face lip-syncs the whole clip. No prompt-driven motion. Output length matches the audio. `std` to iterate, `pro` for 1080p. |
 | Cheapest in catalog, iterate fast | `video/p-video` | Pruna AI. Built-in `draft` toggle drops cost ~4× (~$0.005/s at 720p draft). Supports text, image, AND audio conditioning. Looser safety filter than Seedance. See [`vsb-p-video`](../vsb-p-video/SKILL.md). |
 
 ## Veo 3.1 (text-to-video, image-to-video)
@@ -110,6 +112,56 @@ JOB=$(vsb run video/kling-v3-motion-control \
 
 Run `vsb schema video/kling-v3-motion-control --json` first — it has
 specific motion-control fields beyond `prompt`.
+
+## Kling Avatar 2.0 (portrait + audio → talking head)
+
+```bash
+IMG=$(vsb upload ./host.jpg --json | jq -r '.url')
+AUD=$(vsb upload ./line.mp3 --json | jq -r '.url')
+
+JOB=$(vsb run video/kling-avatar-v2 \
+  --image "$IMG" \
+  --audio "$AUD" \
+  --mode std \
+  --async --json | jq -r '.job_id')
+```
+
+The audio drives the clip, so there is no `duration` and no `aspect_ratio`.
+The output runs as long as the audio. The provider enforces the limits at
+upload: the portrait is JPG or PNG under 10 MB, at least 300 px per side, with
+an aspect ratio between 1:2.5 and 2.5:1; the audio is MP3, WAV, M4A, or AAC
+under 5 MB. `--prompt` is optional and only nudges emotion or a small camera
+move; leave it empty for a neutral read. `std` and `pro` share one engine, so
+iterate on `std` and re-render the winner on `pro` with the same inputs.
+
+Billing reserves credits for the audio's full duration up front, then refunds
+the unused part when the clip finishes.
+
+## Kling 3.0 Omni (references, reference video, multi-shot)
+
+```bash
+JOB=$(vsb run video/kling-v3-omni-video \
+  --prompt "the woman in the first image walks into the cafe from the second image and orders" \
+  --reference_images "[\"$URL1\",\"$URL2\"]" \
+  --duration 10 \
+  --mode pro \
+  --generate_audio true \
+  --aspect_ratio 16:9 \
+  --async --json | jq -r '.job_id')
+```
+
+- Bind references by position in the prompt. Write "the first image", "the
+  second image". Up to 7 references, or 4 when a reference video is attached.
+- `--reference_video` has two modes. `--video_reference_type feature` rewrites
+  the clip in place and keeps its motion and timing. `base` lifts the camera
+  move and the look onto a new prompt-driven scene.
+- Native audio turns off when a reference video is attached, because the
+  reference supplies the track. `4k` does not accept a reference video.
+- `--multi_prompt` scripts up to 6 shots in one clip, each with its own prompt
+  and duration. Read `vsb schema video/kling-v3-omni-video --json` for its
+  exact shape before you write one.
+- `--generate_audio true` costs more per second than audio off. Iterate on
+  `standard`, lock the take on `pro`, then re-render on `4k` unchanged.
 
 ## Cost estimation (do this BEFORE running)
 
