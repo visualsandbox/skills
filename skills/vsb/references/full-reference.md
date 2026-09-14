@@ -394,7 +394,23 @@ Auto-update is **on by default** and needs no action:
 - Major bumps never auto-land — they wait for an explicit `vsb update`.
 - Below the server's `min_supported` floor the CLI refuses to run (structured JSON error on stderr in `--json` mode).
 - **Skills auto-sync**: on startup the CLI diffs installed skills in `~/.claude/skills/` and the project root against the embedded bundle (sha256, local-only, silent) and re-copies stale ones — installed skills always match the binary version.
-- Opt-outs: `VSB_NO_AUTO_UPDATE=1` (binary swap + skills sync), `VSB_NO_UPDATE_CHECK=1` (probe entirely).
+- Opt-outs: `VSB_NO_AUTO_UPDATE=1` (binary swap + skills sync), `VSB_NO_UPDATE_CHECK=1` (probe entirely). **Unset means on** — only the exact string `1` turns either off, so `0` and `false` leave auto-update running.
+
+### Is it working?
+
+`vsb version` answers it in one line, without reading any config by hand:
+
+```
+vsb 0.2.32
+auto-update: on · checked 3m ago · last update 2d ago (0.2.30 → 0.2.32)
+```
+
+- `off (VSB_NO_AUTO_UPDATE=1 is set)` names the variable that decided, so it can be found and removed.
+- `off (source checkout, working tree has local changes)` is the dev-install case — commit or stash, then it pulls again.
+- `never updated itself` means the updater has never swapped this binary. On a machine that sits idle between releases that is normal: the probe only fires when a `vsb` command runs, so a box nobody touched for a month stays on its old version until the next command.
+- `--json` carries the same facts as an `auto_update` object (`enabled`, `reason`, `last_checked_at`, `last_update`).
+
+Every live probe writes a line to `~/.vsb/auto-update.log`, including `check: already current`. A silent log therefore means the check is not running at all, rather than running and finding nothing. The file is trimmed to its newest 200 lines.
 
 ---
 
