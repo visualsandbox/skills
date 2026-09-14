@@ -142,7 +142,7 @@ second chance to degrade.
 **Best fit:** keyframes for image-to-video, character sheets, product angles,
 storyboards, ad variations.
 
-## Workflow C — crop and composite (surgical)
+## Workflow C — `--mask` (surgical)
 
 **Change one region. Keep every other pixel bit-identical.**
 
@@ -158,35 +158,63 @@ loss cannot spread into the rest of the picture.
 ```bash
 vsb run image/nano-banana-2 --json \
   --image_input photo.png \
-  --region "375,415,360,325" \
+  --mask "375,415,360,325" \
   --prompt "Change only the ceramic mug to a deep cobalt blue glazed ceramic.
 Keep everything else in the image exactly the same, preserving the original
 style, lighting, and composition."
 ```
 
-The CLI crops the region with padding, sends **only the crop**, and pastes the
-result back feathered and colour-matched. It then counts the pixels that changed
-outside the region and reports the number, which must be `0`:
+`--mask` takes **a rectangle** (`"x,y,w,h"` in pixels, or percentages like
+`"40%,30%,25%,25%"`) **or a mask image**, where white marks the part to change.
+That is the polarity every mask-taking model uses.
+
+**The CLI picks the route from the model's schema. You do not.**
+
+| The model | What happens | What you get back |
+|---|---|---|
+| Has a mask input | The mask goes straight to the model | The model's own output. It saw the whole picture for context and painted only inside the mask. |
+| Has none | The area is cropped, run alone, and pasted back | A composited picture. Pixels outside the crop were never sent, so they are bit-identical. |
+
+Today every model in the catalogue is the second kind — all four Nano Banana
+variants, `gpt-image-2`, `seedream-5-pro`, `flux-2-klein-9b`. **No Gemini image
+model takes a mask on any provider**: not Replicate, not fal.ai, not Google's
+own API. Google offers only *semantic masking*, which is the prompt wording in
+the template below, not a parameter. Check any model with:
+
+```bash
+vsb schema image/<slug> --json | jq '.inputs | keys'
+```
+
+The crop route reports what it did. The number that matters is
+`pixels_changed_outside_region`, which must be `0`:
 
 ```json
-"region": {
+"mask": {
+  "mode": "crop",
   "out_path": "photo-edited.png",
   "region":     { "x": 375, "y": 415, "w": 360, "h": 325 },
   "padded_box": { "x": 355, "y": 395, "w": 400, "h": 365 },
-  "feather_px": 12,
-  "pixels_changed_outside_region": 0,
-  "colour_shift": { "r": -1.7, "g": -1.1, "b": -4.2 }
+  "feather_px": 20,
+  "pixels_changed_outside_region": 0
 }
 ```
+
+**A painted mask on a model without a mask input collapses to a rectangle.**
+The crop route can only cut a box, so it uses the box containing the painted
+area. Anything you masked *out* inside that box is redrawn too.
 
 **Flags**
 
 | Flag | Default | What it does |
-|------|---------|--------------|
-| `--region "x,y,w,h"` | — | The part to change. Percentages work too: `"40%,30%,25%,25%"`. |
-| `--pad <px>` | 5% of the short side, 20–96 | Surrounding context included in the crop. Too little and the edit stops dead at the boundary. **The padded box is what gets pasted**, so keep it clear of anything you need untouched — a hat brim 8 px outside the region still came back redrawn. |
-| `--feather <px>` | same as `--pad` | Alpha ramp on the way back. Spanning the padding means the paste is full strength inside the region and fades to nothing by the outer edge. |
-| `--region-out <path>` | `<source>-edited.png` | Where the composited picture lands. |
+|---|---|---|
+| `--mask <spec>` | — | A mask image, or `"x,y,w,h"` in pixels or percentages. |
+| `--mask-out <path>` | `<source>-edited.png` | Where the composited picture lands. Crop route only. |
+
+`--pad` and `--feather` still work on the crop route but are deliberately
+undocumented: both derive from the size of the area now, and overriding them
+mostly breaks the blend. Reach for them only when a seam is visibly wrong.
+`--region` and `--region-out` keep working as aliases.
+
 
 `--image_input` may be a local file or a URL, so a sandbox node's `output_url`
 works directly.
@@ -209,7 +237,7 @@ region and run again.
 - Expect the crop to come back slightly off in color. Correct it with a curves
   adjustment locally. Do not re-prompt for a color shift — that is another pass.
 
-**When `--region` is the wrong tool.** It assumes the surroundings stay put: it
+**When `--mask` is the wrong tool.** It assumes the surroundings stay put: it
 blends the new region against the padding ring, and the ring only works as a
 reference if that ring is the same content in both pictures. Removing or moving
 a whole structure breaks the assumption — take out a closet and the wall plane,
@@ -218,7 +246,7 @@ stable border left to blend against. Measured on exactly that edit: the colour
 match hit its ±32 clamp on all three channels and the result was an obvious
 rectangle. The CLI now warns when the clamp is hit.
 
-For that kind of change, run **full-frame** with no `--region`, and accept that
+For that kind of change, run **full-frame** with no `--mask`, and accept that
 everything is redrawn. Tier up to `image/nano-banana-pro` when the picture has
 detail worth keeping — on a real bedroom photo it held the brick texture, the
 cap logos and the lamp filament that the cheaper models softened away.
@@ -305,10 +333,10 @@ the "not". This is the same rule as
   interior. Measured on a real Nano Banana edit: the step at the seam was 1.2
   levels, the patch interior sat 8.9 levels bluer than the wall around it, and
   it was the interior the eye caught. The colour match is what fixes it — which
-  is why `--region` does both.
+  is why the crop route does both.
 - **`ffmpeg overlay` for the paste-back.** It converts the frame to YUV 4:2:0
   and back, which damages the whole picture. Measured: 324,018 pixels changed
-  outside a 552x552 paste on a 1024x1024 frame. Use `--region`; if you must do
+  outside a 552x552 paste on a 1024x1024 frame. Use `--mask`; if you must do
   it by hand, force `format=rgba` on both inputs and
   `overlay=...:format=rgb,format=rgb24` on the output.
 - **A fresh chat or a fresh session.** Some users believe conversation history
@@ -322,7 +350,7 @@ Before the **second** `vsb run` on the same picture:
 
 1. Do I still have the original image or the original prompt? (If no — this is
    already workflow D.)
-2. Does the user need the exact same frame? → `--region` (workflow C). Otherwise → `--from-job` + `--prompt-add` (workflow A).
+2. Does the user need the exact same frame? → `--mask` (workflow C). Otherwise → `--from-job` + `--prompt-add` (workflow A).
 3. Did I pass `--output_format png`? (Automatic when `image_input` is set — but confirm it in the response.)
 4. Am I on `nano-banana-2` or `nano-banana-pro`, not Lite?
 5. Am I about to pass my own last output as `image_input`? → stop, go to step 2.
