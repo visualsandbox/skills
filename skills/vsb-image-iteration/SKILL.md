@@ -184,8 +184,8 @@ outside the region and reports the number, which must be `0`:
 | Flag | Default | What it does |
 |------|---------|--------------|
 | `--region "x,y,w,h"` | — | The part to change. Percentages work too: `"40%,30%,25%,25%"`. |
-| `--pad <px>` | 20 | Surrounding context included in the crop. Too little and the edit stops dead at the boundary. |
-| `--feather <px>` | 12 | Alpha ramp on the way back. Clamped to `--pad` so it never eats the region. |
+| `--pad <px>` | 5% of the short side, 20–96 | Surrounding context included in the crop. Too little and the edit stops dead at the boundary. **The padded box is what gets pasted**, so keep it clear of anything you need untouched — a hat brim 8 px outside the region still came back redrawn. |
+| `--feather <px>` | same as `--pad` | Alpha ramp on the way back. Spanning the padding means the paste is full strength inside the region and fades to nothing by the outer edge. |
 | `--region-out <path>` | `<source>-edited.png` | Where the composited picture lands. |
 
 `--image_input` may be a local file or a URL, so a sandbox node's `output_url`
@@ -208,6 +208,20 @@ region and run again.
   reconsider everything.
 - Expect the crop to come back slightly off in color. Correct it with a curves
   adjustment locally. Do not re-prompt for a color shift — that is another pass.
+
+**When `--region` is the wrong tool.** It assumes the surroundings stay put: it
+blends the new region against the padding ring, and the ring only works as a
+reference if that ring is the same content in both pictures. Removing or moving
+a whole structure breaks the assumption — take out a closet and the wall plane,
+the floor line and the ceiling all shift out to the frame edges, so there is no
+stable border left to blend against. Measured on exactly that edit: the colour
+match hit its ±32 clamp on all three channels and the result was an obvious
+rectangle. The CLI now warns when the clamp is hit.
+
+For that kind of change, run **full-frame** with no `--region`, and accept that
+everything is redrawn. Tier up to `image/nano-banana-pro` when the picture has
+detail worth keeping — on a real bedroom photo it held the brick texture, the
+cap logos and the lamp filament that the cheaper models softened away.
 
 **Best fit:** a fix on a picture the user already approved, product retouching,
 removing one object, a text or sign correction, any change the user calls small.
