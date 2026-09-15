@@ -353,7 +353,7 @@ source of truth — this list goes stale, the registry does not.
 
 - **Image** (sync, ~5–10s for the fast tiers, up to ~2min for the flagship ones): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/grok-imagine-image-2`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`
 - **Image enhance**: `image-enhance/recraft-remove-background`, `image-enhance/upscale`
-- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/p-video`
+- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/grok-imagine-video`, `video/grok-imagine-video-1.5` (image required), `video/p-video`
 - **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/eleven-music`, `audio/scribe` (speech to text)
 - **3D**: `3d/hunyuan-3d-3.1`
 - **Vector**: `vector/quiver-arrow-1.1`, `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Quiver for icons, raster-then-vectorize for detailed art, and ask the colour count first.

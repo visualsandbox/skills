@@ -63,6 +63,8 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Newest Seedance, many references | `video/seedance-2.5` | ByteDance. Up to 30 reference images, reference videos and audios as lists, native audio, `adaptive` aspect; 480p/720p only. |
 | Everything in one endpoint, multi-shot, native audio | `video/kling-v3-omni-video` | Kuaishou. Text-to-video, start and end frames, up to 7 reference images, reference-video edit or style transfer, lip-synced audio, and up to 6 shots in one clip. 3–15s, `standard` 720p / `pro` 1080p / `4k`. Slow, about 3 minutes. |
 | A portrait performs an audio file | `video/kling-avatar-v2` | Kuaishou. Audio-driven talking head. Feed one portrait plus one audio file and the face lip-syncs the whole clip. No prompt-driven motion. Output length matches the audio. `std` to iterate, `pro` for 1080p. |
+| Short clip with sound, cheap, any length 1–15s | `video/grok-imagine-video` | xAI. Text-to-video and image-to-video on one slug. Native audio always on, no toggle. 480p/720p at one flat rate per second. ~50s for a 5s 720p clip. |
+| Animate a still and keep its exact look | `video/grok-imagine-video-1.5` | xAI, preview. Image-to-video only, `--image` is required. Holds the detail and lighting of the source frame. Faster than the base model (~33s for 5s 720p) and costs more per second. |
 | Cheapest in catalog, iterate fast | `video/p-video` | Pruna AI. Built-in `draft` toggle drops cost ~4× (~$0.005/s at 720p draft). Supports text, image, AND audio conditioning. Looser safety filter than Seedance. See [`vsb-p-video`](../vsb-p-video/SKILL.md). |
 
 ## Veo 3.1 (text-to-video, image-to-video)
@@ -100,6 +102,45 @@ nearest ratio in the model's `enum` (`vsb schema video/<slug> --json | jq '.inpu
 Veo prompts work best when they describe **camera + subject + motion**. "Static
 shot of a tiger" is a hint to keep the camera still; "tracking shot following
 the tiger" implies movement.
+
+## Grok Imagine Video and 1.5 (audio always on)
+
+```bash
+# Text-to-video, base model only.
+JOB=$(vsb run video/grok-imagine-video \
+  --prompt "a surfer drops into a heavy wave at dawn, camera tracks alongside, spray and board chatter" \
+  --aspect_ratio 16:9 \
+  --resolution 720p \
+  --duration 5 \
+  --async --json | jq -r '.job_id')
+
+# Image-to-video. 1.5 requires --image; the base model treats it as optional.
+IMG=$(vsb upload ./frame.jpg --json | jq -r '.url')
+JOB=$(vsb run video/grok-imagine-video-1.5 \
+  --image "$IMG" \
+  --prompt "slow push in, she turns to the camera and smiles, rain on the window" \
+  --aspect_ratio auto \
+  --duration 5 \
+  --async --json | jq -r '.job_id')
+```
+
+Both models share one schema: `prompt`, `aspect_ratio` (`auto`, `16:9`, `4:3`,
+`1:1`, `9:16`, `3:4`, `3:2`, `2:3`), `resolution` (`480p` or `720p`),
+`duration` (1–15s, default 5), and `image`. Rate per second is flat across
+resolutions, so 720p is the default rather than an upgrade.
+
+- **Audio is always generated and there is no toggle.** Write the sound design
+  into the prompt. Naming the sounds ("cars passing, a skateboard rolling on
+  pavement") beats a category word ("city noise").
+- **`--image` is required on 1.5** and optional on the base model, where it
+  sets the first frame. A prompt-only run belongs on `video/grok-imagine-video`.
+- **`auto` aspect** follows the attached image, or falls back to 16:9 when
+  there is none. It is the safe setting for image-to-video.
+- **Billing follows the delivered length**, not the requested one, so a clip
+  that comes back short costs less than the estimate.
+- No reference-image list, no last-frame pin, and no video editing on either
+  slug. Chain clips instead: feed the last frame of one in as the `--image` of
+  the next.
 
 ## Kling motion control (image → video with directed motion)
 
