@@ -351,7 +351,7 @@ vsb feedback "Ran image/nano-banana with image_input; expected an edited image, 
 The whole catalog, as of the last skill release. `vsb models --json` is the
 source of truth — this list goes stale, the registry does not.
 
-- **Image** (sync, ~5–10s): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`
+- **Image** (sync, ~5–10s for the fast tiers, up to ~2min for the flagship ones): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/grok-imagine-image-2`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`
 - **Image enhance**: `image-enhance/recraft-remove-background`, `image-enhance/upscale`
 - **Panorama**: `panorama/360-panorama` (4K equirectangular, own category)
 - **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/p-video`

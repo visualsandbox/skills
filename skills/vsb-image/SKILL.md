@@ -54,6 +54,7 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Cheapest text-to-image | `image/z-image-turbo` | Tongyi-MAI via PrunaAI. Cheapest image model in the catalog, 8-step, sub-second. Renders short English and Chinese text well. **Takes no reference image, so it cannot edit.** Apache 2.0 license. |
 | Fast iteration that still takes references | `image/flux-2-klein-9b` | Black Forest Labs. 4-step, sub-second, one endpoint for text-to-image and edit. Up to 5 references, output up to 4 MP. **FLUX Non-Commercial License — never use it for client work or paid ad creative.** |
 | Many references, product + character compositing | `image/seedream-5-pro` | ByteDance. Takes up to 10 references and holds detail at 1K or 2K. The edit-capable model with the highest reference count. Commercial use allowed. |
+| Posters, packaging, real brands and places, flat price at 2K | `image/grok-imagine-image-2` | xAI. Plans typography and layout before drawing, and names real brands, cities, and landmarks straight from the prompt. **One flat price per output image, so 2K at medium quality costs the same as a 1K draft.** Takes one reference image (a single string, not an array), so it cannot composite several. Slow: ~53s at medium/2K, ~15s at low/1K. Commercial use allowed. |
 | Change one region, keep every other pixel | `image/flux-fill-pro` | The only mask model in the catalog. It repaints the masked area and carries the rest of the photo through unchanged. It also outpaints. |
 | 360-degree panorama | `panorama/360-panorama` | Category is `panorama`, not `image`. Fixed 3824x1920 equirectangular PNG with GPano metadata, so viewers detect it as 360 on their own. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
@@ -186,6 +187,47 @@ vsb run image/seedream-5-pro \
 One endpoint covers generate and edit, the same as Nano Banana. Iterate at
 `--resolution 1K`, then rerun the winning prompt at `2K` for print and crops.
 
+### Grok Imagine 2.0 (layout and typography, flat price at any size)
+
+```bash
+vsb run image/grok-imagine-image-2 \
+  --prompt "a vintage travel poster for Kyoto, Mount Fuji behind cherry blossoms, art deco typography reading 'KYOTO', rich flat color blocks" \
+  --aspect_ratio 2:3 \
+  --resolution 2K \
+  --quality medium \
+  --json
+```
+
+To edit, pass one reference through `--image`. The field is a **single
+string**, not an array, so this model cannot composite several references.
+
+```bash
+URL=$(vsb upload ./storefront.jpg --json | jq -r '.url')
+vsb run image/grok-imagine-image-2 \
+  --prompt "make the sky a dramatic sunset" \
+  --image "$URL" \
+  --json
+```
+
+Four rules decide the result:
+
+- **Always deliver at `--resolution 2K --quality medium`.** The price is flat
+  per output image, so 2K costs the same as 1K. `low` at `1K` is only worth it
+  as a speed setting: about 15 seconds against about 53 seconds.
+- **Waxy, over-smoothed skin means the quality knob is wrong.** Pin medium and
+  2K, then name the camera, the lens, the light direction, and the
+  imperfections to keep (skin texture, stray hair, film grain).
+- **Write long, specific prompts and put the style directive last.** Short
+  prompts get generic results here. Name real brands, cities, and landmarks
+  rather than describing them; the model knows them.
+- **On an edit, describe only the change.** Re-describing the whole frame makes
+  the model rewrite more than you asked. `aspect_ratio` is ignored on an edit,
+  because the output keeps the shape of the source.
+
+`aspect_ratio` also accepts `auto`, which lets the model pick the frame that
+suits the prompt. `2:1` and `1:2` are in the enum and are rare elsewhere in the
+catalog, so this is the model for site headers and tall mobile banners.
+
 ### Z-Image Turbo (cheapest, text-to-image only)
 
 ```bash
@@ -273,4 +315,7 @@ vsb pricing image/z-image-turbo --json | jq '.tiers'
 - **`flux-fill-pro` takes `image` as a single string, plus a `mask`.** It is
   the only model with a mask. There is no brush tool in the composer yet, so
   an explicit mask arrives as a file through the CLI.
+- **`grok-imagine-image-2` takes `image` as a single string too,** so it edits
+  from one reference and cannot composite. Pick `seedream-5-pro` or
+  `nano-banana-2-lite` when the job needs several references.
 - **Don't loop `vsb run` inside a tight shell loop** — use a small batch (≤5 in parallel via `&`) to respect the provider's rate limit.
