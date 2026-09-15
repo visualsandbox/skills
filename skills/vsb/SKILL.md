@@ -354,10 +354,10 @@ source of truth — this list goes stale, the registry does not.
 - **Image** (sync, ~5–10s): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`
 - **Image enhance**: `image-enhance/recraft-remove-background`, `image-enhance/upscale`
 - **Panorama**: `panorama/360-panorama` (4K equirectangular, own category)
-- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/p-video`
+- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/p-video`
 - **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/eleven-music`, `audio/scribe` (speech to text)
 - **3D**: `3d/hunyuan-3d-3.1`
-- **Vector**: `vector/google/gemini-3.1-pro` (slashed name), `vector/quiver-arrow-1.1`, `vector/recraft-vectorize` (raster to SVG)
+- **Vector**: `vector/quiver-arrow-1.1`, `vector/recraft-vectorize` (raster to SVG)
 - **Outfit**: `outfit/turntable`
 - **Text**: `text/openrouter-chat`
 

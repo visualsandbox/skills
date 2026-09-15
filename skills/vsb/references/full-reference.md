@@ -95,7 +95,7 @@ Inspect inputs/outputs.
 
 | Flag | Type | Description |
 |------|------|-------------|
-| `slug` | positional | `<category>/<name>`, e.g. `image/nano-banana` (or `vector/google/gemini-3.1-pro` — names with slashes work) |
+| `slug` | positional | `<category>/<name>`, e.g. `image/nano-banana` |
 | `--format compact|openapi` | string | Default `compact` |
 
 `compact` shape:

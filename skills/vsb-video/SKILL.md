@@ -59,6 +59,8 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Image-to-video with brush motion | `video/kling-v3-motion-control` | Kuaishou. Requires a seed image + a motion specification. Fine-grained control over what moves. |
 | General-purpose, cheap | `video/seedance-2` | ByteDance. Solid quality, lower cost. |
 | Same family, faster | `video/seedance-2-fast` | Lower quality but ~2× faster than `seedance-2`. |
+| Cheapest Seedance, drafts and batches | `video/seedance-2.0-mini` | ByteDance. Same inputs as `seedance-2` at the lowest rate; 480p/720p only; one reference video + one reference audio. |
+| Newest Seedance, many references | `video/seedance-2.5` | ByteDance. Up to 30 reference images, reference videos and audios as lists, native audio, `adaptive` aspect; 480p/720p only. |
 | Everything in one endpoint, multi-shot, native audio | `video/kling-v3-omni-video` | Kuaishou. Text-to-video, start and end frames, up to 7 reference images, reference-video edit or style transfer, lip-synced audio, and up to 6 shots in one clip. 3–15s, `standard` 720p / `pro` 1080p / `4k`. Slow, about 3 minutes. |
 | A portrait performs an audio file | `video/kling-avatar-v2` | Kuaishou. Audio-driven talking head. Feed one portrait plus one audio file and the face lip-syncs the whole clip. No prompt-driven motion. Output length matches the audio. `std` to iterate, `pro` for 1080p. |
 | Cheapest in catalog, iterate fast | `video/p-video` | Pruna AI. Built-in `draft` toggle drops cost ~4× (~$0.005/s at 720p draft). Supports text, image, AND audio conditioning. Looser safety filter than Seedance. See [`vsb-p-video`](../vsb-p-video/SKILL.md). |
