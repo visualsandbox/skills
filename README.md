@@ -57,6 +57,7 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-image`](skills/vsb-image/) | Pick the right image model and prompt it well |
 | [`vsb-video`](skills/vsb-video/) | Generate / edit video — async + status polling |
 | [`vsb-audio`](skills/vsb-audio/) | Generate sound effects, ambient audio, speech |
+| [`vsb-vector`](skills/vsb-vector/) | Make SVGs — Quiver for icons, raster-then-Recraft-vectorize for detailed art, colour count asked first |
 | [`vsb-presets`](skills/vsb-presets/) | Run, save, override, and share reproducible model configurations |
 | [`vsb-nano-banana`](skills/vsb-nano-banana/) | Prompt the Nano Banana family well — edit-mode rules, text rendering, multi-reference blending |
 | [`vsb-image-prompting`](skills/vsb-image-prompting/) | Canonical prompt-craft trunk for every image model — anatomy, reference keep/ignore rules |

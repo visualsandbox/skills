@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "3f5c60c937586d94e814c50084dd40b6109bbb8037c742fc1ac0b406d54db119",
+  "bundle": "fd654de3b854d02cc43e6b87e3b512624e345787c091b699bcb769c7ba698a84",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "a9ba5f08ee03be66ad1a69ec574505da8d16fa924bc047b4c9188e070802712e",
-          "bytes": 23876
+          "sha256": "b6277abca932d1e9fbd47f83b8d7f3af38a4b006a3ced83345bb6742c5c47026",
+          "bytes": 23863
         }
       ]
     },
@@ -53,8 +53,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "7435e04a53ee2cb4fcfd6caba18ea47e6cfd48d3c75b7c2d2f8283055feda31f",
-          "bytes": 16259
+          "sha256": "53ff6ab1ceb27c76c698bd82b628a9e05bd31e622b9487570132ac57244af2d4",
+          "bytes": 15779
         }
       ]
     },
@@ -164,6 +164,17 @@
           "path": "SKILL.md",
           "sha256": "14b48b8a749a3fc04b188aaff846ae6edb16221d23729f2bc137a9f2564c8988",
           "bytes": 9787
+        }
+      ]
+    },
+    {
+      "name": "vsb-vector",
+      "description": "Make SVG files with Visual Sandbox. Trigger when the user asks for an SVG, a vector, a logo, an icon, a cut file (Cricut, laser, CNC, embroidery), or wants to \"vectorize\" a raster image via the vsb CLI. Two routes: `vector/quiver-arrow-1.1` writes an SVG straight from a prompt and is best for icons and simple marks; for a detailed illustration, generate a flat raster with an image model first and trace it with `vector/recraft-vectorize`. Always ask the user how many colours the SVG must have before you run anything.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "32fe13c49dc2028216d5dd68fa220df42dbb179a121cf508856d2015f0dca531",
+          "bytes": 7278
         }
       ]
     },

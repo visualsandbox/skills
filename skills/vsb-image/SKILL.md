@@ -58,6 +58,7 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Change one region, keep every other pixel | `image/flux-fill-pro` | The only mask model in the catalog. It repaints the masked area and carries the rest of the photo through unchanged. It also outpaints. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
 | Upscale | `image-enhance/upscale` | Same — `image-enhance` category. |
+| SVG, vector, logo, icon, cut file | see [`vsb-vector`](../vsb-vector/SKILL.md) | Not an image model job. Quiver for icons; a flat PNG from this page traced by `vector/recraft-vectorize` for detailed art. |
 
 **Tier up for detail-critical work.** The cheap defaults are for simple,
 throwaway, or high-volume generations. When the task is detail-critical —

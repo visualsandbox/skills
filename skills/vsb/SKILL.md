@@ -356,9 +356,7 @@ source of truth — this list goes stale, the registry does not.
 - **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/p-video`
 - **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/eleven-music`, `audio/scribe` (speech to text)
 - **3D**: `3d/hunyuan-3d-3.1`
-- **Vector**: `vector/quiver-arrow-1.1`, `vector/recraft-vectorize` (raster to SVG)
-- **Text**: `text/openrouter-chat`
+- **Vector**: `vector/quiver-arrow-1.1`, `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Quiver for icons, raster-then-vectorize for detailed art, and ask the colour count first.
 
-For per-modality recipes, see the sibling skills: `vsb-image`, `vsb-video`, `vsb-audio`, `vsb-presets`.
-`3d/*`, `vector/*`, and `text/*` have no sibling skill. Run
-`vsb schema <slug> --json` and drive them from this page.
+For per-modality recipes, see the sibling skills: `vsb-image`, `vsb-video`, `vsb-audio`, `vsb-vector`, `vsb-presets`.
+`3d/*` has no sibling skill. Run `vsb schema <slug> --json` and drive it from this page.
