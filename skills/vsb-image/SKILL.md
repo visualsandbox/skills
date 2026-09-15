@@ -56,7 +56,6 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Many references, product + character compositing | `image/seedream-5-pro` | ByteDance. Takes up to 10 references and holds detail at 1K or 2K. The edit-capable model with the highest reference count. Commercial use allowed. |
 | Posters, packaging, real brands and places, flat price at 2K | `image/grok-imagine-image-2` | xAI. Plans typography and layout before drawing, and names real brands, cities, and landmarks straight from the prompt. **One flat price per output image, so 2K at medium quality costs the same as a 1K draft.** Takes one reference image (a single string, not an array), so it cannot composite several. Slow: ~53s at medium/2K, ~15s at low/1K. Commercial use allowed. |
 | Change one region, keep every other pixel | `image/flux-fill-pro` | The only mask model in the catalog. It repaints the masked area and carries the rest of the photo through unchanged. It also outpaints. |
-| 360-degree panorama | `panorama/360-panorama` | Category is `panorama`, not `image`. Fixed 3824x1920 equirectangular PNG with GPano metadata, so viewers detect it as 360 on their own. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
 | Upscale | `image-enhance/upscale` | Same — `image-enhance` category. |
 
@@ -241,22 +240,6 @@ vsb run image/z-image-turbo \
 It has no reference-image field at all, so it cannot edit. Short English and
 Chinese text is its strength. Quote the exact text and name the surface it
 sits on. Long paragraphs break down.
-
-### 360 Panorama
-
-```bash
-vsb run panorama/360-panorama \
-  --prompt "a snowy pine forest clearing at blue hour, footprints in the snow" \
-  --quality high \
-  --upscale true \
-  --json
-```
-
-The category is `panorama`, not `image`. Output is a fixed 3824x1920
-equirectangular PNG, and `--upscale true` doubles it to 7648x3840. The file
-carries GPano metadata, so Pannellum, Facebook, and VR headsets detect it as
-360 without any manual tagging. Do not run it through an editor that strips
-metadata.
 
 ### Background removal
 
