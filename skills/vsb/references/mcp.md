@@ -33,6 +33,8 @@ the reader.
 | `vsb status <job_id>` | `get_job` |
 | `vsb jobs` | `list_jobs` |
 | `vsb upload <file>` | `upload_media` |
+| `vsb sandbox nodes` | `list_sandbox_items` |
+| `vsb sandbox selection` | `get_selection` |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |
@@ -116,6 +118,16 @@ for it, and then fetch the URL yourself.
 **A reference image is a URL.** Pass a public `https` URL straight to
 `generate`. For a file on disk, read it, then pass it to `upload_media` as a
 base64 data URI. `upload_media` returns the hosted URL to use.
+
+**The canvas is a source of references.** `list_sandbox_items` says what is
+already on a canvas and `get_selection` says which of it the person has
+clicked. Every item carries a `reference_url` that goes straight into
+`generate`, so a picture the person can see never needs uploading again. Both
+take a `sandbox_uuid`; `generate` returns one. When the user says "this one"
+or "the selected one" and sends no picture, call `get_selection` before you
+ask them which they mean — they have usually already pointed at it. An answer
+with `ambiguous` set means two views disagree, and that is the one case worth
+asking about.
 
 **You cannot pay for anything.** `top_up` returns a checkout link for a
 person to open. It charges nothing, and there is no tool that does. Never
