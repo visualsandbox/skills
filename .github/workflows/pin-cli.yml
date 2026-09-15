@@ -1,0 +1,109 @@
+name: Update the CLI's skills pin
+
+# Editing a skill used to take two pushes: this repository, then the pin in
+# vsb-cli that says which commit of this repository a binary bakes. The
+# second one is mechanical, so it happens here instead.
+#
+# Runs after "Regen index.json" rather than on the push itself. Both would
+# otherwise fire together, and this job would bake a bundle whose index.json
+# had not been regenerated yet — the CLI verifies every skill file against
+# the sha256 in that index, so the mismatch would fail its build.
+#
+# Nothing here fires on a version-sync commit from auto-release.yml: those
+# touch package.json and .claude-plugin/ only, and index.yml is scoped to
+# skills/**/*.md. That is what stops this job and auto-release triggering
+# each other forever.
+
+on:
+  workflow_run:
+    workflows: ["Regen index.json"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions: {}
+
+# One at a time: two pushes in quick succession would otherwise race to
+# commit the same file.
+concurrency:
+  group: pin-cli
+  cancel-in-progress: false
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    steps:
+      # vsb-cli is a different repository, so this needs the Visual Sandbox
+      # CI app (app id 4945681) installed there with Contents: write.
+      # Narrowed to that one repository and that one permission.
+      # continue-on-error so a missing secret leaves the repository working
+      # exactly as it did before, rather than failing on every skills push.
+      - uses: actions/create-github-app-token@v2
+        id: token
+        continue-on-error: true
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: visualsandbox
+          repositories: vsb-cli
+          permission-contents: write
+
+      - name: Stop here when the app cannot mint a token
+        id: gate
+        env:
+          TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::No token from the Visual Sandbox CI app, so the CLI pin was not updated. Check APP_ID and APP_PRIVATE_KEY on this repository, and that the app is installed on vsb-cli. Until then, update the pin by hand: cd cli && bun run gen && commit skills-ref.json."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Sibling layout: gen-skills.ts reads ../skills/skills/ from the cli
+      # repository, the same way it does on a developer's machine.
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.ok == 'true'
+        with:
+          repository: visualsandbox/vsb-cli
+          path: cli
+          token: ${{ steps.token.outputs.token }}
+
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.ok == 'true'
+        with:
+          path: skills
+
+      - uses: oven-sh/setup-bun@v2
+        if: steps.gate.outputs.ok == 'true'
+        with:
+          bun-version: "1.3.11"
+
+      - name: Install dependencies
+        if: steps.gate.outputs.ok == 'true'
+        working-directory: cli
+        run: bun install --frozen-lockfile
+
+      # Writes both src/lib/skills-data.ts (gitignored) and skills-ref.json
+      # (committed below). Only the second one matters here.
+      - name: Regenerate the bundle and the pin
+        if: steps.gate.outputs.ok == 'true'
+        working-directory: cli
+        run: bun run scripts/gen-skills.ts
+
+      - name: Push the new pin
+        if: steps.gate.outputs.ok == 'true'
+        working-directory: cli
+        env:
+          SKILLS_SHA: ${{ github.sha }}
+        run: |
+          if git diff --quiet skills-ref.json; then
+            echo "The pin already names this commit. Nothing to push."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # By path: gen-skills.ts also rewrites a gitignored file, and a
+          # release commit must never carry anything but the pin.
+          git commit skills-ref.json -m "Pin vsb-skills at ${SKILLS_SHA:0:8}"
+          git push origin HEAD:main
+          echo "Pushed a new pin. auto-release.yml will cut a release with it."
