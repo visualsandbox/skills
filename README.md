@@ -88,6 +88,15 @@ vsb skills update
 
 Agents working with `vsb` should follow [`cli-install.md`](cli-install.md) for the full install playbook — covers PATH issues, token recovery, and the first-run verify.
 
+### Planned: the film pyramid
+
+Every skill above answers one question: how do I run this model well? None of
+them answers what comes first — what am I making, and what should the shot be?
+
+[`docs/film-pyramid.md`](docs/film-pyramid.md) plans six skills that sit above
+the model, from an idea down to a finished cut, and says how they hand work to
+each other. Nothing in it is built yet.
+
 ## Layout
 
 ```
