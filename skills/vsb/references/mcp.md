@@ -147,6 +147,7 @@ of model you are about to run:
 - [`vsb-nano-banana`](../../vsb-nano-banana/SKILL.md) for the Nano Banana family
 - [`vsb-ugc-people`](../../vsb-ugc-people/SKILL.md) for a person in an advert
 - [`vsb-p-video-prompting`](../../vsb-p-video-prompting/SKILL.md) for P-Video
+- [`vsb-seedance-prompting`](../../vsb-seedance-prompting/SKILL.md) for the Seedance family
 
 Every run costs real money. Estimate first, and never run a second time to
 "check" a result you already have.

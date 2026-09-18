@@ -16,7 +16,8 @@ Do this:
 2. Call `estimate_cost` and tell the user the price. Wait for a yes before
    you spend it. This step is not optional.
 3. Read the prompting skill for the model you picked. For `p-video`, read
-   `vsb-p-video-prompting`. For everything else, read `vsb-video`.
+   `vsb-p-video-prompting`. For any `seedance-*` slug, read
+   `vsb-seedance-prompting`. For everything else, read `vsb-video`.
 4. Call `get_model`, then `generate`. Pass `sandbox_name` — what the user is
    working on, in two to five words, taken from their request. Say the work,
    not the prompt: "Product launch teaser", not "a slow dolly shot over".

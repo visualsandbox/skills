@@ -63,6 +63,8 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-image-prompting`](skills/vsb-image-prompting/) | Canonical prompt-craft trunk for every image model — anatomy, reference keep/ignore rules |
 | [`vsb-image-iteration`](skills/vsb-image-iteration/) | Edit an image more than once without generation loss — prompt stacking, contact sheet, crop-and-composite |
 | [`vsb-ugc-people`](skills/vsb-ugc-people/) | UGC-style single-person ad photos — selfie POV + talking-head formats for 9:16 TikTok/Reels |
+| [`vsb-seedance`](skills/vsb-seedance/) | Run the Seedance family — tiers, reference lists, locked aspect and duration per task, price jumps |
+| [`vsb-seedance-prompting`](skills/vsb-seedance-prompting/) | Prompt craft for Seedance — asset bindings, shot lists, timestamps, edits, extensions, templates |
 
 ## Install
 
