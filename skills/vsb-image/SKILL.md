@@ -50,7 +50,8 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Same cost, original model | `image/nano-banana` | The original Gemini 3 model at the same ~$0.05/image. Fall back here if a lite result looks off. |
 | Higher quality / 4K / web-grounded | `image/nano-banana-2` | Full NB2 — adds `resolution` (up to 4K) and web-search grounding. |
 | Top-tier Google output | `image/nano-banana-pro` | Most expensive of the family, sharpest detail. |
-| Photoreal / text rendering / multi-ref edit | `image/gpt-image-2` | OpenAI. Best for legible typography, posters, product mockups. Slower + pricier than Nano Banana. |
+| Fast OpenAI generate or edit, up to 4K | `image/gpt-image-2.5-flare` | OpenAI. The fast tier of GPT Image 2.5 and the default OpenAI pick. One endpoint for text-to-image and edit. ~7–12s at 1K, ~12–24s at 4K, where `gpt-image-2` averages ~50s, and about half the price at high quality. `quality` is `low`/`medium`/`high`/`xhigh`/`max`; `resolution` is a separate control at `1K`/`2K`/`4K`; eight aspect ratios plus `match_input_image`. `background: transparent` returns a real alpha channel (the schema switches JPG to PNG for you). References go in `image_input`. |
+| Photoreal / text rendering / multi-ref edit | `image/gpt-image-2` | OpenAI, the older tier. Best for legible typography, posters, product mockups. Slower and pricier than `gpt-image-2.5-flare`; reach for it only when a Flare result looks off. |
 | Cheapest text-to-image | `image/z-image-turbo` | Tongyi-MAI via PrunaAI. Cheapest image model in the catalog, 8-step, sub-second. Renders short English and Chinese text well. **Takes no reference image, so it cannot edit.** Apache 2.0 license. |
 | Fast iteration that still takes references | `image/flux-2-klein-9b` | Black Forest Labs. 4-step, sub-second, one endpoint for text-to-image and edit. Up to 5 references, output up to 4 MP. **FLUX Non-Commercial License — never use it for client work or paid ad creative.** |
 | Many references, product + character compositing | `image/seedream-5-pro` | ByteDance. Takes up to 10 references and holds detail at 1K or 2K. The edit-capable model with the highest reference count. Commercial use allowed. |
@@ -64,9 +65,10 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 throwaway, or high-volume generations. When the task is detail-critical —
 legible in-image text (signs, tattoos, posters, packaging), dense scenes with
 many named elements, ad creative the user will publish, or precise multi-ref
-identity edits — go straight to `image/nano-banana-pro` or `image/gpt-image-2`
-(gpt-image-2 when typography legibility is the single hardest constraint;
-nano-banana-pro for photoreal scenes that *contain* text or fine detail).
+identity edits — go straight to `image/nano-banana-pro` or
+`image/gpt-image-2.5-flare` (Flare at `xhigh` or `max` when typography
+legibility is the single hardest constraint; nano-banana-pro for photoreal
+scenes that *contain* text or fine detail).
 The ~$0.15–0.20/image premium is cheaper than three failed $0.05 retries.
 
 ## Prompt patterns

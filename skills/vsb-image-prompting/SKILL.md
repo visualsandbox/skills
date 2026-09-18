@@ -3,7 +3,8 @@ name: vsb-image-prompting
 renamed_from: image-prompting
 description: >
   Canonical prompt-craft skill for every image model in Visual Sandbox
-  (`image/nano-banana*`, `image/gpt-image-2`, `image/flux-2-klein-9b`, future
+  (`image/nano-banana*`, `image/gpt-image-2.5-flare`, `image/gpt-image-2`,
+  `image/flux-2-klein-9b`, future
   slugs). Read before writing any `vsb run image/<slug>` prompt — text-to-image
   or edit-with-reference. Covers the universal rules, the prompt-anatomy slot
   list, the reference-image keep / ignore formula (what to take from the
@@ -97,7 +98,8 @@ vsb models --modality image --json \
 ```
 
 Models with `user_cost_estimate: null` are **tiered** (cost depends on
-quality/resolution input, e.g. `nano-banana-pro`, `gpt-image-2`). Don't drop
+quality/resolution input, e.g. `nano-banana-pro`, `gpt-image-2.5-flare`,
+`gpt-image-2`). Don't drop
 them — inspect `vsb pricing <slug> --json` to read the tier table and pick
 the cheapest tier you can live with.
 
@@ -105,10 +107,10 @@ Cheapest row wins **only when the user asked for cheapest and the task is
 simple**. Detail-critical work — legible in-image text (signs, tattoos,
 posters, packaging), dense multi-element scenes, publishable ad creative,
 precise multi-ref identity edits — skips the cheap rows entirely: go to
-`image/nano-banana-pro` or `image/gpt-image-2` (gpt-image-2 when typography
-legibility is the single hardest constraint; nano-banana-pro for photoreal
-scenes containing text or fine detail). One premium run beats three cheap
-retries.
+`image/nano-banana-pro` or `image/gpt-image-2.5-flare` (Flare at `xhigh` or
+`max` when typography legibility is the single hardest constraint;
+nano-banana-pro for photoreal scenes containing text or fine detail). One
+premium run beats three cheap retries.
 
 Then verify the pick supports refs:
 
