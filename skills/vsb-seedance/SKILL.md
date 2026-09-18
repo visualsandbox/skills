@@ -32,8 +32,8 @@ vsb pricing video/seedance-2.5 --json
 
 | Slug | Pick it for | Resolution | Duration | Aspect |
 |------|-------------|------------|----------|--------|
-| `video/seedance-2.5` | Hero shots, many references, native audio. The slowest model in the catalog: about 4 minutes for a short clip. | 480p, 720p | 4, 5, 6, 8, 10, 12 | 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, adaptive |
-| `video/seedance-2` | 1080p or 4K output, 15 s clips, edits that need `-1` auto duration | 480p to 4K | -1, 4 to 15 | adds 9:21 |
+| `video/seedance-2.5` | Hero shots, many references, native audio, clips up to 30 s. The slowest model in the catalog: about 4 minutes for a short clip, longer for a long one. | 480p, 720p | -1, 4 to 30 | 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, adaptive |
+| `video/seedance-2` | 1080p or 4K output | 480p to 4K | -1, 4 to 15 | adds 9:21 |
 | `video/seedance-2-fast` | Same inputs as `seedance-2`, faster and cheaper, 720p cap | 480p, 720p | -1, 4 to 15 | adds 9:21 |
 | `video/seedance-2.0-mini` | Drafts and batches at the lowest rate. One reference video and one reference audio only. No adaptive. | 480p, 720p | 4 to 12 | no adaptive |
 
@@ -95,7 +95,7 @@ comes back cropped, stretched, or the wrong length.
 |------|---------------|--------|----------|
 | Text or reference to video | prompt, optional reference lists | Free | Free |
 | First frame, or first and last frame | `--image`, optional `--last_frame_image` | `adaptive`. The first frame sets the shape. Both frames must share one aspect or the last frame stretches. | Free |
-| Edit a video | the clip in `reference_videos`, an edit verb in the prompt: add, remove, replace, modify, change to | `adaptive` | Match the source. On `seedance-2` and `seedance-2-fast` pass `-1`. On `seedance-2.5` pick the enum value nearest the source length, so the source must be 12 s or less. |
+| Edit a video | the clip in `reference_videos`, an edit verb in the prompt: add, remove, replace, modify, change to | `adaptive` | `-1`. The output matches the source length. Not on Mini, which has no `-1`. |
 | Extend a video | the clip in `reference_videos`, an extend verb in the prompt: extend forward, extend backward, continue | `adaptive` | The length of the new segment. The output is the new segment only; join it to the source in an editor. |
 
 A reference video with no edit or extend verb is a reference task. The model
@@ -115,6 +115,10 @@ vsb pricing video/seedance-2.5 --json
 
 Start at 480p and 5 seconds while the prompt is still moving. Raise
 resolution and duration once the take reads right, with the same `--seed`.
+
+`-1` (Auto) is quoted at 30 seconds up front, because the model picks the
+length and the credit gate cannot know it. The bill is repriced to the
+delivered length when the clip lands. Tell the user the quote is a ceiling.
 
 ## Worked examples
 
@@ -150,7 +154,7 @@ JOB=$(vsb run video/seedance-2.5 \
 ```bash
 CLIP=$(vsb upload ./ad.mp4 --json | jq -r '.url')
 JAR=$(vsb upload ./cream.jpg --json | jq -r '.url')
-JOB=$(vsb run video/seedance-2 \
+JOB=$(vsb run video/seedance-2.5 \
   --prompt "Edit [Video1]: replace the perfume bottle with the face cream jar from [Image1]. Keep all original motion, camera work, lighting and audio. Except for the jar, every visible person, prop and background element in [Video1] remains unchanged." \
   --reference_videos "[\"$CLIP\"]" --reference_images "[\"$JAR\"]" \
   --aspect_ratio adaptive --duration -1 \
@@ -185,6 +189,3 @@ JOB=$(vsb run video/seedance-2.5 \
 - **`adaptive` is not on Mini.** Match the source aspect by hand there.
 - **The wait is real.** 2.5 runs about four minutes for a short clip and
   longer at 12 s. Say so before the user starts to watch the spinner.
-- **Longer native clips exist upstream** (up to 30 s and `-1` on 2.5) but
-  Visual Sandbox does not expose them yet. Chain clips with
-  `last_frame_image` to `image` instead.
