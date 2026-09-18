@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "3e36779c8aa40b90dbf9320859cf040892f51a21b358bd9918576e4102136b27",
+  "bundle": "901b7d88eb415d8491d841e17d96eca2f3bdce4ae95ab66280bd2d66cf6970d7",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "ed577a546a9be755357775a797b7e6be71c9db96bfa492fa49928079fc63f033",
-          "bytes": 24224
+          "sha256": "faf85455499ece2582a737e4c10892fb75a0af14473120c52085ec4463fb909a",
+          "bytes": 24507
         }
       ]
     },
@@ -180,12 +180,12 @@
     },
     {
       "name": "vsb-vector",
-      "description": "Make SVG files with Visual Sandbox. Trigger when the user asks for an SVG, a vector, a logo, an icon, a cut file (Cricut, laser, CNC, embroidery), or wants to \"vectorize\" a raster image via the vsb CLI. Two routes: `vector/quiver-arrow-1.1` writes an SVG straight from a prompt and is best for icons and simple marks; for a detailed illustration, generate a flat raster with an image model first and trace it with `vector/recraft-vectorize`. Always ask the user how many colours the SVG must have before you run anything.",
+      "description": "Make, edit and animate SVG files with Visual Sandbox. Trigger when the user asks for an SVG, a vector, a logo, an icon, an animated logo or loading state, a cut file (Cricut, laser, CNC, embroidery), or wants to \"vectorize\" a raster image via the vsb CLI. `vector/quiver-arrow-2` is the default: it writes an SVG from a prompt, vectorizes a raster, edits an SVG you already have, and animates one into a loop. For a detailed illustration, generate a flat raster with an image model first and trace it with `vector/recraft-vectorize`. Always ask the user how many colours the SVG must have before you run anything.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "32fe13c49dc2028216d5dd68fa220df42dbb179a121cf508856d2015f0dca531",
-          "bytes": 7278
+          "sha256": "78788b13cd56ff808faff746f44585abf7fb4350babfebee731846c4e441234a",
+          "bytes": 12133
         }
       ]
     },
