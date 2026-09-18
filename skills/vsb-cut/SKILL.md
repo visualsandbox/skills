@@ -65,6 +65,8 @@ so a technique named on that page is a command here.
 ## The flags that matter
 
 - `--hold <s>` — seconds taken from each clip. Without it, the whole clip.
+  One value covers every clip; a list gives one per clip, and `all` is the
+  whole of that one: `--hold all,2`.
 - `--at <s,s>` — the in-point of each clip, in order. This is how a match on
   action lines up: `--at 0,1.2` starts the second shot 1.2s in, where the
   movement is.
@@ -93,6 +95,24 @@ before you pick the numbers — a frame grid shows where the action lands:
 ffmpeg -i b.mp4 -vf "select='not(mod(n\,12))',scale=320:-1,tile=5x2" -frames:v 1 grid.png
 ```
 
+## Build a scene by chaining
+
+The output of a cut is a clip, so the next join takes it as its first input.
+`--hold all,2` keeps everything cut so far and takes two seconds of the shot
+arriving. Never read the running length off the last join and pass it back in
+— the reported duration is rounded for display, and a rounded length is longer
+than the clip it describes.
+
+```bash
+vsb cut dissolve      ridge.mp4 sun.mp4   --hold 2.5,2.5 --duration 0.8 -o s1.mp4
+vsb cut graphic-match s1.mp4    wheel.mp4 --hold all,2                  -o s2.mp4
+vsb cut smash-cut     s2.mp4    eyes.mp4  --hold all,2.5                -o s3.mp4
+vsb cut match-cut     s3.mp4    hand.mp4  --hold all,2 --at 0,1.5       -o scene.mp4
+```
+
+Each link re-encodes, so keep a chain to a handful of joins for a finished
+piece and raise `--crf` only at the end.
+
 ## Sound
 
 Sound is kept when every clip has some, and dropped when any clip is silent —
@@ -112,6 +132,10 @@ the incoming sound early, and `--lead <s>` is how far.
   length.
 - **A jump cut must not change the framing.** Use `jump-cut` on one clip. Two
   angles of the same action is ordinary coverage, not a jump cut.
+- **A match lives in the prompt, not in the cut.** A graphic match needs the
+  shared shape at the same size and the same place in both frames, and a model
+  will not do that unless the prompt puts it there. If the join reads weakly,
+  re-roll one clip rather than reach for a different transition.
 - **Clips of different sizes are letterboxed, never cropped.** The output takes
   the first clip's size and rate unless `--size` and `--fps` say otherwise.
 - **`vsb cut` is CLI-only.** The MCP server is hosted and cannot reach local
