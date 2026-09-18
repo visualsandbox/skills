@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "5202e279935d5f5658d7403e4ab5b64fbccdcc6e2ca0eb7324a3dc258c2ee1bb",
+  "bundle": "3e36779c8aa40b90dbf9320859cf040892f51a21b358bd9918576e4102136b27",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "4e9d0685638291fd1ed71499a75cd0a888054794c94108a90baf757c007af23e",
-          "bytes": 23940
+          "sha256": "ed577a546a9be755357775a797b7e6be71c9db96bfa492fa49928079fc63f033",
+          "bytes": 24224
         }
       ]
     },
@@ -32,6 +32,17 @@
           "path": "SKILL.md",
           "sha256": "4ca63433a274ee64b1e6404d86ecdecd6212dd9aeb8043ce7224ef5567e2482a",
           "bytes": 7156
+        }
+      ]
+    },
+    {
+      "name": "vsb-cut",
+      "description": "Join two or more clips with a named film transition using `vsb cut` — jump cut, smash cut, dissolve, wipe, iris, cross-cutting, montage, split screen, J-cut and L-cut, 23 in all. Trigger when the user wants to \"cut these together\", \"add a transition\", \"join the clips\", \"make a montage\", \"split screen\", \"jump cut this\", or names any film transition. Runs locally through ffmpeg: free, instant, nothing uploaded. Pair it with `vsb-video` for generating the clips first.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "19f97265b97fa78ba77a8cc73140973fb14e667769a81146e9c9e1ff2f723013",
+          "bytes": 5260
         }
       ]
     },
