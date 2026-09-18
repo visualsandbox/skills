@@ -150,6 +150,7 @@ open -a Preview "$DIR"/*
 | `vsb speed <effect> <clip>` | Bend time — slow motion, speed ramp, motion blur, freeze frame, reverse, boomerang, stutter, stop motion, seamless loop (`--list` names all twelve) — local ffmpeg, free; see the `vsb-speed` skill |
 | `vsb crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free |
 | `vsb cut <transition> <clip...>` | Join clips with a named film transition (23 of them, `--list` names them) — local ffmpeg, free; see the `vsb-cut` skill |
+| `vsb timeline <new\|add\|set\|rm\|show\|render>` | Build an edit on a timeline that survives between commands and sessions — shots end to end, sound under, titles over, then one render; see the `vsb-timeline` skill |
 | `vsb presets <list|get|run|create|delete>` | Manage saved model+inputs presets |
 | `vsb sandbox name "<title>"` | Name this session's canvas after the work — do it as soon as you know the task |
 | `vsb sandbox selection` | Read what the user has selected on the canvas (prompt, model, image URL) |

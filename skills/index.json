@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "3fd66de8f03782d76c345243eed9d7f02b457ee0b441097b6494f0f929ce2bd1",
+  "bundle": "63eee7c308342bd9cf769b6914215d9f5fb786af36ca76f2a812534a30dacd0e",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "837bcc54293581f44b0f678f0765d8e409b917d19cf5ba793913eb0c2fb5689f",
-          "bytes": 24911
+          "sha256": "5f2e00a0b071b873736416e664d04fba5ead2fe00292666ca62b8787fd86433b",
+          "bytes": 25132
         }
       ]
     },
@@ -159,6 +159,17 @@
           "path": "SKILL.md",
           "sha256": "f8925b1559f2f983bcc694836e7a9602287b9735398549a63ed4bec08579525a",
           "bytes": 4685
+        }
+      ]
+    },
+    {
+      "name": "vsb-timeline",
+      "description": "Build an edit on a timeline with `vsb timeline` — lay shots end to end, join them with transitions, trim them, put music or a voice under them, and lay a logo or a title on top. The timeline is a JSON file that survives between commands and between sessions, so the edit can be read back, changed and rendered later. Trigger when the user wants to \"edit these together\", \"put this on a timeline\", \"add music under it\", \"put a title over that shot\", \"make it shorter\", \"what is on the timeline\", or is assembling more than two clips. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the shots and `vsb-cut` for a single named film transition.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "f90aac44f28d564b85845b342daa0166b4fecc621e6e036747d014dff9356383",
+          "bytes": 10213
         }
       ]
     },
