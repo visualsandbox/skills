@@ -79,7 +79,7 @@ the person handed you a uuid.
 
 There is no `.claude/skills/` folder here. The MCP serves the packs itself:
 `list_skills` names them, `get_skill` returns one. They are read live from
-`github.com/visualsandbox/vsb-skills`, the same repository the CLI embeds and
+`github.com/visualsandbox/skills`, the same repository the CLI embeds and
 the plugin ships, and each file is checked against the sha256 in that repo's
 `index.json` before it is handed over.
 

@@ -10,7 +10,7 @@ This repository is two things at once.
 skills, four slash commands, and the hosted MCP server as one install:
 
 ```bash
-claude plugin marketplace add visualsandbox/vsb-skills
+claude plugin marketplace add visualsandbox/skills
 claude plugin install visual-sandbox@visual-sandbox
 ```
 
@@ -122,7 +122,7 @@ vsb skills install nano-banana --remote
 VSB_SKILLS_REMOTE=1 vsb setup --skills-only
 ```
 
-Remote mode pulls from `https://raw.githubusercontent.com/visualsandbox/vsb-skills/main/skills/`,
+Remote mode pulls from `https://raw.githubusercontent.com/visualsandbox/skills/main/skills/`,
 caches in `~/.vsb/skills-cache/`, and verifies sha256 against the live `index.json`.
 Pin to a tag, branch, or sha with `VSB_SKILLS_REF=v0.3 vsb setup --skills-only`.
 

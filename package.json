@@ -1,5 +1,5 @@
 {
-  "name": "vsb-skills",
+  "name": "skills",
   "version": "0.2.40",
   "private": true,
   "description": "Agent skill packs for Visual Sandbox — consumed by the vsb CLI.",

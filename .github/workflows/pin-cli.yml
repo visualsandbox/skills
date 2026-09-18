@@ -104,6 +104,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # By path: gen-skills.ts also rewrites a gitignored file, and a
           # release commit must never carry anything but the pin.
-          git commit skills-ref.json -m "Pin vsb-skills at ${SKILLS_SHA:0:8}"
+          git commit skills-ref.json -m "Pin the skills repo at ${SKILLS_SHA:0:8}"
           git push origin HEAD:main
           echo "Pushed a new pin. auto-release.yml will cut a release with it."

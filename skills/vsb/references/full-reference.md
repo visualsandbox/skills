@@ -385,7 +385,7 @@ v0.1 only writes to `.claude/skills/`. Cursor + AGENTS.md targets land in v0.2.
 
 ## `vsb update` + auto-update
 
-The skill packs inside a binary are pinned. `cli/skills-ref.json` names the exact `vsb-skills` commit that was baked, and the build checks out that commit rather than whatever `main` holds when it runs. Changing a skill therefore takes two pushes, in order: push `vsb-skills`, then run `bun run gen` in the CLI repo and push the updated pin. Skip the order and `bun run gen` warns that the commit is not on the remote yet.
+The skill packs inside a binary are pinned. `cli/skills-ref.json` names the exact `visualsandbox/skills` commit that was baked, and the build checks out that commit rather than whatever `main` holds when it runs. Changing a skill therefore takes two pushes, in order: push `skills`, then run `bun run gen` in the CLI repo and push the updated pin. Skip the order and `bun run gen` warns that the commit is not on the remote yet.
 
 `vsb update` downloads the latest GitHub release and atomically swaps the compiled binary in place. Dev installs (running under Bun) auto-update too: a background `git pull --ff-only && bun install && bun run gen` fires when the checkout is on `main` with no modified tracked files; a dirty tree or non-main branch falls back to a printed manual command.
 
