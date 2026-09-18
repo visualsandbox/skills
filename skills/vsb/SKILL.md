@@ -147,6 +147,7 @@ open -a Preview "$DIR"/*
 | `vsb upload <path-or-url>` | Upload local file or remote URL to VS CDN |
 | `vsb download <url>` | Download a TikTok/IG/YouTube video to a local file (`--info` = metadata only, `--cookies <browser>` for login-walled) — see the `vsb-download` skill |
 | `vsb subtitles <file-or-url>` | Burn TikTok-style word-by-word captions into a video — see the `vsb-subtitles` skill |
+| `vsb crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free |
 | `vsb cut <transition> <clip...>` | Join clips with a named film transition (23 of them, `--list` names them) — local ffmpeg, free; see the `vsb-cut` skill |
 | `vsb presets <list|get|run|create|delete>` | Manage saved model+inputs presets |
 | `vsb sandbox name "<title>"` | Name this session's canvas after the work — do it as soon as you know the task |

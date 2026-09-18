@@ -71,6 +71,10 @@ so a technique named on that page is a command here.
   action lines up: `--at 0,1.2` starts the second shot 1.2s in, where the
   movement is.
 - `--duration <s>` — how long a shaped transition takes. Default 1.
+- `--fit fill|fit` — split screen panes. `fill` crops each pane to its share of
+  the frame, which is what a split screen is. `fit` letterboxes instead, and
+  two 16:9 shots fitted into two half-width panes are two thin black-barred
+  strips, not a split screen. Default `fill`.
 - `--beat <s>` — how long one slice lasts, for the beat-based cuts.
 - `--direction` — `left|right|up|down` for a wipe, `in|out` for an iris.
 - `--dry-run` — prints the ffmpeg command without running it.
@@ -112,6 +116,27 @@ vsb cut match-cut     s3.mp4    hand.mp4  --hold all,2 --at 0,1.5       -o scene
 
 Each link re-encodes, so keep a chain to a handful of joins for a finished
 piece and raise `--crf` only at the end.
+
+## Reframe first with `vsb crop`
+
+Clips arrive in the shape the model was asked for, which is rarely the shape
+the cut needs. `vsb crop` takes a piece of the picture and a piece of the time,
+locally and for nothing.
+
+```bash
+vsb crop wide.mp4 --aspect 9:16                      # a 16:9 take, ready for a Reel
+vsb crop wide.mp4 --aspect 9:16 --size 1080x1920     # and at the size the platform wants
+vsb crop wide.mp4 --zoom 2 --gravity top             # a wide becomes a medium
+vsb crop wide.mp4 --rect 100,0,880,1080              # an exact box in source pixels
+vsb crop long.mp4 --start 1.5 --duration 5           # a plain trim, no pixels touched
+```
+
+`--gravity` picks which part survives: center, top, bottom, left, right and the
+four corners. It is the flag that decides whether a 9:16 crop keeps the face or
+the empty half of the frame, so name it whenever the subject is off centre.
+
+This is also the answer for a shot that needs shortening and nothing else.
+`vsb cut` has no plain trim, because every one of its recipes joins something.
 
 ## Sound
 
