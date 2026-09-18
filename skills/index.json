@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "e902aec1e792c35ad0ba4b1f8c7b9a6d9072803bcb0503edc4675abb9bdc140b",
+  "bundle": "3fd66de8f03782d76c345243eed9d7f02b457ee0b441097b6494f0f929ce2bd1",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "fef2af227b61853006b030a4d6a4472d59b5adf4a4da3365fa87b15eee18bdf9",
-          "bytes": 24677
+          "sha256": "837bcc54293581f44b0f678f0765d8e409b917d19cf5ba793913eb0c2fb5689f",
+          "bytes": 24911
         }
       ]
     },
@@ -41,8 +41,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "8bf189d034fb23599d068274aeb463bccc64ca79f115a9cd6b8f08cc6a32ef40",
-          "bytes": 7833
+          "sha256": "acc617cc3a3c39bac305a26c50239328ca87ab3b8172bf7c8d72b41bc0218f99",
+          "bytes": 8117
         }
       ]
     },
@@ -137,6 +137,17 @@
           "path": "SKILL.md",
           "sha256": "900baa272c39fa3b962b72adaad1b766bb407c00560e41bd20fc83b9d62d547c",
           "bytes": 8779
+        }
+      ]
+    },
+    {
+      "name": "vsb-speed",
+      "description": "Bend time in a clip with `vsb speed` — slow motion, fast motion, speed ramp, motion blur, low shutter, freeze frame, reverse, boomerang, stutter, step printing, stop motion and a seamless infinite loop. Trigger when the user wants to \"slow this down\", \"speed it up\", \"reverse it\", \"make it loop\", \"freeze on that\", \"add motion blur\", \"boomerang this\", or names any time-and-motion technique. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the clip and `vsb-cut` for joining clips.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "ca181f1dda0eb3720ad05da4f7984131c23e6f8f739cba57a8636aeeb073cf77",
+          "bytes": 4716
         }
       ]
     },

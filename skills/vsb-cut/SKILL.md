@@ -138,6 +138,13 @@ the empty half of the frame, so name it whenever the subject is off centre.
 This is also the answer for a shot that needs shortening and nothing else.
 `vsb cut` has no plain trim, because every one of its recipes joins something.
 
+## Retime with `vsb speed`
+
+The sibling command for the other axis. `vsb cut` joins clips, `vsb crop`
+reframes one, `vsb speed` bends its time — slow motion, reverse, boomerang,
+freeze frame, stutter, a seamless loop. Twelve effects, all local and free.
+See the `vsb-speed` skill.
+
 ## Sound
 
 Sound is kept when every clip has some, and dropped when any clip is silent —
