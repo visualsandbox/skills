@@ -66,6 +66,7 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Short clip with sound, cheap, any length 1–15s | `video/grok-imagine-video` | xAI. Text-to-video and image-to-video on one slug. Native audio always on, no toggle. 480p/720p at one flat rate per second. ~50s for a 5s 720p clip. |
 | Animate a still and keep its exact look | `video/grok-imagine-video-1.5` | xAI, preview. Image-to-video only, `--image` is required. Holds the detail and lighting of the source frame. Faster than the base model (~33s for 5s 720p) and costs more per second. |
 | Cheapest in catalog, iterate fast | `video/p-video` | Pruna AI. Built-in `draft` toggle drops cost ~4× (~$0.005/s at 720p draft). Supports text, image, AND audio conditioning. Looser safety filter than Seedance. See [`vsb-p-video`](../vsb-p-video/SKILL.md). |
+| Enlarge a finished clip, or change its frame rate | `video/video-upscale` | Topaz Labs. Not a generator: video in, video out, no prompt. 720p / 1080p / 4K and 24 / 30 / 60 fps. Source MP4 or MOV under 200 MB, capped at 60s / 30s / 10s by target resolution. Use it to finish a 720p generation for delivery. |
 
 ## Veo 3.1 (text-to-video, image-to-video)
 
@@ -205,6 +206,37 @@ JOB=$(vsb run video/kling-v3-omni-video \
   exact shape before you write one.
 - `--generate_audio true` costs more per second than audio off. Iterate on
   `standard`, lock the take on `pro`, then re-render on `4k` unchanged.
+
+## Topaz Video Upscale (finish a clip, no prompt)
+
+```bash
+SRC=$(vsb upload ./clip.mp4 --json | jq -r '.url')
+
+JOB=$(vsb run video/video-upscale \
+  --video "$SRC" \
+  --resolution 1080p \
+  --fps 30 \
+  --async --json | jq -r '.job_id')
+```
+
+This is the one video slug that takes no prompt. The source clip is the whole
+input, so there is no `--prompt`, no `--aspect_ratio` and no `--duration`, and
+the output keeps the shape of the source.
+
+- `--resolution` is `720p`, `1080p` (default) or `4k`. `--fps` is `24`, `30`
+  (default) or `60`, so the same run can also retime a choppy clip.
+- **The source has hard caps and they differ per resolution**: 60 seconds at
+  720p, 30 at 1080p, 10 at 4K. The file must be MP4 or MOV under 200 MB. Cut a
+  longer piece into parts, upscale each, and join them in an editor.
+- Billed per second of output. The rate rises with resolution and 60fps costs
+  twice 30fps, so run `vsb pricing video/video-upscale --json` before a 4K job.
+- Expect a wait: a 12 second source took about 43 seconds at 720p/30fps and
+  about 173 seconds at 1080p/60fps. 4K is roughly four times 1080p.
+- It enlarges and retimes. It does not restyle and it adds no content, so a
+  soft source comes back soft, only bigger.
+- **The common chain**: generate the shot on the model with the best motion,
+  then finish it here. A still image goes to `image-enhance/upscale` instead,
+  never here.
 
 ## Cost estimation (do this BEFORE running)
 
