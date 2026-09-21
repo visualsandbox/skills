@@ -35,6 +35,8 @@ the reader.
 | `vsb upload <file>` | `upload_media` |
 | `vsb sandbox nodes` | `list_sandbox_items` |
 | `vsb sandbox selection` | `get_selection` |
+| `vsb sandbox docs` | `read_sandbox_docs` |
+| `vsb sandbox docs write` | `write_sandbox_doc` |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |
@@ -118,6 +120,13 @@ for it, and then fetch the URL yourself.
 **A reference image is a URL.** Pass a public `https` URL straight to
 `generate`. For a file on disk, read it, then pass it to `upload_media` as a
 base64 data URI. `upload_media` returns the hosted URL to use.
+
+**The canvas also holds the person's notes.** `read_sandbox_docs` hands you
+every markdown file on it — `BRAND.md`, `CHARACTER.md`, a shot list — with its
+contents. Read them before you write a prompt, so the twentieth picture carries
+the same palette and the same face as the first. `write_sandbox_doc` replaces
+one file by name; it replaces the whole file, so read it first and send back
+the version you want kept.
 
 **The canvas is a source of references.** `list_sandbox_items` says what is
 already on a canvas and `get_selection` says which of it the person has

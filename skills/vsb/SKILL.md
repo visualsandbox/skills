@@ -46,11 +46,12 @@ model choice, cost and share links is the same either way.
 7. **Estimate cost first.** `vsb pricing <category>/<slug> --json` returns `user_cost_estimate`. Show it to the user before running expensive video models.
 8. **Auth.** Run `vsb setup` once — opens a browser to issue an API key, writes it to `~/.vsb/config.json`. Or set `VSB_API_KEY` in the env / `.env`. `vsb pricing` and most write endpoints require auth.
 9. **Every `vsb run` auto-attaches to the user's live sandbox.** Each completed generation becomes a draggable node on `https://visualsandbox.com/sandbox/`. To opt out for a one-off script, pass `--no-sandbox`. To target a non-default sandbox, pass `--sandbox-uuid <uuid>`. Runs with `n>1` (currently `image/gpt-image-2` and `image/gpt-image-2.5-flare`) drop **one node per output image**; each gets its own `output_index` (0..N-1) so every variant is reachable on the canvas.
-    **Name that canvas after the work.** See rule 12.
+    **Name that canvas after the work.** See rule 13.
 10. **Selection-aware prompts.** When the user's request references "this", "him", "the image", "selected", "that one" — or anything that implies a subject already on screen — call `vsb sandbox selection --json` first. Returns the node(s) the user has selected on the canvas: prompt, model, output URL. Pass the `output_url` as the input image to the next `vsb run` (e.g. `--image_urls "[\"<url>\"]"` for nano-banana). If selection is empty, ask the user to click a node before continuing.
     **Chain it once, never twice.** That `output_url` is a generated image; feeding a generated image back in as `image_input` a second time compounds quality loss on every pass. Before a second edit on the same picture, read [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md), and pass `--output_format png` (the default is `jpg` on every image model).
-11. **Canvas survey vs drill-in.** Use `vsb sandbox nodes --json --limit N` for a slim overview of the whole canvas (~360 B/node — newest first, just uuid + slug + url + position). When you've picked a target, `vsb sandbox node <uuid> --json` returns full detail (prompt + all output URLs + media_asset). This two-step keeps context cheap even on a 20+ node sandbox.
-12. **Name the canvas the moment you know the task.** Each session opens its own canvas, and it starts as "Untitled Sandbox". As soon as the user says what they want — before the first run, not after — give it a name that says what is being worked on:
+11. **Read the canvas notes before the first prompt.** `vsb sandbox docs --json` lists the markdown files the person keeps beside the canvas. If one of them is `BRAND.md`, `CHARACTER.md`, a style guide or a shot list, `vsb sandbox docs read <name>` it and write the prompt from it — that is what keeps the twentieth picture matching the first. When the user settles on something worth keeping ("always this palette", "her hair is like that"), write it back: `vsb sandbox docs write CHARACTER.md --file notes.md`. A write replaces the whole file, so read it first.
+12. **Canvas survey vs drill-in.** Use `vsb sandbox nodes --json --limit N` for a slim overview of the whole canvas (~360 B/node — newest first, just uuid + slug + url + position). When you've picked a target, `vsb sandbox node <uuid> --json` returns full detail (prompt + all output URLs + media_asset). This two-step keeps context cheap even on a 20+ node sandbox.
+13. **Name the canvas the moment you know the task.** Each session opens its own canvas, and it starts as "Untitled Sandbox". As soon as the user says what they want — before the first run, not after — give it a name that says what is being worked on:
 
     ```bash
     vsb sandbox name "Coffee brand UGC ads" --json
@@ -67,7 +68,7 @@ model choice, cost and share links is the same either way.
 
     Rename later only when the user asks, or when the session clearly moves to different work — `vsb sandbox name "New name"` always wins. An automatic name never overwrites a name that is already set, so a second `--sandbox-name` on a later run is ignored.
 
-13. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
+14. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
 
 ## Background generations (keep the conversation free)
 
@@ -156,6 +157,9 @@ open -a Preview "$DIR"/*
 | `vsb sandbox selection` | Read what the user has selected on the canvas (prompt, model, image URL) |
 | `vsb sandbox nodes` | List every node on the active sandbox (slim by default, `--full` for raw, `--limit N` to cap, `--kind generation\|upload` to filter) |
 | `vsb sandbox node <uuid>` | Full detail for one node — prompt, all output URLs, media_asset, position |
+| `vsb sandbox docs` | List the markdown files on the canvas — `BRAND.md`, `CHARACTER.md`, a shot list |
+| `vsb sandbox docs read <name>` | Print one file's markdown |
+| `vsb sandbox docs write <name>` | Create or replace one file (`--file <path>`, or pipe it in) |
 | `vsb feedback "<msg>"` | Send feedback/bug report to the Visual Sandbox team (`--kind`, `--image`) |
 | `vsb skills <list|install|update|remove>` | Manage agent skill packs in `.claude/skills/` |
 | `vsb init` | One-shot install of the default skill bundle |
@@ -211,7 +215,7 @@ vsb run image/nano-banana \
 ```
 
 On the completion notification, read `$DIR/job.json` for the `job_id`, then
-`open -a Preview "$DIR"/*.{jpg,png,webp}` (critical rule 12).
+`open -a Preview "$DIR"/*.{jpg,png,webp}` (critical rule 14).
 
 The scratch `--download` above is for viewing only. A **project** save — into
 the working directory or a folder the user named — still needs the opt-in from
@@ -356,10 +360,10 @@ vsb feedback "Ran image/nano-banana with image_input; expected an edited image, 
 The whole catalog, as of the last skill release. `vsb models --json` is the
 source of truth — this list goes stale, the registry does not.
 
-- **Image** (sync, ~5–10s for the fast tiers, up to ~2min for the flagship ones): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2.5-flare`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/grok-imagine-image-2`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`
-- **Image enhance**: `image-enhance/recraft-remove-background`, `image-enhance/upscale`
-- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/grok-imagine-video`, `video/grok-imagine-video-1.5` (image required), `video/p-video`, `video/video-upscale` (Topaz: enlarge or retime an existing clip, no prompt)
-- **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/eleven-music`, `audio/scribe` (speech to text)
+- **Image** (sync, ~5–10s for the fast tiers, up to ~2min for the flagship ones): `image/nano-banana`, `image/nano-banana-2`, `image/nano-banana-2-lite`, `image/nano-banana-pro`, `image/gpt-image-2.5-flare`, `image/gpt-image-2`, `image/seedream-5-pro`, `image/seedream-5-lite`, `image/grok-imagine-image-2`, `image/flux-2-klein-9b`, `image/flux-fill-pro` (mask edit), `image/z-image-turbo`, `image/krea-2-medium`, `image/krea-2-large` (both style transfer only, no editing), `image/p-image-try-on` (clothing on a person)
+- **Image enhance**: `image-enhance/recraft-remove-background`, `image-enhance/upscale` (Topaz, for portraits and print), `image-enhance/p-image-upscale` (Pruna, fast and cheap at volume, no page of its own)
+- **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/grok-imagine-video`, `video/grok-imagine-video-1.5` (image required), `video/flux-3` (storyboard from keyframes, or continue a clip), `video/minimax-h3`, `video/wan-3` (up to 30s, silent), `video/ltx-2.5-fast` (up to 4K), `video/p-video`, `video/p-video-2`, `video/p-video-2-pro`, `video/p-video-edit` (edit a clip), `video/p-video-replace` (swap the person), `video/p-video-animate` (motion onto a still), `video/p-video-avatar` (a photo speaks), `video/lipsync-2-pro` (redub existing footage), `video/video-upscale` (Topaz: enlarge or retime an existing clip, no prompt), `video/flux-video-upscale` (short clips, invents detail)
+- **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/eleven-music`, `audio/minimax-music-2.6` (a full song, one flat price), `audio/minimax-music-cover` (re-sing a recording), `audio/scribe` (speech to text)
 - **3D**: `3d/hunyuan-3d-3.1`
 - **Vector**: `vector/quiver-arrow-2` (the default: generate, vectorize, edit and animate an SVG), `vector/quiver-arrow-2-telos` (same four, plus a frontier reasoning model and a much longer brief), `vector/quiver-arrow-1.1` (generate and vectorize only, at a flat price per file), `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Arrow 2 for icons and for anything that starts from an SVG, raster-then-vectorize for detailed art, and ask the colour count first.
 
