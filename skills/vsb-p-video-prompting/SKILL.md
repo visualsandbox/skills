@@ -2,9 +2,10 @@
 name: vsb-p-video-prompting
 renamed_from: p-video-prompting
 description: >
-  Canonical prompt-craft skill for Pruna AI's P-Video (`video/p-video`) in
-  Visual Sandbox. Read before writing any `vsb run video/p-video` prompt —
-  text-to-video, image-to-video, or audio-conditioned. Covers the official
+  Canonical prompt-craft skill for Pruna AI's P-Video family in Visual
+  Sandbox: `video/p-video`, `video/p-video-2` and `video/p-video-2-pro`. Read
+  before writing any `vsb run video/p-video*` prompt — text-to-video,
+  image-to-video, or audio-conditioned. Covers the official
   Pruna slot formula (Subject / Action / Scene / Camera / Lighting / Style /
   Audio), the image-to-video narration pattern for talking avatars, the
   DO/DON'T list straight from Pruna's docs, and the `prompt_upsampling`
@@ -17,6 +18,19 @@ description: >
 Prompt craft only. For runtime, pricing, draft toggle, async + poll, read
 [`vsb-p-video`](../vsb-p-video/SKILL.md) first. For universal video knobs (aspect,
 duration, fps), read [`vsb-video`](../vsb-video/SKILL.md).
+
+The slot formula below carries across all three generation tiers. Three
+differences matter when you write for the newer two:
+
+- **`video/p-video-2` speaks.** Write the dialogue into the prompt, in quotation
+  marks, keep `save_audio` on, and attach no audio file. It generates the speech
+  with matched lip movement. `video/p-video` has no native audio at all.
+- **Both newer tiers take a `last_frame_image`.** Describe the motion that has to
+  land on it, not just the opening.
+- **`video/p-video-2-pro` renames the knob.** Its control is `prompt_upsampler`
+  with `off`, `turbo` or `max`, not the boolean `prompt_upsampling` the other two
+  carry. `video/p-video-2-pro` is silent, so leave the Audio slot out of its
+  prompts entirely.
 
 ## Universal rules
 

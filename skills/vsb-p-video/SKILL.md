@@ -2,11 +2,12 @@
 name: vsb-p-video
 renamed_from: p-video
 description: >
-  Prompt and run Pruna AI's P-Video (`video/p-video`) well — the cheapest
-  video model in Visual Sandbox, with a built-in `draft` toggle that drops
-  cost ~4×. Trigger whenever the user is about to call `vsb run video/p-video`
-  or asks "cheapest video model", "draft video", "iterate fast", or "lots of
-  video variations". Always ask the user **draft or standard** before running.
+  Prompt and run Pruna AI's P-Video family well. `video/p-video` is the
+  cheapest video model in Visual Sandbox, with a built-in `draft` toggle that
+  drops cost ~4×, and two newer tiers sit above it. Trigger whenever the user
+  is about to call `vsb run video/p-video*` or asks "cheapest video model",
+  "draft video", "iterate fast", or "lots of video variations". Always ask the
+  user **draft or standard** before running.
   Pairs with the parent [`vsb-video`](../vsb-video/SKILL.md) skill for the async +
   poll pattern.
 ---
@@ -15,6 +16,21 @@ description: >
 
 Cheapest video model in the catalog. Fast iteration. Two-mode runtime via the
 `draft` boolean — flip it on for previews, off when you're locking the shot.
+
+## Which P-Video tier
+
+Three generation tiers now share this family. Price alone no longer picks one.
+
+| Pick | When |
+|---|---|
+| `video/p-video` | Bulk prompt exploration. Its draft rate is still the lowest in the whole catalog. No audio of any kind. |
+| `video/p-video-2` | The clip has to talk, or needs 1080p, 48 fps, a last frame, or a run past 15s. It writes native speech with lip-sync from dialogue in the prompt, and also takes an audio track to drive motion. |
+| `video/p-video-2-pro` | The best Pruna picture, and the lowest rate per second of the three at 480p. Silent: no audio in, no audio out, and 768p is the ceiling. |
+
+Three more slugs in the family transform a clip you already have rather than
+generate one, and they are covered in [`vsb-video`](../vsb-video/SKILL.md):
+`video/p-video-edit`, `video/p-video-replace`, `video/p-video-animate`, plus
+`video/p-video-avatar` for a photo that speaks a typed script.
 
 Read the parent [`vsb-video`](../vsb-video/SKILL.md) skill first for the universal
 async + poll + cancel pattern. This skill only adds p-video–specific behavior.

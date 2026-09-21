@@ -31,6 +31,8 @@ the shell's exit is the "done" signal, no poll loop needed. Rules in
 |------|------|-------|
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
+| Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
+| Re-sing a song you already have in a new style | `audio/minimax-music-cover` | MiniMax. The only model that takes a recording as input. Anchors on the melody and swaps the voice, instruments and arrangement, with optional replacement lyrics. The source needs audible singing, and the melody can still drift, so listen before you use it. |
 | Speech-to-text | `audio/scribe` | Transcription, not generation — see [`vsb-subtitles`](../vsb-subtitles/SKILL.md). |
 
 (Verify the live catalog with `vsb models --modality audio --json` before

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "93222a3c778be31df80360a30def0f7e05fbb79299e28060715367c5a2f91aa1",
+  "bundle": "acbe8929a53912cfb14cfccee923cb21288e722822dfbf1e555ae7ec4cb964fb",
   "skills": [
     {
       "name": "vsb",
@@ -13,13 +13,13 @@
         },
         {
           "path": "references/mcp.md",
-          "sha256": "6d2b02f0156e5756330ce375143429d92a4ac85f9fdda0a05373e3a0b6775378",
-          "bytes": 7316
+          "sha256": "a83944975df0a0309e6e0ffa84005f5c38bff1033b25f06205d3126a8d764c09",
+          "bytes": 7834
         },
         {
           "path": "SKILL.md",
-          "sha256": "d34dccbbb6f9e75b027a6451e1e846cbe87361ebe8be97fc39dc9232b07a60fd",
-          "bytes": 25271
+          "sha256": "790cca01c528f6c87d7da75231a87a3f72e393cf4442abb79723382dcd949bcf",
+          "bytes": 26957
         }
       ]
     },
@@ -30,8 +30,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "4ca63433a274ee64b1e6404d86ecdecd6212dd9aeb8043ce7224ef5567e2482a",
-          "bytes": 7156
+          "sha256": "9b79d96b1cb7bff84007671a97614694b310737496be2c89fbd0a48891313365",
+          "bytes": 7826
         }
       ]
     },
@@ -64,8 +64,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c0866a5106432d6cddc6544f7d7cfa82836bc632d0a47acc7b37aa5cc2392da0",
-          "bytes": 16451
+          "sha256": "b2272387c8abb69b7487225538d98a1bdb588086904fd39b207ca34dbbbeadb9",
+          "bytes": 18749
         }
       ]
     },
@@ -106,25 +106,25 @@
     },
     {
       "name": "vsb-p-video",
-      "description": "Prompt and run Pruna AI's P-Video (`video/p-video`) well — the cheapest video model in Visual Sandbox, with a built-in `draft` toggle that drops cost ~4×. Trigger whenever the user is about to call `vsb run video/p-video` or asks \"cheapest video model\", \"draft video\", \"iterate fast\", or \"lots of video variations\". Always ask the user **draft or standard** before running. Pairs with the parent [`vsb-video`](../vsb-video/SKILL.md) skill for the async + poll pattern.",
+      "description": "Prompt and run Pruna AI's P-Video family well. `video/p-video` is the cheapest video model in Visual Sandbox, with a built-in `draft` toggle that drops cost ~4×, and two newer tiers sit above it. Trigger whenever the user is about to call `vsb run video/p-video*` or asks \"cheapest video model\", \"draft video\", \"iterate fast\", or \"lots of video variations\". Always ask the user **draft or standard** before running. Pairs with the parent [`vsb-video`](../vsb-video/SKILL.md) skill for the async + poll pattern.",
       "renamed_from": "p-video",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "47801da7c15d55855653128f50d7c1ad3ef87a68cfc9e639c4f9cbb31645b323",
-          "bytes": 6759
+          "sha256": "91e3466f90938c379bf33db8e1acb83d4ba1ebc43847b5aae66ab8d039e1d6f5",
+          "bytes": 7733
         }
       ]
     },
     {
       "name": "vsb-p-video-prompting",
-      "description": "Canonical prompt-craft skill for Pruna AI's P-Video (`video/p-video`) in Visual Sandbox. Read before writing any `vsb run video/p-video` prompt — text-to-video, image-to-video, or audio-conditioned. Covers the official Pruna slot formula (Subject / Action / Scene / Camera / Lighting / Style / Audio), the image-to-video narration pattern for talking avatars, the DO/DON'T list straight from Pruna's docs, and the `prompt_upsampling` override rule. Pairs with [`vsb-p-video`](../vsb-p-video/SKILL.md) for runtime (draft toggle, pricing, schema, async + poll).",
+      "description": "Canonical prompt-craft skill for Pruna AI's P-Video family in Visual Sandbox: `video/p-video`, `video/p-video-2` and `video/p-video-2-pro`. Read before writing any `vsb run video/p-video*` prompt — text-to-video, image-to-video, or audio-conditioned. Covers the official Pruna slot formula (Subject / Action / Scene / Camera / Lighting / Style / Audio), the image-to-video narration pattern for talking avatars, the DO/DON'T list straight from Pruna's docs, and the `prompt_upsampling` override rule. Pairs with [`vsb-p-video`](../vsb-p-video/SKILL.md) for runtime (draft toggle, pricing, schema, async + poll).",
       "renamed_from": "p-video-prompting",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "6e6b7da0cb69bed83332c28b9081d7d406a05ae45534923e828dabfb9429fe4b",
-          "bytes": 8819
+          "sha256": "b9778b932315434265e80834c41b86cddddd69fe1f017911000b35bfdf5fa0c9",
+          "bytes": 9612
         }
       ]
     },
@@ -245,8 +245,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "ad903d05950d2d8302d753586f78b184749e066a4c29e701517b189910a1cc34",
-          "bytes": 15083
+          "sha256": "9c6222c57462cf76b4dd65ed56490ecdbba2536a0616170bc1655d787e1d4069",
+          "bytes": 19133
         }
       ]
     }
