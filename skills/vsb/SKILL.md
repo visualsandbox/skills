@@ -149,7 +149,7 @@ open -a Preview "$DIR"/*
 | `vsb download <url>` | Download a TikTok/IG/YouTube video to a local file (`--info` = metadata only, `--cookies <browser>` for login-walled) — see the `vsb-download` skill |
 | `vsb subtitles <file-or-url>` | Burn TikTok-style word-by-word captions into a video — see the `vsb-subtitles` skill |
 | `vsb speed <effect> <clip>` | Bend time — slow motion, speed ramp, motion blur, freeze frame, reverse, boomerang, stutter, stop motion, seamless loop (`--list` names all twelve) — local ffmpeg, free; see the `vsb-speed` skill |
-| `vsb crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free |
+| `vsb crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free; see the `vsb-crop` skill |
 | `vsb cut <transition> <clip...>` | Join clips with a named film transition (23 of them, `--list` names them) — local ffmpeg, free; see the `vsb-cut` skill |
 | `vsb timeline <new\|add\|set\|rm\|show\|render>` | Build an edit on a timeline that survives between commands and sessions — shots end to end, sound under, titles over, then one render; see the `vsb-timeline` skill |
 | `vsb presets <list|get|run|create|delete>` | Manage saved model+inputs presets |
@@ -166,6 +166,38 @@ open -a Preview "$DIR"/*
 | `vsb update` | Update the CLI binary now (auto-update runs in the background by default) |
 
 The CLI keeps itself and installed skills current automatically: minor/patch releases swap the binary in the background, and on startup installed skills are re-synced to match the running binary. No action needed — details and opt-outs in [full-reference.md](references/full-reference.md#vsb-update--auto-update).
+
+## Skill packs
+
+This is every pack the CLI ships. Read the pack before you do the job it names.
+`vsb setup` installs only the default set. If a pack is not in your skill
+list, run `vsb skills install <name>`, then read
+`~/.claude/skills/<name>/SKILL.md`. Over MCP, read it with `get_skill`.
+
+| Pack | Read it when you |
+|------|------------------|
+| `vsb` | Use Visual Sandbox at all. This page |
+| `vsb-image` | Pick an image model, or edit, restyle, upscale or cut out an image |
+| `vsb-image-prompting` | Write any image prompt. Read it before the first one |
+| `vsb-image-iteration` | Edit the same image a second time |
+| `vsb-nano-banana` | Run a Nano Banana model |
+| `vsb-ugc-people` | Make a UGC-style photo of one person for a 9:16 ad |
+| `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
+| `vsb-video` | Make or edit any video. It has the model table and the async poll |
+| `vsb-p-video` | Run `video/p-video`, the cheapest video model |
+| `vsb-p-video-prompting` | Write a P-Video prompt |
+| `vsb-seedance` | Run a Seedance model: a cast held across shots, a copied motion, a video edit or restyle, an extension |
+| `vsb-seedance-prompting` | Write a Seedance prompt |
+| `vsb-audio` | Make sound effects, music or speech |
+| `vsb-presets` | Run, save or share a preset |
+| `vsb-crop` | Trim a clip, or change its shape (local, free, CLI only) |
+| `vsb-cut` | Join clips with a named transition (local, free, CLI only) |
+| `vsb-speed` | Slow a clip down, speed it up, reverse, loop or freeze it (local, free, CLI only) |
+| `vsb-timeline` | Build a longer edit: shots end to end, sound under, titles over (local, free, CLI only) |
+| `vsb-subtitles` | Burn word-by-word captions into a video (CLI only) |
+| `vsb-download` | Download a TikTok, Instagram or YouTube video and read what is in it (CLI only) |
+
+Prepare media with these commands, not with a raw `ffmpeg` call.
 
 ## JobOut shape (what `run` and `status` return)
 
@@ -367,5 +399,5 @@ source of truth — this list goes stale, the registry does not.
 - **3D**: `3d/hunyuan-3d-3.1`
 - **Vector**: `vector/quiver-arrow-2` (the default: generate, vectorize, edit and animate an SVG), `vector/quiver-arrow-2-telos` (same four, plus a frontier reasoning model and a much longer brief), `vector/quiver-arrow-1.1` (generate and vectorize only, at a flat price per file), `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Arrow 2 for icons and for anything that starts from an SVG, raster-then-vectorize for detailed art, and ask the colour count first.
 
-For per-modality recipes, see the sibling skills: `vsb-image`, `vsb-video`, `vsb-audio`, `vsb-vector`, `vsb-presets`.
+For per-modality recipes, see [Skill packs](#skill-packs).
 `3d/*` has no sibling skill. Run `vsb schema <slug> --json` and drive it from this page.

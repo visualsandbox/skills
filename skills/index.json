@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "a3bab1b99c5049874f57cdd6ee4f84165900567a96b7835687bc5089c1703216",
+  "bundle": "fa505a26cff3f38c750b63212cddf91098a7871941e0b5453ce07515eebc8fee",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "fcd184d6519db02d46a8907e9107a991c8b60037c3a14b9a00bb5a3d65423bdb",
-          "bytes": 26936
+          "sha256": "b3d55ce37b1a2af3acc1a520c33700874156a9f2287f8c91a9162d786d9b1c66",
+          "bytes": 28797
         }
       ]
     },
@@ -36,13 +36,24 @@
       ]
     },
     {
+      "name": "vsb-crop",
+      "description": "Trim or reframe one clip with `vsb crop` — keep a piece of the time (`--start`, `--duration`), crop to a shape (`--aspect 9:16`), an exact box (`--rect`) or closer in (`--zoom`), and scale to a platform size (`--size`). Trigger when the user wants to \"trim this\", \"cut the first 5 seconds\", \"shorten the clip\", \"make it vertical\", \"crop to 9:16\", \"crop to square\", \"zoom in on the face\", or a clip must be shorter or a different shape before a model run or a join. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-cut` for joining clips and `vsb-speed` for retiming.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "733d7b2023c643822196df94a2f8dfada49b0364174e466229cfcfe7da9d5e40",
+          "bytes": 3777
+        }
+      ]
+    },
+    {
       "name": "vsb-cut",
       "description": "Join two or more clips with a named film transition using `vsb cut` — jump cut, smash cut, dissolve, wipe, iris, cross-cutting, montage, split screen, J-cut and L-cut, 23 in all. Trigger when the user wants to \"cut these together\", \"add a transition\", \"join the clips\", \"make a montage\", \"split screen\", \"jump cut this\", or names any film transition. Runs locally through ffmpeg: free, instant, nothing uploaded. Pair it with `vsb-video` for generating the clips first.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "acc617cc3a3c39bac305a26c50239328ca87ab3b8172bf7c8d72b41bc0218f99",
-          "bytes": 8117
+          "sha256": "8817aa77b1e067ca6998d18c809531b80ee7769195080e2c61c4328d856f9e36",
+          "bytes": 8143
         }
       ]
     },

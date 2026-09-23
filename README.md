@@ -65,6 +65,14 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-ugc-people`](skills/vsb-ugc-people/) | UGC-style single-person ad photos — selfie POV + talking-head formats for 9:16 TikTok/Reels |
 | [`vsb-seedance`](skills/vsb-seedance/) | Run the Seedance family — tiers, reference lists, locked aspect and duration per task, price jumps |
 | [`vsb-seedance-prompting`](skills/vsb-seedance-prompting/) | Prompt craft for Seedance — asset bindings, shot lists, timestamps, edits, extensions, templates |
+| [`vsb-p-video`](skills/vsb-p-video/) | Run P-Video, the cheapest video model — draft toggle, pricing, async + poll |
+| [`vsb-p-video-prompting`](skills/vsb-p-video-prompting/) | Prompt craft for P-Video — Pruna's slot formula, talking-avatar narration |
+| [`vsb-crop`](skills/vsb-crop/) | Trim a clip or change its shape — local ffmpeg, free |
+| [`vsb-cut`](skills/vsb-cut/) | Join clips with one of 23 named film transitions — local ffmpeg, free |
+| [`vsb-speed`](skills/vsb-speed/) | Slow motion, reverse, boomerang, freeze frame, seamless loop — local ffmpeg, free |
+| [`vsb-timeline`](skills/vsb-timeline/) | Build a longer edit — shots end to end, sound under, titles over, one render |
+| [`vsb-subtitles`](skills/vsb-subtitles/) | Burn TikTok-style word-by-word captions into a video |
+| [`vsb-download`](skills/vsb-download/) | Download a TikTok/IG/YouTube video and read it with frame grids |
 
 ## Install
 

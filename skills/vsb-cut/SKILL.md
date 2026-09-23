@@ -137,6 +137,7 @@ the empty half of the frame, so name it whenever the subject is off centre.
 
 This is also the answer for a shot that needs shortening and nothing else.
 `vsb cut` has no plain trim, because every one of its recipes joins something.
+See the `vsb-crop` skill.
 
 ## Retime with `vsb speed`
 

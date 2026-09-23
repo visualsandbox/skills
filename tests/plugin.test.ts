@@ -175,6 +175,18 @@ describe("every skill pack", () => {
       }
     }
   });
+
+  test("is named in the vsb skill's table and in the README", () => {
+    // `vsb setup` installs a few packs. The `vsb` skill is the one an agent
+    // always has, so its table is how the agent learns the others exist.
+    const trunk = readFileSync(join(SKILLS, "vsb", "SKILL.md"), "utf-8");
+    const table = trunk.slice(trunk.indexOf("## Skill packs"));
+    const readme = readFileSync(join(ROOT, "README.md"), "utf-8");
+    for (const name of skillDirs()) {
+      expect(table, `add ${name} to Skill packs in vsb/SKILL.md`).toContain(`| \`${name}\` |`);
+      expect(readme, `add ${name} to the Skills table in README.md`).toContain(`[\`${name}\`]`);
+    }
+  });
 });
 
 describe("index.json, which the CLI verifies against", () => {
