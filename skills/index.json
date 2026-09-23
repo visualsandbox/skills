@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "eadc8c9e2cacf9c6481cd880bd965b172a5bc92dbfc83908e9d57e02d12e5c29",
+  "bundle": "ff14e1dc5ece351383d9637ddeb122ac7865d4759fca190a7a8fb7242ea3da45",
   "skills": [
     {
       "name": "vsb",
@@ -191,12 +191,12 @@
     },
     {
       "name": "vsb-subtitles",
-      "description": "Add TikTok/CapCut-style word-by-word captions to any video with `vsb subtitles` — transcribes via Visual Sandbox's `audio/scribe` (ElevenLabs Scribe, word-level timestamps), builds kinetic .ass subtitles (ALL-CAPS bold, per-word pop-in, clause-by-clause reveal), and burns them in with local ffmpeg. Trigger when the user says \"add subtitles\", \"add captions\", \"caption this video\", \"burn subs\", or wants a transcript of a video with timestamps. Accepts a local file or a TikTok/Instagram/YouTube URL.",
+      "description": "Add TikTok/CapCut-style word-by-word captions to any video with `vsb subtitles` — transcribes via Visual Sandbox's `audio/scribe` (ElevenLabs Scribe, word-level timestamps), builds .ass subtitles in one of five caption styles (TikTok word-by-word, MrBeast, highlight, Hormozi, or a rounded box), and burns them in with local ffmpeg. Trigger when the user says \"add subtitles\", \"add captions\", \"caption this video\", \"burn subs\", asks for a caption style, or wants a transcript of a video with timestamps. Accepts a local file or a TikTok/Instagram/YouTube URL.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "f8925b1559f2f983bcc694836e7a9602287b9735398549a63ed4bec08579525a",
-          "bytes": 4685
+          "sha256": "b6ae285473857d215639ba7fd2fd18bc04b876b172485e89e2c8b50d4a72db9f",
+          "bytes": 5838
         }
       ]
     },

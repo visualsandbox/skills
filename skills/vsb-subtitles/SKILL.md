@@ -3,12 +3,13 @@ name: vsb-subtitles
 description: >
   Add TikTok/CapCut-style word-by-word captions to any video with
   `vsb subtitles` — transcribes via Visual Sandbox's `audio/scribe`
-  (ElevenLabs Scribe, word-level timestamps), builds kinetic .ass
-  subtitles (ALL-CAPS bold, per-word pop-in, clause-by-clause reveal),
-  and burns them in with local ffmpeg. Trigger when the user says
-  "add subtitles", "add captions", "caption this video", "burn subs",
-  or wants a transcript of a video with timestamps. Accepts a local
-  file or a TikTok/Instagram/YouTube URL.
+  (ElevenLabs Scribe, word-level timestamps), builds .ass subtitles in
+  one of five caption styles (TikTok word-by-word, MrBeast, highlight,
+  Hormozi, or a rounded box), and burns them in with local ffmpeg.
+  Trigger when the user says "add subtitles", "add captions", "caption
+  this video", "burn subs", asks for a caption style, or wants a
+  transcript of a video with timestamps. Accepts a local file or a
+  TikTok/Instagram/YouTube URL.
 ---
 
 # Subtitle a video with vsb
@@ -24,6 +25,8 @@ only paid step).
 vsb subtitles ./clip.mp4 --json                 # local file → ./clip-subtitled.mp4
 vsb subtitles "https://www.tiktok.com/@user/video/123" --json
 vsb subtitles ./clip.mp4 --preset beast --json  # MrBeast-style captions
+vsb subtitles ./clip.mp4 --preset box --json    # white text on a rounded dark box
+vsb subtitles ./clip.mp4 --preset box --words 1 --json  # one word per box
 vsb subtitles ./clip.mp4 -o ./out.mp4 --language en --json
 vsb subtitles ./clip.mp4 --font "Montserrat ExtraBold" --font-size 42 --json
 vsb subtitles ./clip.mp4 --no-uppercase --json  # keep original casing
@@ -58,29 +61,42 @@ Transcription is billed per hour of audio (`audio/scribe`), so a typical
 short-form clip costs about a cent. `vsb pricing audio/scribe` shows the
 current rate; the JSON output reports the exact `cost` charged.
 
-## Caption style — presets
+## Caption styles
 
-`--preset` picks the whole look (default `classic`):
+`--preset` picks the caption style. The default is `classic`.
 
-- `classic` — TikTok auto-caption look: ALL-CAPS bold sans, white with a
-  soft dark shadow, lower third. Words fade in one at a time synced to
-  speech and accumulate until the clause ends (punctuation, a speech
-  pause > 0.8s, or the two-line budget), then the block clears.
-- `beast` — MrBeast style: Komika Axis, short 2–3 word chunks that pop in
-  with a scale-overshoot bounce, fat black outline, heavy bottom-right
-  shadow, centered mid-screen.
-- `highlight` — full phrase visible at once, the word being spoken is
-  recolored yellow (Montserrat Black, thick black outline).
-- `hormozi` — full phrase visible, the active word cycles
-  green → yellow → red (Anton, condensed caps).
+| Preset | Look | Reveal | Casing |
+|---|---|---|---|
+| `classic` | TikTok auto-caption: bold sans, white, soft dark shadow, lower third | Words fade in one at a time and stay until the clause ends | ALL CAPS |
+| `beast` | MrBeast: Komika Axis, fat black outline, heavy shadow, mid-screen | Chunks of 2–3 words pop in with a bounce | ALL CAPS |
+| `highlight` | Montserrat Black, thick black outline | The full phrase shows; the spoken word turns yellow | ALL CAPS |
+| `hormozi` | Anton, condensed caps | The full phrase shows; the spoken word cycles green, yellow, red | ALL CAPS |
+| `box` | Instagram / YouTube: white bold Arial on a see-through dark box with rounded corners | The full phrase shows at once | Original casing |
 
-`--font` / `--font-size` override the preset's defaults. Fonts load from
-the system or from `~/.vsb/fonts` (drop .ttf files there — no install
-needed); libass silently falls back to a default sans when a font is
-missing, so captions never fail on fonts. `beast` needs Komika Axis in
-`~/.vsb/fonts` for the authentic look.
+A caption ends at the end of a sentence, at a speech pause longer than
+0.8 s, or when it fills two lines. `--words <n>` also caps the words in
+one caption. `--words 1` shows one word at a time, and `box` then draws a
+small rounded box around each word.
 
-Cheap preset comparison: burn each preset once with `--transcript` reuse —
+The timing comes from the transcript. Scribe returns a start and an end
+time for every word, so each caption shows while its words are spoken.
+There is no JSON to write. `--transcript` only reuses or corrects a
+transcript that a first run saved.
+
+The `box` style fits each box to its text. The command first renders every
+caption once, off screen, and measures the text block that libass (the
+subtitle renderer in ffmpeg) lays out. Then it draws each box that size,
+with the same padding on all captions. A two-line caption splits into two
+lines of near-equal length, so the box stays neat.
+
+`--font` / `--font-size` override the preset's defaults. `--uppercase` /
+`--no-uppercase` override the preset's casing. Fonts load from the system
+or from `~/.vsb/fonts` (drop .ttf files there — no install needed); libass
+silently falls back to a default sans when a font is missing, so captions
+never fail on fonts. `beast` needs Komika Axis in `~/.vsb/fonts` for the
+authentic look.
+
+Cheap style comparison: burn each preset once with `--transcript` reuse —
 one paid transcription, N free re-burns.
 
 ## Transcribe without burning
