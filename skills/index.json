@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "fa505a26cff3f38c750b63212cddf91098a7871941e0b5453ce07515eebc8fee",
+  "bundle": "eadc8c9e2cacf9c6481cd880bd965b172a5bc92dbfc83908e9d57e02d12e5c29",
   "skills": [
     {
       "name": "vsb",
@@ -18,20 +18,20 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "b3d55ce37b1a2af3acc1a520c33700874156a9f2287f8c91a9162d786d9b1c66",
-          "bytes": 28797
+          "sha256": "1e7b15fcef0db02cedd66f812c65706ce1aaccdc35de3c7a508e65603bf61cfc",
+          "bytes": 28855
         }
       ]
     },
     {
       "name": "vsb-audio",
-      "description": "Generate sound effects and full music tracks via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, background music, a soundtrack, or voice generation via the vsb CLI. SFX runs are quick; music scales with track length. Submit with `--async` then poll with `vsb status` for anything long.",
+      "description": "Generate sound effects, full music tracks and spoken voiceovers via Visual Sandbox. Trigger when the user wants short SFX, ambient audio, background music, a soundtrack, a voiceover, narration or text to speech via the vsb CLI. SFX and speech runs are quick; music scales with track length. Submit with `--async` then poll with `vsb status` for anything long.",
       "renamed_from": "audio",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "9b79d96b1cb7bff84007671a97614694b310737496be2c89fbd0a48891313365",
-          "bytes": 7826
+          "sha256": "bb59630ca53613c83d92faf417a26ffe62eb165a4db5ae6ea49749a771750163",
+          "bytes": 10016
         }
       ]
     },

@@ -2,11 +2,12 @@
 name: vsb-audio
 renamed_from: audio
 description: >
-  Generate sound effects and full music tracks via Visual Sandbox.
-  Trigger when the user wants short SFX, ambient audio, background
-  music, a soundtrack, or voice generation via the vsb CLI. SFX runs
-  are quick; music scales with track length. Submit with `--async`
-  then poll with `vsb status` for anything long.
+  Generate sound effects, full music tracks and spoken voiceovers via
+  Visual Sandbox. Trigger when the user wants short SFX, ambient audio,
+  background music, a soundtrack, a voiceover, narration or text to
+  speech via the vsb CLI. SFX and speech runs are quick; music scales
+  with track length. Submit with `--async` then poll with `vsb status`
+  for anything long.
 ---
 
 # Audio generation with vsb
@@ -16,9 +17,10 @@ description: >
 > below. The model choice and the prompt craft on this page still apply.
 > See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
 
-Two live models: sound effects and music. Short SFX finishes in
-5–30 seconds (sync is fine); music can take longer — prefer `--async`
-+ `vsb status` for tracks over ~60s.
+Three jobs: sound effects, music and speech. Short SFX finishes in
+5–30 seconds and a few hundred characters of speech in a few seconds
+(sync is fine); music can take longer, so prefer `--async` + `vsb status`
+for tracks over ~60s.
 
 Start every run in a **background shell** (Claude Code: `run_in_background:
 true`) so the turn stays free, and put the blocking `--result` wait there too —
@@ -30,13 +32,14 @@ the shell's exit is the "done" signal, no poll loop needed. Rules in
 | Task | Slug | Notes |
 |------|------|-------|
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
+| Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`). No voice cloning and no custom voice id. `--mode v3` (default) is the most expressive and follows audio tags like `[whispers]`, 5,000 characters per run; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
 | Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
 | Re-sing a song you already have in a new style | `audio/minimax-music-cover` | MiniMax. The only model that takes a recording as input. Anchors on the melody and swaps the voice, instruments and arrangement, with optional replacement lyrics. The source needs audible singing, and the melody can still drift, so listen before you use it. |
 | Speech-to-text | `audio/scribe` | Transcription, not generation — see [`vsb-subtitles`](../vsb-subtitles/SKILL.md). |
 
 (Verify the live catalog with `vsb models --modality audio --json` before
-trusting this list — TTS is still tracked for a future release.)
+trusting this list.)
 
 ## ElevenLabs Sound FX
 
@@ -59,6 +62,35 @@ Descriptive, sensory, concrete:
 - Good: "thunder rumbling in the distance, light rain on a tin roof"
 - Bad: "scary music" → that's `audio/eleven-music`
 - Bad: "happy" → too abstract, the model won't know what *sounds* happy
+
+## ElevenLabs Text to Speech
+
+```bash
+vsb run audio/elevenlabs-tts \
+  --prompt "[excited] We did it! [laughs] Okay... now the hard part." \
+  --voice george --mode v3 --json
+```
+
+- The flag is `--mode`, not `--version`: the CLI owns `--version`. Values:
+  `v3` (default), `multilingual-v2`, `flash-v2.5`. Limits are in the table.
+- `--voice` takes one of 21 stock keys: `adam`, `alice`, `bella`, `bill`,
+  `brian`, `callum`, `charlie`, `chris`, `daniel`, `eric`, `george`,
+  `harry`, `jessica`, `laura`, `liam`, `lily`, `matilda`, `river`,
+  `roger`, `sarah`, `will`. `vsb schema audio/elevenlabs-tts --json`
+  lists them.
+- Audio tags (`[whispers]`, `[laughs]`, `[sighs]`, `[excited]`) work in
+  `v3` only. Put the tag where it should happen. Remove the tags before
+  you switch to another mode. The voice limits what a tag can do: a calm
+  voice does not shout on cue.
+- Pauses come from commas and `...`. `v3` takes no SSML break tags.
+- Spell hard names the way they sound, and write numbers and dates as
+  words. `flash-v2.5` reads numbers the least reliably.
+- Text over the mode's limit is rejected before any charge. About 1,000
+  characters make a minute of speech. Split a longer script at paragraph
+  breaks and run each part.
+- The MP3 is a voice track for `video/kling-avatar-v2` (a photo performs
+  the audio) or `video/lipsync-2-pro` (redub footage). For voice and
+  video in one run, `video/p-video-avatar` writes its own speech.
 
 ## Eleven Music
 
@@ -146,15 +178,20 @@ Play the finished track for the user with `open <file>` (the default player).
 ```bash
 vsb pricing audio/elevenlabs-sound-fx --json   # per clip
 vsb pricing audio/eleven-music --json          # per minute of music
+vsb pricing audio/elevenlabs-tts --json        # per 1,000 characters of text
 ```
+
+Speech is billed per character of text, spaces and audio tags included.
+`flash-v2.5` costs half as much as the other two modes.
 
 Music is billed by track length, prorated per second — a 30s bed costs a
 few cents, a 5-minute song under a dollar.
 
 ## Common gotchas
 
-- **Field is `prompt`** on both models. Run `vsb schema audio/<slug> --json`
-  to confirm before guessing flags.
+- **Field is `prompt`** on every generation model. For speech it is the
+  text to read. Run `vsb schema audio/<slug> --json` to confirm before
+  guessing flags.
 - **Lyrics go in `--lyrics`, not in the prompt.** Words inside the prompt
   are treated as style hints and may be paraphrased; `--lyrics` is sung
   verbatim.
