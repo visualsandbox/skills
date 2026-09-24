@@ -33,7 +33,8 @@ vsb design export "Landing hero" -f react             # landing-hero.jsx
 
 ## The loop
 
-1. Write the file: `page.html`, or `drawing.js` for a drawing.
+1. Write the file: `page.html`, or `drawing.js` for a drawing. Build a page
+   with more than one section in sections (see below).
 2. `vsb design new <file> --name "<what it is>" --width <px> --height <px>`.
 3. `vsb design export <design> -f png -o check.png`, and **look at the PNG**.
    Read it with your image tool. Never report a design you have not looked at.
@@ -51,6 +52,36 @@ and delete layers, set auto layout and Fixed / Hug / Fill in a panel, align
 layers in their frame, resize the artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
 `width` and `height`, in the layer's `style`. Keep what they did: read the
 design before you change it, and always pass `--version`.
+
+## Build a page in sections
+
+The canvas shows each write in less than two seconds. Put a page on it one
+section at a time, so the person sees it grow and can stop you early.
+
+1. Write the outline: the whole `<style>` block, the root, and one empty
+   frame for each section, each with its `data-name`.
+2. `vsb design new outline.html`, then give the person the canvas link.
+3. Write the sections from top to bottom, one file each. The root element
+   of the file carries the `data-name` of its section.
+4. `vsb design update Home hero.html --layer Hero --version <n>` for each
+   section. Each write adds one to the version.
+5. Export the PNG after the last section, and look at it.
+
+```html
+<style>
+  /* Every class of every section. A layer write replaces only its element,
+     so this block stays as the outline wrote it. */
+</style>
+<div class="page" data-name="Home">
+  <nav class="nav" data-name="Nav"></nav>
+  <section class="hero" data-name="Hero"></section>
+  <section class="features" data-name="Features"></section>
+  <footer class="footer" data-name="Footer"></footer>
+</div>
+```
+
+A card, a screen or a drawing is one write. Over MCP, the order is the same:
+`create_design`, then `update_design` with `layer`.
 
 ## Commands
 
