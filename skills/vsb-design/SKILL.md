@@ -144,6 +144,10 @@ the design out with flexbox, not with coordinates.
   three-column grid: `grid-template-columns: 1fr auto 1fr`.
 - **A button centres what is in it:** `display: flex; align-items: center;
   justify-content: center`. The same goes for a badge, a key and a tag.
+- **A box with words in it hugs them:** size a button, a badge, a tag or a
+  card with `padding`, never a px `width`. The layout panel shows it as Hug,
+  and it grows and shrinks with its text. Give a px size only to a part
+  whose size is fixed by what it shows: a keycap, an icon, an artboard.
 - **A part with a face inside it pads the face.** For a keycap, write
   `display: flex; padding: 3px 26px 40px 11px` on the cap and `flex: 1` on
   the face, not `position: absolute` on the face.
