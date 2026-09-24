@@ -43,6 +43,12 @@ vsb design export "Landing hero" -f react             # landing-hero.jsx
 you last read. When the person changed the design since, the write is refused
 with a 409: read it again (`vsb design get`) and apply your change to that.
 
+**The person edits by hand too.** On the canvas they move and resize layers,
+type into text, rename and delete layers, and resize the artboard. A move is
+a `translate`, and a resize is `width` and `height`, in the layer's `style`.
+Keep what they did: read the design before you change it, and always pass
+`--version`.
+
 ## Commands
 
 | Command | Does |
