@@ -47,9 +47,10 @@ you last read. When the person changed the design since, the write is refused
 with a 409: read it again (`vsb design get`) and apply your change to that.
 
 **The person edits by hand too.** On the canvas they reorder layers inside
-auto layout, move and resize layers (with snapping), type into text, rename
-and delete layers, set auto layout and Fixed / Hug / Fill in a panel, align
-layers in their frame, resize the artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
+auto layout and by dragging rows in the layer tree, move and resize layers
+(with snapping), type into text, rename and delete layers, set auto layout
+and Fixed / Hug / Fill in a panel, align layers in their frame, resize the
+artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
 `width` and `height`, in the layer's `style`. Keep what they did: read the
 design before you change it, and always pass `--version`.
 
