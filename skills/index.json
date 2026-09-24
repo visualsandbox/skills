@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "d43cc6804c0731b733ab59d858b9be7ee669f92b6dddb184886cb85cb33ac5ec",
+  "bundle": "61ddb4b78e0a65776fe0d43da6aa89bd1aa21bc2ed986e7940fcf6abbf8c2ac7",
   "skills": [
     {
       "name": "vsb",
@@ -13,13 +13,13 @@
         },
         {
           "path": "references/mcp.md",
-          "sha256": "f3379e11aca9b31954ebc4ed13e15446385df7f41a808b72a82df8aad414df93",
-          "bytes": 8004
+          "sha256": "6b5429a11c109897d4dd17bdf87abcd09afca98aa345d8677ff8598944e9c3e1",
+          "bytes": 8041
         },
         {
           "path": "SKILL.md",
-          "sha256": "b2e8a61ed5d3ae6d59db8b56a01a9be3e3fcc1596838c066340aff4c8ba5aa34",
-          "bytes": 29298
+          "sha256": "d4e04157650805735ce6e301c9a332464fb46b2885a8a97765255ad2e131488e",
+          "bytes": 29304
         }
       ]
     },
@@ -68,8 +68,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "f345a6df11ab27d0fde6acd82a7c0afca90afe3e1314b3d44369971d1b8eadb2",
-          "bytes": 7717
+          "sha256": "3ab5f0fa2d4f4fa7d0439fe00e8e7e1078e15ba6356a86151ada51f39478c8ed",
+          "bytes": 9053
         }
       ]
     },

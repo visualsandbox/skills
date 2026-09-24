@@ -40,6 +40,7 @@ the reader.
 | `vsb design new` | `create_design` |
 | `vsb design get` | `get_design` |
 | `vsb design update` | `update_design` |
+| `vsb design move` | `move_layer` |
 | `vsb design export` | `export_design` (no `png`) |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |

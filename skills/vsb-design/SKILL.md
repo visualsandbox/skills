@@ -43,11 +43,11 @@ vsb design export "Landing hero" -f react             # landing-hero.jsx
 you last read. When the person changed the design since, the write is refused
 with a 409: read it again (`vsb design get`) and apply your change to that.
 
-**The person edits by hand too.** On the canvas they move and resize layers,
-type into text, rename and delete layers, and resize the artboard. A move is
-a `translate`, and a resize is `width` and `height`, in the layer's `style`.
-Keep what they did: read the design before you change it, and always pass
-`--version`.
+**The person edits by hand too.** On the canvas they move and resize layers
+(with snapping), type into text, rename and delete layers, resize the
+artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
+`width` and `height`, in the layer's `style`. Keep what they did: read the
+design before you change it, and always pass `--version`.
 
 ## Commands
 
@@ -55,10 +55,14 @@ Keep what they did: read the design before you change it, and always pass
 |---|---|
 | `vsb design` | List the designs on this canvas |
 | `vsb design new <file>` | Put a design on the canvas. `.html`, `.svg`, a `.js` drawing, or `-` for stdin |
-| `vsb design layers <design>` | Print the layer tree, with each layer's index and kind |
-| `vsb design get <design>` | Print the HTML. `--layer <path>` prints one layer. `-o file` writes it |
+| `vsb design layers [design]` | Print the layer tree, with each layer's index and kind. The picked layer is marked |
+| `vsb design get [design]` | Print the HTML. `--layer <path>` prints one layer, `--layer picked` the one the person picked. `-o file` writes it |
 | `vsb design update <design> <file>` | Replace the design. `--layer <path>` replaces one layer only |
-| `vsb design export <design> -f html\|react\|svg\|png` | Save a file. `--scale 2` for a retina PNG. PNG needs Chrome |
+| `vsb design move <design> --layer <path> --before\|--after\|--into <path>` | Rearrange: move one layer to another place. Nothing else is rewritten |
+| `vsb design export [design] -f html\|react\|svg\|png` | Save a file. `--scale 2` for a retina PNG. PNG needs Chrome |
+
+`[design]` may be left out on the commands that read: it is then the design
+the person picked or selected on the canvas.
 
 A layer is found by its index (`12`), its path (`Hero/Body/CTAs`), the end of
 its path (`Body/CTAs`), or its name (`CTAs`). Two layers with the same name is
@@ -117,13 +121,33 @@ an empty file.
 
 ## What the person picked
 
+The person picks a frame on the canvas: a double-click on it, or a click on
+its row in the layer tree. "Make this bigger", "change this", "move this
+under the headline" mean that frame.
+
 ```bash
-vsb sandbox selection --json
+vsb design get --layer picked -o part.html   # the picked frame, from the selected design
+# prints: Wrote part.html  layer Hero/Body/CTAs, v7
+vsb design update <design> part.html --layer Hero/Body/CTAs --version 7
 ```
 
-`layer` holds the layer they picked inside the selected design, with its
-`path`. "Make this bigger" means that layer: `vsb design get <node> --layer
-<path>`, change it, and update that layer only.
+Read with `picked`, then **write to the path the read printed, never to
+`picked`**: the person may pick another frame while you work, and a write to
+`picked` would land on it. The server refuses `picked` in a write.
+`vsb sandbox selection --json` shows the same pick as `layer`.
+
+## Rearrange
+
+Move a layer to another place without rewriting its parent:
+
+```bash
+vsb design move Home --layer Hero/Logos --before Hero/CTAs --version 7
+vsb design move Home --layer Footer/Links --into Hero/Nav --version 8
+```
+
+`--before` and `--after` put it beside another layer; `--into` puts it last
+inside one. Only the layer's place in the HTML changes, so in a flex or grid
+box the layout reflows around it. A layer cannot move into itself.
 
 ## Drawings
 
@@ -160,5 +184,6 @@ compute it.
 | `svg` | The drawing, when the design is one `<svg>` element |
 | `png` | A screenshot through the local Chrome. `--scale 2` doubles the pixels |
 
-Over MCP, the tools are `create_design`, `get_design`, `update_design` and
-`export_design`; `export_design` has no `png`.
+Over MCP, the tools are `create_design`, `get_design` (`layer: "picked"`
+reads the pick), `update_design`, `move_layer` and `export_design`;
+`export_design` has no `png`.

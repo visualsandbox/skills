@@ -160,7 +160,7 @@ open -a Preview "$DIR"/*
 | `vsb sandbox docs` | List the markdown files on the canvas — `BRAND.md`, `CHARACTER.md`, a shot list |
 | `vsb sandbox docs read <name>` | Print one file's markdown |
 | `vsb sandbox docs write <name>` | Create or replace one file (`--file <path>`, or pipe it in) |
-| `vsb design <list\|new\|update\|get\|layers\|export>` | Designs on the canvas: pages, screens and code drawings in named layers; export as HTML, React, SVG or PNG — free; see the `vsb-design` skill |
+| `vsb design <list\|new\|update\|get\|layers\|move\|export>` | Designs on the canvas: pages, screens and code drawings in named layers; export as HTML, React, SVG or PNG — free; see the `vsb-design` skill |
 | `vsb feedback "<msg>"` | Send feedback/bug report to the Visual Sandbox team (`--kind`, `--image`) |
 | `vsb skills <list|install|update|remove>` | Manage agent skill packs in `.claude/skills/` |
 | `vsb init` | One-shot install of the default skill bundle |

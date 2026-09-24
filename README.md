@@ -42,7 +42,7 @@ which sends an agent holding MCP tools to
 `list_models`, `get_model`, `estimate_cost`, `generate`, `get_job`,
 `list_jobs`, `upload_media`, `list_sandbox_items`, `get_selection`,
 `read_sandbox_docs`, `write_sandbox_doc`, `create_design`, `get_design`,
-`update_design`, `export_design`, `list_presets`, `get_preset`,
+`update_design`, `move_layer`, `export_design`, `list_presets`, `get_preset`,
 `get_balance`, `top_up`, `list_skills`, `get_skill` — one for each `vsb`
 command. Add the server on its own, without the plugin:
 
