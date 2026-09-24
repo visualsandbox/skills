@@ -33,7 +33,7 @@ the shell's exit is the "done" signal, no poll loop needed. Rules in
 |------|------|-------|
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
 | Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v3` (default) is the most expressive and follows audio tags like `[whispers]`, 5,000 characters per run; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
-| A new voice from a written description | `audio/elevenlabs-voice-design` | ElevenLabs Voice Design v3. Returns three MP3 samples of one voice reading one line, each a different take. A sample is an audition, not the voiceover: pass the one you pick to `audio/elevenlabs-tts` as `--designed_voice`. Billed per character of the sample line, once for all three. Not voice cloning. |
+| A new voice from a written description | `audio/elevenlabs-voice-design` | ElevenLabs Voice Design v3. Returns one MP3 sample of a new voice reading one line. A sample is an audition, not the voiceover: pass it to `audio/elevenlabs-tts` as `--designed_voice`. Run again for another take. Billed per character of the sample line. The web Composer runs one design per click. Safety-filtered: a description that reads as a child, like "girl", is refused; "woman" passes. Not voice cloning. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
 | Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
 | Re-sing a song you already have in a new style | `audio/minimax-music-cover` | MiniMax. The only model that takes a recording as input. Anchors on the melody and swaps the voice, instruments and arrangement, with optional replacement lyrics. The source needs audible singing, and the melody can still drift, so listen before you use it. |
@@ -99,13 +99,13 @@ Use it when no stock voice fits: a narrator for a series, a voice for each
 character, a brand voice. Design once, then speak every script with it.
 
 ```bash
-# 1. Design. Three samples come back in result.urls.
+# 1. Design. One sample comes back in result.urls.
 vsb run audio/elevenlabs-voice-design \
   --prompt "Native British English. Female, in her 40s. Studio quality. Persona: calm documentary narrator. Emotion: warm, measured, curious. Low, smooth timbre with an unhurried pace." \
-  --json | jq -r '.result.urls[]'
+  --json | jq -r '.result.urls[0]'
 
 # 2. Give the user the share page, https://visualsandbox.com/share/<job_id>/,
-#    to hear all three, and let them pick one.
+#    to hear it. Not right? Run step 1 again, or change the description.
 # 3. Speak with it. Pass the sample URL itself, not a downloaded copy.
 vsb run audio/elevenlabs-tts --prompt "<script>" \
   --designed_voice "<sample url>" --mode v3 --json
@@ -117,10 +117,10 @@ vsb run audio/elevenlabs-tts --prompt "<script>" \
   <2-3 adjectives>.` plus a sentence on timbre and delivery.
 - Name the language and the regional accent first, or the voice drifts.
   Leave out effect words (`reverb`, `echo`) and vague ones (`foreign`).
-- `--text` is the line the samples read, 100 to 1,000 characters. Omit it
+- `--text` is the line the sample reads, 100 to 1,000 characters. Omit it
   and ElevenLabs writes a line that suits the voice; the run reserves the
   longest line and is repriced down after. A longer line gives steadier,
-  more expressive samples. The web Composer hides this field.
+  more expressive sample. The web Composer hides this field.
 - `--designed_voice` overrides `--voice` and works in every `--mode`. Use
   the same sample for every later script so the voice stays the same.
   The first run with a sample saves it as a voice and takes about 12 s
