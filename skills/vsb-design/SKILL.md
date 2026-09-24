@@ -43,9 +43,10 @@ vsb design export "Landing hero" -f react             # landing-hero.jsx
 you last read. When the person changed the design since, the write is refused
 with a 409: read it again (`vsb design get`) and apply your change to that.
 
-**The person edits by hand too.** On the canvas they move and resize layers
-(with snapping), type into text, rename and delete layers, resize the
-artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
+**The person edits by hand too.** On the canvas they reorder layers inside
+auto layout, move and resize layers (with snapping), type into text, rename
+and delete layers, set auto layout and Fixed / Hug / Fill in a panel, align
+layers in their frame, resize the artboard, and undo with Cmd+Z. A hand move is a `translate`, and a resize is
 `width` and `height`, in the layer's `style`. Keep what they did: read the
 design before you change it, and always pass `--version`.
 
@@ -103,6 +104,30 @@ anything else that holds layers is `frame`.
 
 Common artboards: 1440 × 900 (desktop hero), 1440 × 3200 (desktop page),
 390 × 844 (phone screen), 1080 × 1080 (square post), 1080 × 1350 (portrait post).
+
+## Auto layout: Figma's words in CSS
+
+Auto layout is flexbox. The person's layout panel writes exactly this, so
+write the same when they ask in Figma's words:
+
+| They say | Write |
+|---|---|
+| Auto layout, horizontal / vertical | `display: flex; flex-direction: row` / `column` |
+| Wrap | `flex-wrap: wrap` |
+| Spacing between items | `gap: 16px` |
+| Padding | `padding: 24px 32px` |
+| Align (the 3 × 3 grid) | `justify-content` along the flow, `align-items` across it |
+| Space between | `justify-content: space-between` |
+| Hug contents | `width: fit-content`, and `flex: none` along a flex parent's flow |
+| Fill container | along the parent's flow `flex: 1 1 0; min-width: 0`; across it `align-self: stretch`; with no auto layout `width: 100%` |
+| Fixed width | `width: 240px`, and `flex: none` along the flow |
+| Align left / centre / right in the frame | the frame's alignment; or `align-self` across the flow, `margin: auto` along it |
+| Absolute position | avoid it: it is a `translate` in code. Change the layout instead |
+
+Build every page from auto layout frames, not from offsets: then the
+person's drags reorder the layers, the export reads like hand-written CSS,
+and nothing breaks when a text grows. A `translate` on a layer is a hand
+move the person made; keep it unless they ask.
 
 ## Change one layer
 
