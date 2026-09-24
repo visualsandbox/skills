@@ -5,9 +5,11 @@ description: >
   audio, 3D, vector. This is THE Visual Sandbox skill — its name is "vsb",
   not "visual-sandbox". Trigger when the user mentions "Visual Sandbox" in
   any form, "vsb", "nano banana", "generate an image/video/audio", "run a
-  model", or asks to produce media via shell. Covers both surfaces: the
-  visual-sandbox MCP tools and the vsb CLI. Always pipe through --json
-  when output will be parsed by an agent.
+  model", or asks to produce media via shell. Also trigger when the user
+  wants a UI, a web page, a landing page, an app screen or a mock-up built:
+  that is `vsb design` (free, editable layers), so read `vsb-design`.
+  Covers both surfaces: the visual-sandbox MCP tools and the vsb CLI.
+  Always pipe through --json when output will be parsed by an agent.
 ---
 
 # Visual Sandbox: the MCP tools and the vsb CLI
@@ -77,6 +79,8 @@ model choice, cost and share links is the same either way.
     - **Over MCP:** `get_job` returns the image, or four frames of a video, with the result.
 
     If the result does not match the request, say what is wrong before you offer a second run.
+
+16. **A UI is a design, not an image.** When the user asks for a UI, a web page, a landing page, an app screen or a mock-up — even "make this" with a screenshot — build it with `vsb design`: HTML and CSS on the canvas, in layers they can pick and edit, and free. Read [`vsb-design`](../vsb-design/SKILL.md) first. Generate an image only when they ask for a picture of it.
 
 ## Background generations (keep the conversation free)
 

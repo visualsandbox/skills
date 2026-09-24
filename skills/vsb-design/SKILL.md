@@ -5,7 +5,8 @@ description: >
   `create_design` MCP tool): web pages, app screens, cards, posters and vector
   drawings, organized in named layers like a Figma file, and exported as HTML,
   React, SVG or PNG. Trigger when the user wants to "design a page", "mock up
-  a screen", "make a landing page / hero / card", "draw a picture or an
+  a screen", "make a landing page / hero / card", "make this UI" or
+  "rebuild this page" from a screenshot, "draw a picture or an
   illustration in code", "make an SVG by drawing it", "put a design on the
   canvas", "export it to React", or points at a layer they picked on the
   canvas ("change this button"). Free: nothing is generated and nothing is
@@ -36,6 +37,7 @@ vsb design export "Landing hero" -f react             # landing-hero.jsx
 2. `vsb design new <file> --name "<what it is>" --width <px> --height <px>`.
 3. `vsb design export <design> -f png -o check.png`, and **look at the PNG**.
    Read it with your image tool. Never report a design you have not looked at.
+   Read the `warnings` the write printed too.
 4. Fix what is wrong, then `vsb design update <design> <file> --version <n>`.
 5. Give the person the canvas link the command printed.
 
@@ -69,18 +71,30 @@ A layer is found by its index (`12`), its path (`Hero/Body/CTAs`), the end of
 its path (`Body/CTAs`), or its name (`CTAs`). Two layers with the same name is
 an error that lists both: pass the index or a longer path.
 
-## Layers: name what a person would point at
+## Layers: every part a person can see
 
 The layer tree is how the person reads your design and how they tell you what
 to change, so name it the way a designer names a Figma file.
 
-- **Name every frame, text, button, image and icon** a person could point at.
-  Leave out wrappers that only do layout, and every `<span>` inside a line.
+- **Every part a person can see is its own layer:** each shape, each line,
+  each dot, each icon, each piece of text. Three tick marks are three layers,
+  not one layer that holds three unnamed `<i>` elements.
+- **A shape with words in it is two layers:** the shape, and a text layer
+  inside it. Write `<a data-name="Primary"><span data-name="Text">Buy</span></a>`,
+  not `<a data-name="Primary">Buy</a>`. The same goes for a key and its
+  legend, a pill and its label, a keycap and its letter.
+- **Never draw with `::before` or `::after`.** A pseudo-element is not a
+  layer, so the person cannot pick it. Draw the part as an element.
+- Leave a name off only a wrapper that does layout and draws nothing, and a
+  run of words inside one line (an `<em>` in a headline).
 - **Nest the names the way the design is built:** `Hero` holds `Nav` and
   `Body`, `Body` holds `Copy` and `IDE`, `Copy` holds `Headline` and `CTAs`.
 - **Use short nouns in title case:** `Headline`, `Primary`, `Logos`, `Price`.
   Name by role, not by look: `Primary`, not `Orange button`.
-- A page has 20 to 60 layers. A card has 5 to 15.
+- A landing page has 100 layers or more. That is correct.
+
+**Every write answers with `warnings`:** each part that is drawn but is not a
+layer. Name each one and update the design before you report it.
 
 The kind comes from the element: an element with its own words is `text`, an
 `<img>` is `image`, an SVG shape is `vector`, an SVG `<g>` is `group`, and
@@ -100,7 +114,7 @@ anything else that holds layers is `frame`.
   so Tailwind classes resolve to nothing.
 - **No scripts, no forms, no event handlers.** Nothing runs; the export drops them.
 - **Images by `https` URL.** Generate a picture with `vsb run` first, then put
-  its URL in an `<img>` layer. A logo or an icon can be an inline `<svg>`.
+  its URL in an `<img>` layer. A logo or an icon can be an inline `<svg>`: name each shape in it.
 
 Common artboards: 1440 × 900 (desktop hero), 1440 × 3200 (desktop page),
 390 × 844 (phone screen), 1080 × 1080 (square post), 1080 × 1350 (portrait post).

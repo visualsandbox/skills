@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "bundle": "3efd5f5cf5669eba015fef95b7f21740bc2fd6c4e371d3438301b3368e6dfa7d",
+  "bundle": "837a03d563d50558363839c1e1a3c4c24ba65a1f0a25563ac9b3def65df3902f",
   "skills": [
     {
       "name": "vsb",
-      "description": "Use the vsb CLI to generate AI media via Visual Sandbox — image, video, audio, 3D, vector. This is THE Visual Sandbox skill — its name is \"vsb\", not \"visual-sandbox\". Trigger when the user mentions \"Visual Sandbox\" in any form, \"vsb\", \"nano banana\", \"generate an image/video/audio\", \"run a model\", or asks to produce media via shell. Covers both surfaces: the visual-sandbox MCP tools and the vsb CLI. Always pipe through --json when output will be parsed by an agent.",
+      "description": "Use the vsb CLI to generate AI media via Visual Sandbox — image, video, audio, 3D, vector. This is THE Visual Sandbox skill — its name is \"vsb\", not \"visual-sandbox\". Trigger when the user mentions \"Visual Sandbox\" in any form, \"vsb\", \"nano banana\", \"generate an image/video/audio\", \"run a model\", or asks to produce media via shell. Also trigger when the user wants a UI, a web page, a landing page, an app screen or a mock-up built: that is `vsb design` (free, editable layers), so read `vsb-design`. Covers both surfaces: the visual-sandbox MCP tools and the vsb CLI. Always pipe through --json when output will be parsed by an agent.",
       "files": [
         {
           "path": "references/full-reference.md",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "748a733dbaa9c270576fa93683714b4c732f28b74643ae5d24e56b6cd9c2b372",
-          "bytes": 30293
+          "sha256": "421b95e8f2a439082e78786f016ea45b44b93a88ece916991826d94522b0ec6d",
+          "bytes": 30843
         }
       ]
     },
@@ -59,7 +59,7 @@
     },
     {
       "name": "vsb-design",
-      "description": "Make designs on the Visual Sandbox canvas with `vsb design` (or the `create_design` MCP tool): web pages, app screens, cards, posters and vector drawings, organized in named layers like a Figma file, and exported as HTML, React, SVG or PNG. Trigger when the user wants to \"design a page\", \"mock up a screen\", \"make a landing page / hero / card\", \"draw a picture or an illustration in code\", \"make an SVG by drawing it\", \"put a design on the canvas\", \"export it to React\", or points at a layer they picked on the canvas (\"change this button\"). Free: nothing is generated and nothing is billed.",
+      "description": "Make designs on the Visual Sandbox canvas with `vsb design` (or the `create_design` MCP tool): web pages, app screens, cards, posters and vector drawings, organized in named layers like a Figma file, and exported as HTML, React, SVG or PNG. Trigger when the user wants to \"design a page\", \"mock up a screen\", \"make a landing page / hero / card\", \"make this UI\" or \"rebuild this page\" from a screenshot, \"draw a picture or an illustration in code\", \"make an SVG by drawing it\", \"put a design on the canvas\", \"export it to React\", or points at a layer they picked on the canvas (\"change this button\"). Free: nothing is generated and nothing is billed.",
       "files": [
         {
           "path": "references/drawing.md",
@@ -68,8 +68,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "955f02d60b880cf86daa8bde1689a3d0c2ad863e7c50b0487c66f5b514fdb0a0",
-          "bytes": 10467
+          "sha256": "b8571016ed61fe76511359834665d52855189b6c597083ac8403dc84cb56f7c4",
+          "bytes": 11358
         }
       ]
     },
