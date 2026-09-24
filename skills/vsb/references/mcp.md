@@ -41,7 +41,7 @@ the reader.
 | `vsb design get` | `get_design` |
 | `vsb design update` | `update_design` |
 | `vsb design move` | `move_layer` |
-| `vsb design export` | `export_design` (no `png`) |
+| `vsb design export` | `export_design` (no `png`; `layer` for one frame) |
 | `vsb design delete` | `delete_design` |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |

@@ -94,7 +94,7 @@ A card, a screen or a drawing is one write. Over MCP, the order is the same:
 | `vsb design get [design]` | Print the HTML. `--layer <path>` prints one layer, `--layer picked` the one the person picked. `-o file` writes it |
 | `vsb design update <design> <file>` | Replace the design. `--layer <path>` replaces one layer only |
 | `vsb design move <design> --layer <path> --before\|--after\|--into <path>` | Rearrange: move one layer to another place. Nothing else is rewritten |
-| `vsb design export [design] -f html\|react\|svg\|png` | Save a file. `--scale 2` for a retina PNG. PNG needs Chrome |
+| `vsb design export [design] -f html\|react\|svg\|png` | Save a file. `--scale 2` for a retina PNG. PNG needs Chrome. `--layer <path>` saves one frame alone as html |
 | `vsb design delete <design>` | Delete the design and its node. No undo, so name the design; it never means the picked one |
 
 `[design]` may be left out on the commands that read: it is then the design
@@ -280,7 +280,13 @@ compute it.
 | `svg` | The drawing, when the design is one `<svg>` element |
 | `png` | A screenshot through the local Chrome. `--scale 2` doubles the pixels |
 
+`--layer <path>` (or `--layer picked`) saves one frame alone as an html
+page: the hero, the nav, one card. The frame keeps the styles, fonts and
+CSS variables it gets from the frames above it, and its place in its
+parent (margin, translate, offsets) goes. Take a frame this way when the
+person wants one part of a design as code.
+
 Over MCP, the tools are `create_design`, `get_design` (`layer: "picked"`
 reads the pick), `update_design`, `move_layer`, `export_design` and
 `delete_design`;
-`export_design` has no `png`.
+`export_design` has no `png`, and takes `layer` for one frame.
