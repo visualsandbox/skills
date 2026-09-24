@@ -42,6 +42,7 @@ the reader.
 | `vsb design update` | `update_design` |
 | `vsb design move` | `move_layer` |
 | `vsb design export` | `export_design` (no `png`) |
+| `vsb design delete` | `delete_design` |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |

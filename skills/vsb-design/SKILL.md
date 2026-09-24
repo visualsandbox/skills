@@ -95,6 +95,7 @@ A card, a screen or a drawing is one write. Over MCP, the order is the same:
 | `vsb design update <design> <file>` | Replace the design. `--layer <path>` replaces one layer only |
 | `vsb design move <design> --layer <path> --before\|--after\|--into <path>` | Rearrange: move one layer to another place. Nothing else is rewritten |
 | `vsb design export [design] -f html\|react\|svg\|png` | Save a file. `--scale 2` for a retina PNG. PNG needs Chrome |
+| `vsb design delete <design>` | Delete the design and its node. No undo, so name the design; it never means the picked one |
 
 `[design]` may be left out on the commands that read: it is then the design
 the person picked or selected on the canvas.
@@ -276,5 +277,6 @@ compute it.
 | `png` | A screenshot through the local Chrome. `--scale 2` doubles the pixels |
 
 Over MCP, the tools are `create_design`, `get_design` (`layer: "picked"`
-reads the pick), `update_design`, `move_layer` and `export_design`;
+reads the pick), `update_design`, `move_layer`, `export_design` and
+`delete_design`;
 `export_design` has no `png`.
