@@ -132,6 +132,26 @@ The kind comes from the element: an element with its own words is `text`, an
 `<img>` is `image`, an SVG shape is `vector`, an SVG `<g>` is `group`, and
 anything else that holds layers is `frame`.
 
+## Auto layout: build every frame with flexbox
+
+The canvas reads flexbox and grid as auto layout, the way Figma does. The
+person resizes a button and expects its label to stay in the middle, so lay
+the design out with flexbox, not with coordinates.
+
+- **The page is a column, and each row is a row.** The root is
+  `display: flex; flex-direction: column`. A nav with centred links is a
+  three-column grid: `grid-template-columns: 1fr auto 1fr`.
+- **A button centres what is in it:** `display: flex; align-items: center;
+  justify-content: center`. The same goes for a badge, a key and a tag.
+- **A part with a face inside it pads the face.** For a keycap, write
+  `display: flex; padding: 3px 26px 40px 11px` on the cap and `flex: 1` on
+  the face, not `position: absolute` on the face.
+- **Space siblings with `gap`.** Use a margin only where one distance is
+  different from the others.
+- **Use `position: absolute` only for a part that floats free:** a sticker, a
+  tilted illustration, a decoration that overlaps other parts. To nudge a
+  part in a row, use `translate`, the same as a hand move on the canvas.
+
 ## Write the HTML so it draws the same everywhere
 
 - **Send the body, not a page:** a `<style>` block, then one root element the
@@ -141,7 +161,7 @@ anything else that holds layers is `frame`.
 - **Set `font-family` on the root.** Load web fonts with an `@import` from
   Google Fonts as the first line of the `<style>` block.
 - **Use `px` at the artboard size.** Set `box-sizing: border-box` on the root
-  and its descendants. Use flexbox and grid; the browser does the geometry.
+  and its descendants.
 - **Classes in the `<style>` block, not Tailwind.** Nothing runs in a design,
   so Tailwind classes resolve to nothing.
 - **No scripts, no forms, no event handlers.** Nothing runs; the export drops them.
