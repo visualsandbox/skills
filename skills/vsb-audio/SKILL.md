@@ -123,7 +123,9 @@ vsb run audio/elevenlabs-tts --prompt "<script>" \
   more expressive samples. The web Composer hides this field.
 - `--designed_voice` overrides `--voice` and works in every `--mode`. Use
   the same sample for every later script so the voice stays the same.
-  The first run with a sample saves it as a voice; later runs reuse it.
+  The first run with a sample saves it as a voice and takes about 12 s
+  longer. A voice not used for a while can be saved again on its next
+  run, with the same longer wait. It sounds the same and costs no more.
 - Only the user who designed a sample can speak with it. Any other URL,
   an uploaded recording included, is refused. This is voice design, not
   voice cloning, and cloning is not offered.
