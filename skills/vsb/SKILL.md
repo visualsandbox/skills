@@ -70,6 +70,14 @@ model choice, cost and share links is the same either way.
 
 14. **Always open a finished image in Preview.** The user must see the picture, not a link. After every image job completes, download it to a scratch folder and open it: `open -a Preview <file>` (macOS). Do this even when the user did not opt into local saves — a scratch copy is not a project save (critical rule 5). See [Show the result](#show-the-result-open-every-image-in-preview).
 
+15. **Look at the result before you report it.** A job that completed is not a job that worked. Before you tell the user it is done, look at what came back:
+    - **An image:** read the file that rule 14 saved in the scratch folder.
+    - **A video:** `vsb video frame <file-or-url> --json` tiles nine frames, first to last, into one image. Read the image. It takes the output URL from `vsb run` or `vsb status`, so no download is needed. `--at end` gives the last frame at full size.
+    - **Audio:** you cannot hear it. Say so; do not describe what it sounds like.
+    - **Over MCP:** `get_job` returns the image, or four frames of a video, with the result.
+
+    If the result does not match the request, say what is wrong before you offer a second run.
+
 ## Background generations (keep the conversation free)
 
 A generation must never hold the agent's turn hostage. Start it in the
@@ -146,12 +154,13 @@ open -a Preview "$DIR"/*
 | `vsb status <job_id>` | Poll a job (`--result`, `--cancel`, `--download [template]`) |
 | `vsb jobs` | List recent jobs, newest first (`--pending`, `--status`, `--limit N`) — pending rows carry `eta_seconds` + `elapsed_seconds` |
 | `vsb upload <path-or-url>` | Upload local file or remote URL to VS CDN |
-| `vsb download <url>` | Download a TikTok/IG/YouTube video to a local file (`--info` = metadata only, `--cookies <browser>` for login-walled) — see the `vsb-download` skill |
-| `vsb subtitles <file-or-url>` | Burn TikTok-style word-by-word captions into a video — see the `vsb-subtitles` skill |
-| `vsb speed <effect> <clip>` | Bend time — slow motion, speed ramp, motion blur, freeze frame, reverse, boomerang, stutter, stop motion, seamless loop (`--list` names all twelve) — local ffmpeg, free; see the `vsb-speed` skill |
-| `vsb crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free; see the `vsb-crop` skill |
-| `vsb cut <transition> <clip...>` | Join clips with a named film transition (23 of them, `--list` names them) — local ffmpeg, free; see the `vsb-cut` skill |
-| `vsb timeline <new\|add\|set\|rm\|show\|render>` | Build an edit on a timeline that survives between commands and sessions — shots end to end, sound under, titles over, then one render; see the `vsb-timeline` skill |
+| `vsb video frame <clip>` | Save a contact sheet of a video (nine frames, first to last) or one frame (`--at 2.5`, `--at end`) as an image to read — local ffmpeg, free; takes a file or a URL |
+| `vsb video download <url>` | Download a TikTok/IG/YouTube video to a local file (`--info` = metadata only, `--cookies <browser>` for login-walled) — see the `vsb-download` skill |
+| `vsb video subtitles <file-or-url>` | Burn TikTok-style word-by-word captions into a video — see the `vsb-subtitles` skill |
+| `vsb video speed <effect> <clip>` | Bend time — slow motion, speed ramp, motion blur, freeze frame, reverse, boomerang, stutter, stop motion, seamless loop (`--list` names all twelve) — local ffmpeg, free; see the `vsb-speed` skill |
+| `vsb video crop <clip>` | Reframe a clip — crop to a shape (`--aspect 9:16`), a box, or closer in (`--zoom`), and trim it (`--start`/`--duration`) — local ffmpeg, free; see the `vsb-crop` skill |
+| `vsb video cut <transition> <clip...>` | Join clips with a named film transition (23 of them, `--list` names them) — local ffmpeg, free; see the `vsb-cut` skill |
+| `vsb video timeline <new\|add\|set\|rm\|show\|render>` | Build an edit on a timeline that survives between commands and sessions — shots end to end, sound under, titles over, then one render; see the `vsb-timeline` skill |
 | `vsb presets <list|get|run|create|delete>` | Manage saved model+inputs presets |
 | `vsb sandbox name "<title>"` | Name this session's canvas after the work — do it as soon as you know the task |
 | `vsb sandbox selection` | Read what the user has selected on the canvas (prompt, model, image URL) |

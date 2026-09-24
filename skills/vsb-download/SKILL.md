@@ -2,9 +2,9 @@
 name: vsb-download
 description: >
   Download a video from TikTok, Instagram, YouTube (any yt-dlp-supported
-  site) via `vsb download`, then actually understand it — extract frame
-  grids with ffmpeg, read them as images, and reconstruct the dialogue from
-  burned-in captions. Trigger when the user shares a video URL and asks
+  site) via `vsb video download`, then actually understand it — tile its
+  frames into one image with `vsb video frame`, read it, and reconstruct the
+  dialogue from burned-in captions. Trigger when the user shares a video URL and asks
   "what is this video about", "watch this", "summarize this video",
   "download this tiktok/reel/short", or wants a local copy of a social
   video. Metadata-only lookups use `--info` (no download, no bytes).
@@ -12,7 +12,7 @@ description: >
 
 # Download + understand a video with vsb
 
-`vsb download` wraps a pinned, SHA-256-verified `yt-dlp` (bootstrapped to
+`vsb video download` wraps a pinned, SHA-256-verified `yt-dlp` (bootstrapped to
 `~/.vsb/tools/` on first use — no global install needed). It downloads the
 video file and prints structured metadata. It does **not** interpret the
 content — that's the frame-grid pipeline below.
@@ -20,11 +20,11 @@ content — that's the frame-grid pipeline below.
 ## Command surface
 
 ```bash
-vsb download <url> --json                 # download to cwd, default name "<title> [<id>].<ext>"
-vsb download <url> --info --json          # metadata only, nothing downloaded
-vsb download <url> -o ./clips/ --json     # trailing "/" = directory
-vsb download <url> -o ./clip.mp4 --json   # exact filename (yt-dlp template syntax allowed)
-vsb download <url> --cookies chrome --json  # login-walled posts (Instagram) — reads local browser cookies
+vsb video download <url> --json                 # download to cwd, default name "<title> [<id>].<ext>"
+vsb video download <url> --info --json          # metadata only, nothing downloaded
+vsb video download <url> -o ./clips/ --json     # trailing "/" = directory
+vsb video download <url> -o ./clip.mp4 --json   # exact filename (yt-dlp template syntax allowed)
+vsb video download <url> --cookies chrome --json  # login-walled posts (Instagram) — reads local browser cookies
 ```
 
 - Works on any yt-dlp-supported site: TikTok, Instagram, YouTube, X, and hundreds more.
@@ -38,7 +38,7 @@ vsb download <url> --cookies chrome --json  # login-walled posts (Instagram) —
 `--info` is free and instant. Run it before deciding to download at all:
 
 ```bash
-vsb download "$URL" --info --json
+vsb video download "$URL" --info --json
 ```
 
 ```json
@@ -66,45 +66,37 @@ Never download into the user's project. Use the session scratchpad (or ask
 where, if the user wants to keep the file):
 
 ```bash
-vsb download "$URL" -o "$SCRATCHPAD/clip.mp4" --json
+vsb video download "$URL" -o "$SCRATCHPAD/clip.mp4" --json
 ```
 
-## Step 3 — frame grids (see the whole video in one Read)
+## Step 3 — contact sheets (see the whole video in one Read)
 
-Tile evenly-sampled frames into a single image, then read that image. One
-grid of 9 frames covers a short video end-to-end and costs one image read.
+`vsb video frame` tiles evenly spaced frames, first to last, into one image.
+Read that image. One sheet of nine frames covers a short video end to end
+and costs one image read.
 
 ```bash
-# 3x3 grid, one frame per second — right for clips ≤ 12s
-ffmpeg -y -loglevel error -i clip.mp4 \
-  -vf "fps=1,scale=288:-1,tile=3x3" grid.jpg
+vsb video frame "$SCRATCHPAD/clip.mp4" --json    # 3x3 → clip-frames.jpg
 ```
 
-Pick sampling from `duration_seconds` so the whole video fits in 1–3 grids
-(~9 frames per grid):
+Pick the grid from `duration_seconds`:
 
-| Duration | Filter | Grids |
-|----------|--------|-------|
-| ≤ 12s | `fps=1,scale=288:-1,tile=3x3` | 1 |
-| 12–60s | `fps=9/DUR,scale=288:-1,tile=3x3` (evenly spaced) | 1 |
-| 1–5 min | `fps=18/DUR,scale=288:-1,tile=3x3` → `grid_%d.jpg` | 2 |
-| 5 min+ | scene changes: `select='gt(scene,0.3)',scale=288:-1,tile=4x4` + `-vsync vfr` | 1–2 |
+| Duration | Command | Sheets |
+|----------|---------|--------|
+| ≤ 60s | `vsb video frame clip.mp4` | 1 |
+| 1–5 min | `vsb video frame clip.mp4 --grid 4x4` | 1 |
+| 5 min+ | `--grid 5x5`, then a closer sheet of each part that matters | 2+ |
 
-Compute the fraction in shell (ffmpeg accepts `fps=9/47` literally):
+The JSON gives `at_seconds`, the time of every tile in reading order. Use it
+to find a moment again.
 
-```bash
-DUR=$(vsb download "$URL" --info --json | jq -r '.duration_seconds')
-ffmpeg -y -loglevel error -i clip.mp4 -vf "fps=9/$DUR,scale=288:-1,tile=3x3" grid.jpg
-```
-
-Multi-grid output: name the output `grid_%d.jpg` and read each grid in order.
-
-Tile-size rules:
-- `scale=288:-1` (288px wide per tile) reads fine for vertical 9:16 video,
-  captions included.
-- Landscape/YouTube: use `scale=-1:288` so height is fixed instead.
-- Captions too small to read? Re-run just the interesting seconds bigger:
-  `-ss 4 -t 3 ... -vf "fps=2,scale=480:-1,tile=2x2"`.
+Closer looks:
+- One moment at full size: `vsb video frame clip.mp4 --at 4.5`.
+- A few seconds in detail: trim, then tile the trim.
+  `vsb video crop clip.mp4 --start 4 --duration 3 -o part.mp4`, then
+  `vsb video frame part.mp4 --grid 2x2`.
+- Captions too small to read? The two above are the fix. Do not raise the
+  grid — more tiles make every tile smaller.
 
 ## Step 4 — dialogue via burned-in captions
 
@@ -112,10 +104,10 @@ TikTok / Reels / Shorts almost always burn auto-captions into the frames.
 Reading the grids in order reconstructs the spoken script for free — no
 transcription step. Quote it in the summary.
 
-No burned-in captions and the audio matters? There is currently **no
-transcription path in the CLI** (`vsb` has no audio-understanding model).
-Say so honestly — describe the visuals, don't guess the dialogue — and flag
-the gap with `vsb feedback` (ask the user first).
+No burned-in captions and the audio matters? Transcribe it with
+`audio/scribe` — see [`vsb-subtitles`](../vsb-subtitles/SKILL.md), "Transcribe
+without burning". It is a paid run, so tell the user the price first
+(`vsb pricing audio/scribe`). Never guess the dialogue from the visuals.
 
 ## Step 5 — report, then clean up
 
@@ -133,7 +125,7 @@ the gap with `vsb feedback` (ask the user first).
   quote the resulting path, better yet always pass `-o`.
 - Instagram without `--cookies` fails with a login error — that's the
   expected signal to retry with `--cookies chrome`.
-- ffmpeg required for the understanding pipeline (`command -v ffmpeg`); the
-  download itself needs only `vsb`.
+- `vsb video frame` needs a local ffmpeg (`command -v ffmpeg`); the download
+  itself needs only `vsb`.
 - Age-gated / region-locked / private videos fail inside yt-dlp with its
   error passed through — quote it, don't retry blindly.

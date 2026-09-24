@@ -37,11 +37,20 @@ vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json > "/tmp/
 
 # 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:
 vsb status "$JOB" --json | jq -r '.status'
+
+# 4. Look at it before you report it: nine frames, first to last, in one image.
+#    Pass the downloaded file, or the output URL from the JSON.
+vsb video frame ./out/"$JOB".mp4 --json   # → out/<job>-frames.jpg — read it
 ```
+
+Read the contact sheet before you tell the user the clip is done. A completed
+job can still hold a frozen subject, a warped face or the wrong action.
+`--at end` gives the last frame at full size, which is also the start frame for
+the next shot ([vsb critical rule 15](../vsb/SKILL.md#critical-rules-read-first)).
 
 Status can be `queued | in_progress | completed | failed | cancelled`. Open the
 finished clip for the user with `open <file>` (the default player, not Preview
-— Preview is for images, [vsb critical rule 12](../vsb/SKILL.md#critical-rules-read-first)).
+— Preview is for images, [vsb critical rule 14](../vsb/SKILL.md#critical-rules-read-first)).
 
 `--download` only if the user opted into local saves — otherwise fetch with
 `--result --json` alone and hand back the share page

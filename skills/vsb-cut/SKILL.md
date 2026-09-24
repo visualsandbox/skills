@@ -1,7 +1,7 @@
 ---
 name: vsb-cut
 description: >
-  Join two or more clips with a named film transition using `vsb cut` —
+  Join two or more clips with a named film transition using `vsb video cut` —
   jump cut, smash cut, dissolve, wipe, iris, cross-cutting, montage,
   split screen, J-cut and L-cut, 23 in all. Trigger when the user wants
   to "cut these together", "add a transition", "join the clips",
@@ -16,7 +16,7 @@ A video model gives you one clip at a time. A transition is two clips and a
 join, so the order of work is: generate shot A, generate shot B, then cut.
 
 ```bash
-vsb cut dissolve ./a.mp4 ./b.mp4 --json -o ./out.mp4
+vsb video cut dissolve ./a.mp4 ./b.mp4 --json -o ./out.mp4
 ```
 
 The join runs on the local machine through ffmpeg. It costs nothing, it takes
@@ -29,7 +29,7 @@ so and stops if it is missing.
 ## Find the transition
 
 ```bash
-vsb cut --list --json     # all 23: slug, what it takes, what it does
+vsb video cut --list --json     # all 23: slug, what it takes, what it does
 ```
 
 The slug is the same one on
@@ -89,14 +89,15 @@ vsb run video/p-video --prompt "a woman reaches for a door handle, close on her 
 vsb run video/p-video --prompt "the door swings open onto a bright street" \
   --duration 5 --async --json
 # poll both with `vsb status <id> --download ./`
-vsb cut match-action ./a.mp4 ./b.mp4 --at 0,1.2 --hold 2 --json -o ./scene.mp4
+vsb video cut match-action ./a.mp4 ./b.mp4 --at 0,1.2 --hold 2 --json -o ./scene.mp4
 ```
 
 The match is what sells the cut, and the match is in `--at`. Read both clips
-before you pick the numbers — a frame grid shows where the action lands:
+before you pick the numbers — a contact sheet shows where the action lands,
+and its `at_seconds` gives the time of every tile:
 
 ```bash
-ffmpeg -i b.mp4 -vf "select='not(mod(n\,12))',scale=320:-1,tile=5x2" -frames:v 1 grid.png
+vsb video frame b.mp4 --grid 5x2 --json
 ```
 
 ## Build a scene by chaining
@@ -108,27 +109,27 @@ arriving. Never read the running length off the last join and pass it back in
 than the clip it describes.
 
 ```bash
-vsb cut dissolve      ridge.mp4 sun.mp4   --hold 2.5,2.5 --duration 0.8 -o s1.mp4
-vsb cut graphic-match s1.mp4    wheel.mp4 --hold all,2                  -o s2.mp4
-vsb cut smash-cut     s2.mp4    eyes.mp4  --hold all,2.5                -o s3.mp4
-vsb cut match-cut     s3.mp4    hand.mp4  --hold all,2 --at 0,1.5       -o scene.mp4
+vsb video cut dissolve      ridge.mp4 sun.mp4   --hold 2.5,2.5 --duration 0.8 -o s1.mp4
+vsb video cut graphic-match s1.mp4    wheel.mp4 --hold all,2                  -o s2.mp4
+vsb video cut smash-cut     s2.mp4    eyes.mp4  --hold all,2.5                -o s3.mp4
+vsb video cut match-cut     s3.mp4    hand.mp4  --hold all,2 --at 0,1.5       -o scene.mp4
 ```
 
 Each link re-encodes, so keep a chain to a handful of joins for a finished
 piece and raise `--crf` only at the end.
 
-## Reframe first with `vsb crop`
+## Reframe first with `vsb video crop`
 
 Clips arrive in the shape the model was asked for, which is rarely the shape
-the cut needs. `vsb crop` takes a piece of the picture and a piece of the time,
+the cut needs. `vsb video crop` takes a piece of the picture and a piece of the time,
 locally and for nothing.
 
 ```bash
-vsb crop wide.mp4 --aspect 9:16                      # a 16:9 take, ready for a Reel
-vsb crop wide.mp4 --aspect 9:16 --size 1080x1920     # and at the size the platform wants
-vsb crop wide.mp4 --zoom 2 --gravity top             # a wide becomes a medium
-vsb crop wide.mp4 --rect 100,0,880,1080              # an exact box in source pixels
-vsb crop long.mp4 --start 1.5 --duration 5           # a plain trim, no pixels touched
+vsb video crop wide.mp4 --aspect 9:16                      # a 16:9 take, ready for a Reel
+vsb video crop wide.mp4 --aspect 9:16 --size 1080x1920     # and at the size the platform wants
+vsb video crop wide.mp4 --zoom 2 --gravity top             # a wide becomes a medium
+vsb video crop wide.mp4 --rect 100,0,880,1080              # an exact box in source pixels
+vsb video crop long.mp4 --start 1.5 --duration 5           # a plain trim, no pixels touched
 ```
 
 `--gravity` picks which part survives: center, top, bottom, left, right and the
@@ -136,13 +137,13 @@ four corners. It is the flag that decides whether a 9:16 crop keeps the face or
 the empty half of the frame, so name it whenever the subject is off centre.
 
 This is also the answer for a shot that needs shortening and nothing else.
-`vsb cut` has no plain trim, because every one of its recipes joins something.
+`vsb video cut` has no plain trim, because every one of its recipes joins something.
 See the `vsb-crop` skill.
 
-## Retime with `vsb speed`
+## Retime with `vsb video speed`
 
-The sibling command for the other axis. `vsb cut` joins clips, `vsb crop`
-reframes one, `vsb speed` bends its time — slow motion, reverse, boomerang,
+The sibling command for the other axis. `vsb video cut` joins clips, `vsb video crop`
+reframes one, `vsb video speed` bends its time — slow motion, reverse, boomerang,
 freeze frame, stutter, a seamless loop. Twelve effects, all local and free.
 See the `vsb-speed` skill.
 
@@ -171,5 +172,5 @@ the incoming sound early, and `--lead <s>` is how far.
   re-roll one clip rather than reach for a different transition.
 - **Clips of different sizes are letterboxed, never cropped.** The output takes
   the first clip's size and rate unless `--size` and `--fps` say otherwise.
-- **`vsb cut` is CLI-only.** The MCP server is hosted and cannot reach local
-  files, the same as `vsb subtitles` and `vsb download`.
+- **`vsb video cut` is CLI-only.** The MCP server is hosted and cannot reach local
+  files, the same as `vsb video subtitles` and `vsb video download`.

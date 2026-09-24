@@ -1,7 +1,7 @@
 ---
 name: vsb-crop
 description: >
-  Trim or reframe one clip with `vsb crop` — keep a piece of the time
+  Trim or reframe one clip with `vsb video crop` — keep a piece of the time
   (`--start`, `--duration`), crop to a shape (`--aspect 9:16`), an exact box
   (`--rect`) or closer in (`--zoom`), and scale to a platform size (`--size`).
   Trigger when the user wants to "trim this", "cut the first 5 seconds",
@@ -13,13 +13,13 @@ description: >
 
 # Trim and reframe with vsb
 
-`vsb crop` keeps a piece of the time, a piece of the picture, or both, from
+`vsb video crop` keeps a piece of the time, a piece of the picture, or both, from
 one clip. It runs on your machine through ffmpeg. Nothing is uploaded and
 nothing is billed.
 
 ```bash
-vsb crop long.mp4 --start 1.5 --duration 5 --json    # a plain trim
-vsb crop wide.mp4 --aspect 9:16 --json               # 16:9 to vertical
+vsb video crop long.mp4 --start 1.5 --duration 5 --json    # a plain trim
+vsb video crop wide.mp4 --aspect 9:16 --json               # 16:9 to vertical
 ```
 
 **ffmpeg must be installed.** `brew install ffmpeg` on macOS.
@@ -31,9 +31,9 @@ seconds to keep. With no `--duration`, the command keeps the rest of the clip.
 With only these two flags, the picture does not change.
 
 ```bash
-vsb crop clip.mp4 --duration 5                 # the first 5 seconds
-vsb crop clip.mp4 --start 12 --duration 3.5    # 12 s to 15.5 s
-vsb crop clip.mp4 --start 20                   # 20 s to the end
+vsb video crop clip.mp4 --duration 5                 # the first 5 seconds
+vsb video crop clip.mp4 --start 12 --duration 3.5    # 12 s to 15.5 s
+vsb video crop clip.mp4 --start 20                   # 20 s to the end
 ```
 
 Trim a source before a paid run that follows its length. A Seedance edit or
@@ -51,10 +51,10 @@ needs a 5-second clip. See the `vsb-seedance` skill.
 | `--size 1080x1920` | Scales the result to fill that size |
 
 ```bash
-vsb crop wide.mp4 --aspect 9:16 --size 1080x1920         # a Reel at platform size
-vsb crop wide.mp4 --zoom 2 --gravity top                 # a wide becomes a medium
-vsb crop wide.mp4 --rect 100,0,880,1080                  # an exact box
-vsb crop wide.mp4 --aspect 1:1 --start 2 --duration 4    # reframe and trim in one pass
+vsb video crop wide.mp4 --aspect 9:16 --size 1080x1920         # a Reel at platform size
+vsb video crop wide.mp4 --zoom 2 --gravity top                 # a wide becomes a medium
+vsb video crop wide.mp4 --rect 100,0,880,1080                  # an exact box
+vsb video crop wide.mp4 --aspect 1:1 --start 2 --duration 4    # reframe and trim in one pass
 ```
 
 Name `--gravity` when the subject is not in the centre. It decides whether a
@@ -79,8 +79,8 @@ and runs nothing.
 - **`--rect` must fit inside the frame.** The command refuses a box that runs
   past the edge.
 - **A `--start` past the end is refused.**
-- **`vsb cut` has no plain trim.** Every `vsb cut` recipe joins something. To
+- **`vsb video cut` has no plain trim.** Every `vsb video cut` recipe joins something. To
   shorten one clip, use this command.
-- **`vsb crop` is CLI-only.** The MCP server is hosted and cannot reach local
-  files, the same as `vsb cut`, `vsb speed`, `vsb subtitles` and
-  `vsb download`.
+- **`vsb video crop` is CLI-only.** The MCP server is hosted and cannot reach local
+  files, the same as `vsb video cut`, `vsb video speed`, `vsb video subtitles` and
+  `vsb video download`.

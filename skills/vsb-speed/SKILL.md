@@ -1,7 +1,7 @@
 ---
 name: vsb-speed
 description: >
-  Bend time in a clip with `vsb speed` — slow motion, fast motion, speed
+  Bend time in a clip with `vsb video speed` — slow motion, fast motion, speed
   ramp, motion blur, low shutter, freeze frame, reverse, boomerang,
   stutter, step printing, stop motion and a seamless infinite loop.
   Trigger when the user wants to "slow this down", "speed it up",
@@ -19,8 +19,8 @@ are a transform of footage you already have. This command makes those, locally,
 for nothing.
 
 ```bash
-vsb speed slow-motion horse.mp4 --factor 4 --json
-vsb speed --list --json      # the twelve, and the nine that need the model
+vsb video speed slow-motion horse.mp4 --factor 4 --json
+vsb video speed --list --json      # the twelve, and the nine that need the model
 ```
 
 **ffmpeg must be installed.** `brew install ffmpeg` on macOS.
@@ -60,7 +60,7 @@ were really shot gets filled with repeats. That judders. `--smooth` draws the
 missing frames instead, with motion interpolation:
 
 ```bash
-vsb speed slow-motion clip.mp4 --factor 4 --smooth
+vsb video speed slow-motion clip.mp4 --factor 4 --smooth
 ```
 
 It is far better to watch and much slower to render — about twenty seconds of
@@ -73,7 +73,7 @@ once.
 a quarter of life, 2 is double.
 
 ```bash
-vsb speed speed-ramp chase.mp4 --ramp 0:1,4:0.2,8:1
+vsb video speed speed-ramp chase.mp4 --ramp 0:1,4:0.2,8:1
 ```
 
 The speed glides between the points rather than stepping, because the clip is
@@ -89,7 +89,7 @@ you named.
 frame the player loops back to is the frame already on screen.
 
 ```bash
-vsb speed infinite-loop sun.mp4 --blend 1
+vsb video speed infinite-loop sun.mp4 --blend 1
 ```
 
 The clip loses the blend from its length. Keep the light and the background
@@ -103,11 +103,11 @@ command's.
 - **A boomerang has no sound.** Reversed audio is a noise. `reverse-motion`
   keeps it, because there the reversal is the point.
 - **`reverse` holds the whole clip in memory.** Fine for ten seconds of 1080p,
-  not for a long file. Trim first with `vsb crop`.
+  not for a long file. Trim first with `vsb video crop`.
 - **`stop-motion` and `stutter` are the same engine.** The difference is the
   step and the absence of blur. Stop motion reads because nothing smears.
 - **Smear before you step.** `step-printing` does this for you: the trails come
   from the motion that was really there, so averaging the held frames
   afterwards would change nothing.
-- **`vsb speed` is CLI-only.** The MCP server is hosted and cannot reach local
-  files, the same as `vsb cut`, `vsb crop`, `vsb subtitles` and `vsb download`.
+- **`vsb video speed` is CLI-only.** The MCP server is hosted and cannot reach local
+  files, the same as `vsb video cut`, `vsb video crop`, `vsb video subtitles` and `vsb video download`.

@@ -1,7 +1,7 @@
 ---
 name: vsb-timeline
 description: >
-  Build an edit on a timeline with `vsb timeline` — lay shots end to end,
+  Build an edit on a timeline with `vsb video timeline` — lay shots end to end,
   join them with transitions, trim them, put music or a voice under them,
   and lay a logo or a title on top. The timeline is a JSON file that
   survives between commands and between sessions, so the edit can be read
@@ -15,21 +15,21 @@ description: >
 
 # Edit on a timeline with vsb
 
-`vsb cut` joins two clips and hands back a file. That stops working at six
+`vsb video cut` joins two clips and hands back a file. That stops working at six
 shots, a music bed and a title, because nothing holds the arrangement —
 so every change means rebuilding the whole chain by hand.
 
-`vsb timeline` holds it. The edit is one JSON file, it survives between
-commands, and `vsb timeline show --json` reads the whole thing back.
+`vsb video timeline` holds it. The edit is one JSON file, it survives between
+commands, and `vsb video timeline show --json` reads the whole thing back.
 
 ```bash
-vsb timeline new "coffee ad" --size 1080x1920
-vsb timeline add hook.mp4 --json
-vsb timeline add product.mp4 --transition dissolve --json
-vsb timeline add music.mp3 --at 0 --volume 0:0,1:0.25,7:0 --json
-vsb timeline add --text "Only $9" --at 4 --duration 2 --pos bottom --json
-vsb timeline show --json
-vsb timeline render -o ad.mp4 --json
+vsb video timeline new "coffee ad" --size 1080x1920
+vsb video timeline add hook.mp4 --json
+vsb video timeline add product.mp4 --transition dissolve --json
+vsb video timeline add music.mp3 --at 0 --volume 0:0,1:0.25,7:0 --json
+vsb video timeline add --text "Only $9" --at 4 --duration 2 --pos bottom --json
+vsb video timeline show --json
+vsb video timeline render -o ad.mp4 --json
 ```
 
 **ffmpeg must be installed.** `brew install ffmpeg` on macOS. Rendering is
@@ -59,7 +59,7 @@ starts, where it ends, how long it is and how loud it is — plus warnings for
 anything hanging off the end.
 
 ```bash
-vsb timeline show --json
+vsb video timeline show --json
 ```
 
 ```json
@@ -112,17 +112,17 @@ AUDIO
 
 | Command | What it does |
 |---|---|
-| `vsb timeline new [name]` | Start a fresh timeline (`--size 1080x1920`, `--fps 30`) |
-| `vsb timeline add <file...>` | Put clips, sound or a `--text` title down |
-| `vsb timeline set <id>` | Change one clip already down |
-| `vsb timeline rm <id...>` | Take clips off |
-| `vsb timeline show` | What is on it, where, how long |
-| `vsb timeline list` | Every timeline on this machine, newest first |
-| `vsb timeline transitions` | The transition names a join takes |
-| `vsb timeline render` | Encode it to one file |
+| `vsb video timeline new [name]` | Start a fresh timeline (`--size 1080x1920`, `--fps 30`) |
+| `vsb video timeline add <file...>` | Put clips, sound or a `--text` title down |
+| `vsb video timeline set <id>` | Change one clip already down |
+| `vsb video timeline rm <id...>` | Take clips off |
+| `vsb video timeline show` | What is on it, where, how long |
+| `vsb video timeline list` | Every timeline on this machine, newest first |
+| `vsb video timeline transitions` | The transition names a join takes |
+| `vsb video timeline render` | Encode it to one file |
 
 Ids are `v1`, `o1`, `a1` by layer, and they are never reused. `set` takes
-any flag `add` takes, so a trim is `vsb timeline set v1 --duration 2`.
+any flag `add` takes, so a trim is `vsb video timeline set v1 --duration 2`.
 
 ## The flags that matter
 
@@ -173,7 +173,7 @@ ease while another does not:
 --opacity 0:0,0.5:1,2.5:1,3:0:out   # only the fade out eases
 ```
 
-The same syntax is `vsb speed --ramp`'s, so `seconds:value` means one thing
+The same syntax is `vsb video speed --ramp`'s, so `seconds:value` means one thing
 across the CLI.
 
 ## Trimming
@@ -181,28 +181,28 @@ across the CLI.
 A shot is trimmed in place; the file is never rewritten.
 
 ```bash
-vsb timeline set v1 --duration 2            # keep the first 2 seconds
-vsb timeline set v1 --in 1.5 --duration 2   # keep 1.5s → 3.5s of the source
+vsb video timeline set v1 --duration 2            # keep the first 2 seconds
+vsb video timeline set v1 --in 1.5 --duration 2   # keep 1.5s → 3.5s of the source
 ```
 
 A trim shortens everything after it, because the shots run end to end. Read
 `show` after a trim: an overlay or a music bed that used to fit may now hang
 off the end, and the warnings say so.
 
-To crop the picture rather than the time, run `vsb crop` and add the result.
+To crop the picture rather than the time, run `vsb video crop` and add the result.
 A shot whose shape does not match the timeline is handled by `--fit`.
 
 ## Transitions
 
 ```bash
-vsb timeline add b.mp4 --transition dissolve --transition-duration 0.4
-vsb timeline set v3 --transition wipe-up
-vsb timeline set v3 --transition cut          # back to a hard join
+vsb video timeline add b.mp4 --transition dissolve --transition-duration 0.4
+vsb video timeline set v3 --transition wipe-up
+vsb video timeline set v3 --transition cut          # back to a hard join
 ```
 
-The names are the ones `vsb cut` uses — `dissolve`, `fade`, `wipe`,
+The names are the ones `vsb video cut` uses — `dissolve`, `fade`, `wipe`,
 `wipe-up`, `iris`, `whip`, `slide`, `zoom` — and any other ffmpeg xfade
-shape works too. `vsb timeline transitions --json` lists them.
+shape works too. `vsb video timeline transitions --json` lists them.
 
 **A transition eats time.** Two 4s shots with a 0.5s dissolve make 7.5s, not
 8s, because the second shot starts half a second early. The sound fades
@@ -211,9 +211,9 @@ across the join on its own.
 ## Sound
 
 ```bash
-vsb timeline add music.mp3 --at 0 --volume 0:0,1.5:0.25,12:0 --ease in-out
-vsb timeline add vo.mp3 --at 2.5 --volume 1
-vsb timeline set v1 --volume 0                # mute one shot
+vsb video timeline add music.mp3 --at 0 --volume 0:0,1.5:0.25,12:0 --ease in-out
+vsb video timeline add vo.mp3 --at 2.5 --volume 1
+vsb video timeline set v1 --volume 0                # mute one shot
 ```
 
 Sound layers rather than replaces: a music bed, a voice and the shots' own
@@ -223,13 +223,13 @@ under a voice belongs around `0.2`–`0.3`.
 ## Titles and overlays
 
 ```bash
-vsb timeline add --text "Only $9" --at 4 --duration 2 --pos bottom
-vsb timeline add --text "SALE" --at 1 --duration 3 --opacity 0.4 --font-size 120
-vsb timeline add logo.png --at 0 --duration 8 --pos top-right --scale 0.15 \
+vsb video timeline add --text "Only $9" --at 4 --duration 2 --pos bottom
+vsb video timeline add --text "SALE" --at 1 --duration 3 --opacity 0.4 --font-size 120
+vsb video timeline add logo.png --at 0 --duration 8 --pos top-right --scale 0.15 \
   --opacity 0:0,0.4:1 --ease out
 ```
 
-A title is drawn straight onto the picture, in the same font `vsb subtitles`
+A title is drawn straight onto the picture, in the same font `vsb video subtitles`
 uses, with an outline so it reads over anything. `--colour`, `--font-size`
 and `--pos` shape it; `--font <path>` picks another face.
 
@@ -237,14 +237,14 @@ An overlay file keeps its transparency, so a PNG with an alpha channel lands
 as a logo. `--opacity` makes it see-through. An overlay is silent unless
 `--volume` says otherwise.
 
-For word-by-word captions off a voice track, use `vsb subtitles` on the
+For word-by-word captions off a voice track, use `vsb video subtitles` on the
 rendered file instead — it transcribes and times them.
 
 ## Rendering
 
 ```bash
-vsb timeline render -o ad.mp4 --json          # the real thing
-vsb timeline render --preview --open          # small, fast, plays it back
+vsb video timeline render -o ad.mp4 --json          # the real thing
+vsb video timeline render --preview --open          # small, fast, plays it back
 ```
 
 One ffmpeg pass builds the whole thing, so no clip is re-encoded on its way
@@ -258,8 +258,8 @@ conversation or a new terminal tab starts on its own. Everything is on disk
 under `~/.vsb/timelines/`.
 
 ```bash
-vsb timeline list --json                      # everything on this machine
-vsb timeline show --timeline coffee-ad        # pick one back up
+vsb video timeline list --json                      # everything on this machine
+vsb video timeline show --timeline coffee-ad        # pick one back up
 ```
 
 `--timeline <name>` works on every subcommand and makes that one active for
@@ -267,12 +267,12 @@ the commands that follow.
 
 ## The order of work
 
-1. Generate the shots — `vsb run video/...`, or `vsb download` something.
-2. `vsb timeline new "<what this is>"` and add them in order.
-3. `vsb timeline show --json` and read it back before changing anything.
+1. Generate the shots — `vsb run video/...`, or `vsb video download` something.
+2. `vsb video timeline new "<what this is>"` and add them in order.
+3. `vsb video timeline show --json` and read it back before changing anything.
 4. Trim, reorder and set transitions against the ids.
 5. Lay the sound under and the titles over.
-6. `vsb timeline render --preview` to check, then render for real.
+6. `vsb video timeline render --preview` to check, then render for real.
 
 ## Traps
 

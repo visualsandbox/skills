@@ -25,7 +25,9 @@ Do this:
    on one canvas.
 5. A video takes one to three minutes. Do other work, then call `get_job`.
    Do not sit and poll in a tight loop.
-6. Give the `share_url` and say what the run cost. Give the `sandbox_url`
+6. Look at the four frames `get_job` returns with the finished video. If the
+   clip does not match the request, say what is wrong.
+7. Give the `share_url` and say what the run cost. Give the `sandbox_url`
    too — that is the canvas the work is collecting on.
 
 To animate a picture the user already has: pass its public URL as the image

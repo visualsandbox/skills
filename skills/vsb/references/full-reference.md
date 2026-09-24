@@ -272,7 +272,7 @@ Allowed types: `image/*`, `video/*`, `audio/*`, `model/gltf*`. Anything else →
 
 ---
 
-## `vsb download <url>`
+## `vsb video download <url>`
 
 Download a video from TikTok, Instagram, YouTube — any yt-dlp-supported
 site — to a local file. Wraps a pinned, SHA-256-verified `yt-dlp`

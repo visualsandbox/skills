@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "6c5365700726b7ba8bb3964401f3be3b5676a9753b043f339d9c6a35384682e0",
+  "bundle": "3efd5f5cf5669eba015fef95b7f21740bc2fd6c4e371d3438301b3368e6dfa7d",
   "skills": [
     {
       "name": "vsb",
@@ -8,8 +8,8 @@
       "files": [
         {
           "path": "references/full-reference.md",
-          "sha256": "06852a49d1831452edc996490666ea6446a6b093e50054cd18ae5480a24642bb",
-          "bytes": 17132
+          "sha256": "1b9e0bd5061fd987728dfb3d07d8dad5fdc3d051065c36e9b0c53418afee4f9f",
+          "bytes": 17138
         },
         {
           "path": "references/mcp.md",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "d4e04157650805735ce6e301c9a332464fb46b2885a8a97765255ad2e131488e",
-          "bytes": 29304
+          "sha256": "748a733dbaa9c270576fa93683714b4c732f28b74643ae5d24e56b6cd9c2b372",
+          "bytes": 30293
         }
       ]
     },
@@ -37,23 +37,23 @@
     },
     {
       "name": "vsb-crop",
-      "description": "Trim or reframe one clip with `vsb crop` — keep a piece of the time (`--start`, `--duration`), crop to a shape (`--aspect 9:16`), an exact box (`--rect`) or closer in (`--zoom`), and scale to a platform size (`--size`). Trigger when the user wants to \"trim this\", \"cut the first 5 seconds\", \"shorten the clip\", \"make it vertical\", \"crop to 9:16\", \"crop to square\", \"zoom in on the face\", or a clip must be shorter or a different shape before a model run or a join. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-cut` for joining clips and `vsb-speed` for retiming.",
+      "description": "Trim or reframe one clip with `vsb video crop` — keep a piece of the time (`--start`, `--duration`), crop to a shape (`--aspect 9:16`), an exact box (`--rect`) or closer in (`--zoom`), and scale to a platform size (`--size`). Trigger when the user wants to \"trim this\", \"cut the first 5 seconds\", \"shorten the clip\", \"make it vertical\", \"crop to 9:16\", \"crop to square\", \"zoom in on the face\", or a clip must be shorter or a different shape before a model run or a join. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-cut` for joining clips and `vsb-speed` for retiming.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "733d7b2023c643822196df94a2f8dfada49b0364174e466229cfcfe7da9d5e40",
-          "bytes": 3777
+          "sha256": "1ab2337737d75677e79c6411f27db631f69b4737e353de458446cfbaceaf5a9c",
+          "bytes": 3885
         }
       ]
     },
     {
       "name": "vsb-cut",
-      "description": "Join two or more clips with a named film transition using `vsb cut` — jump cut, smash cut, dissolve, wipe, iris, cross-cutting, montage, split screen, J-cut and L-cut, 23 in all. Trigger when the user wants to \"cut these together\", \"add a transition\", \"join the clips\", \"make a montage\", \"split screen\", \"jump cut this\", or names any film transition. Runs locally through ffmpeg: free, instant, nothing uploaded. Pair it with `vsb-video` for generating the clips first.",
+      "description": "Join two or more clips with a named film transition using `vsb video cut` — jump cut, smash cut, dissolve, wipe, iris, cross-cutting, montage, split screen, J-cut and L-cut, 23 in all. Trigger when the user wants to \"cut these together\", \"add a transition\", \"join the clips\", \"make a montage\", \"split screen\", \"jump cut this\", or names any film transition. Runs locally through ffmpeg: free, instant, nothing uploaded. Pair it with `vsb-video` for generating the clips first.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "8817aa77b1e067ca6998d18c809531b80ee7769195080e2c61c4328d856f9e36",
-          "bytes": 8143
+          "sha256": "7e2607c53c405c3b6cd1deb0e5d9a9e00c799e693f4abf9c3a22c24f93a22169",
+          "bytes": 8285
         }
       ]
     },
@@ -75,12 +75,12 @@
     },
     {
       "name": "vsb-download",
-      "description": "Download a video from TikTok, Instagram, YouTube (any yt-dlp-supported site) via `vsb download`, then actually understand it — extract frame grids with ffmpeg, read them as images, and reconstruct the dialogue from burned-in captions. Trigger when the user shares a video URL and asks \"what is this video about\", \"watch this\", \"summarize this video\", \"download this tiktok/reel/short\", or wants a local copy of a social video. Metadata-only lookups use `--info` (no download, no bytes).",
+      "description": "Download a video from TikTok, Instagram, YouTube (any yt-dlp-supported site) via `vsb video download`, then actually understand it — tile its frames into one image with `vsb video frame`, read it, and reconstruct the dialogue from burned-in captions. Trigger when the user shares a video URL and asks \"what is this video about\", \"watch this\", \"summarize this video\", \"download this tiktok/reel/short\", or wants a local copy of a social video. Metadata-only lookups use `--info` (no download, no bytes).",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "dc30cdda5ecc6c8485a6119171fd161ac54be6b534aa0c39a907f2712e5a05e8",
-          "bytes": 5612
+          "sha256": "90194b3cbc981182309ee0228f955cac90e6aedb0b3faad2c3f115dba08211f4",
+          "bytes": 5317
         }
       ]
     },
@@ -196,34 +196,34 @@
     },
     {
       "name": "vsb-speed",
-      "description": "Bend time in a clip with `vsb speed` — slow motion, fast motion, speed ramp, motion blur, low shutter, freeze frame, reverse, boomerang, stutter, step printing, stop motion and a seamless infinite loop. Trigger when the user wants to \"slow this down\", \"speed it up\", \"reverse it\", \"make it loop\", \"freeze on that\", \"add motion blur\", \"boomerang this\", or names any time-and-motion technique. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the clip and `vsb-cut` for joining clips.",
+      "description": "Bend time in a clip with `vsb video speed` — slow motion, fast motion, speed ramp, motion blur, low shutter, freeze frame, reverse, boomerang, stutter, step printing, stop motion and a seamless infinite loop. Trigger when the user wants to \"slow this down\", \"speed it up\", \"reverse it\", \"make it loop\", \"freeze on that\", \"add motion blur\", \"boomerang this\", or names any time-and-motion technique. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the clip and `vsb-cut` for joining clips.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "ca181f1dda0eb3720ad05da4f7984131c23e6f8f739cba57a8636aeeb073cf77",
-          "bytes": 4716
+          "sha256": "442b132b4ae834deec926438f2ee15f846efbd422cfd336dd2319de05991bacc",
+          "bytes": 4788
         }
       ]
     },
     {
       "name": "vsb-subtitles",
-      "description": "Add TikTok/CapCut-style word-by-word captions to any video with `vsb subtitles` — transcribes via Visual Sandbox's `audio/scribe` (ElevenLabs Scribe, word-level timestamps), builds .ass subtitles in one of five caption styles (TikTok word-by-word, MrBeast, highlight, Hormozi, or a rounded box), and burns them in with local ffmpeg. Trigger when the user says \"add subtitles\", \"add captions\", \"caption this video\", \"burn subs\", asks for a caption style, or wants a transcript of a video with timestamps. Accepts a local file or a TikTok/Instagram/YouTube URL.",
+      "description": "Add TikTok/CapCut-style word-by-word captions to any video with `vsb video subtitles` — transcribes via Visual Sandbox's `audio/scribe` (ElevenLabs Scribe, word-level timestamps), builds .ass subtitles in one of five caption styles (TikTok word-by-word, MrBeast, highlight, Hormozi, or a rounded box), and burns them in with local ffmpeg. Trigger when the user says \"add subtitles\", \"add captions\", \"caption this video\", \"burn subs\", asks for a caption style, or wants a transcript of a video with timestamps. Accepts a local file or a TikTok/Instagram/YouTube URL.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "b6ae285473857d215639ba7fd2fd18bc04b876b172485e89e2c8b50d4a72db9f",
-          "bytes": 5838
+          "sha256": "9222b9377ca9ea9181e37c51bc5876f90813abb4e21bffefe810d0be7d5d4fa6",
+          "bytes": 5904
         }
       ]
     },
     {
       "name": "vsb-timeline",
-      "description": "Build an edit on a timeline with `vsb timeline` — lay shots end to end, join them with transitions, trim them, put music or a voice under them, and lay a logo or a title on top. The timeline is a JSON file that survives between commands and between sessions, so the edit can be read back, changed and rendered later. Trigger when the user wants to \"edit these together\", \"put this on a timeline\", \"add music under it\", \"put a title over that shot\", \"make it shorter\", \"what is on the timeline\", or is assembling more than two clips. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the shots and `vsb-cut` for a single named film transition.",
+      "description": "Build an edit on a timeline with `vsb video timeline` — lay shots end to end, join them with transitions, trim them, put music or a voice under them, and lay a logo or a title on top. The timeline is a JSON file that survives between commands and between sessions, so the edit can be read back, changed and rendered later. Trigger when the user wants to \"edit these together\", \"put this on a timeline\", \"add music under it\", \"put a title over that shot\", \"make it shorter\", \"what is on the timeline\", or is assembling more than two clips. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the shots and `vsb-cut` for a single named film transition.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "99ca5325c2fc7d2944a80fef78be2b0de76b28a67a4066c252bd7731f028c1bc",
-          "bytes": 12027
+          "sha256": "daae5e700e0abd9980e05568856ebfd388e05376a2c9ec82a3c2a043cec1bb47",
+          "bytes": 12303
         }
       ]
     },
@@ -272,8 +272,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "9c6222c57462cf76b4dd65ed56490ecdbba2536a0616170bc1655d787e1d4069",
-          "bytes": 19133
+          "sha256": "9478c47a401ce18b3e9f69db2edf6d716bace0b5d2b4db1349f1ea682ac70164",
+          "bytes": 19673
         }
       ]
     }

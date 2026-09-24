@@ -2,7 +2,7 @@
 name: vsb-subtitles
 description: >
   Add TikTok/CapCut-style word-by-word captions to any video with
-  `vsb subtitles` — transcribes via Visual Sandbox's `audio/scribe`
+  `vsb video subtitles` — transcribes via Visual Sandbox's `audio/scribe`
   (ElevenLabs Scribe, word-level timestamps), builds .ass subtitles in
   one of five caption styles (TikTok word-by-word, MrBeast, highlight,
   Hormozi, or a rounded box), and burns them in with local ffmpeg.
@@ -22,14 +22,14 @@ only paid step).
 ## Command surface
 
 ```bash
-vsb subtitles ./clip.mp4 --json                 # local file → ./clip-subtitled.mp4
-vsb subtitles "https://www.tiktok.com/@user/video/123" --json
-vsb subtitles ./clip.mp4 --preset beast --json  # MrBeast-style captions
-vsb subtitles ./clip.mp4 --preset box --json    # white text on a rounded dark box
-vsb subtitles ./clip.mp4 --preset box --words 1 --json  # one word per box
-vsb subtitles ./clip.mp4 -o ./out.mp4 --language en --json
-vsb subtitles ./clip.mp4 --font "Montserrat ExtraBold" --font-size 42 --json
-vsb subtitles ./clip.mp4 --no-uppercase --json  # keep original casing
+vsb video subtitles ./clip.mp4 --json                 # local file → ./clip-subtitled.mp4
+vsb video subtitles "https://www.tiktok.com/@user/video/123" --json
+vsb video subtitles ./clip.mp4 --preset beast --json  # MrBeast-style captions
+vsb video subtitles ./clip.mp4 --preset box --json    # white text on a rounded dark box
+vsb video subtitles ./clip.mp4 --preset box --words 1 --json  # one word per box
+vsb video subtitles ./clip.mp4 -o ./out.mp4 --language en --json
+vsb video subtitles ./clip.mp4 --font "Montserrat ExtraBold" --font-size 42 --json
+vsb video subtitles ./clip.mp4 --no-uppercase --json  # keep original casing
 ```
 
 - Output lands next to the input as `<name>-subtitled.mp4` unless `-o` is set.
@@ -46,10 +46,10 @@ no API call, no cost. The workflow for correcting ASR mistakes (brand
 names, homophones like "paid"/"pay"):
 
 ```bash
-vsb subtitles ./clip.mp4 --json                          # first pass, pays ~1¢
+vsb video subtitles ./clip.mp4 --json                          # first pass, pays ~1¢
 # edit clip-subtitled.transcript.json: fix the "text" of wrong words,
 # delete hallucinated ones — KEEP the start/end timestamps
-vsb subtitles ./clip.mp4 --transcript ./fixed.json --json  # re-burn, free
+vsb video subtitles ./clip.mp4 --transcript ./fixed.json --json  # re-burn, free
 ```
 
 Same flag also covers restyling passes (`--font-size`, `--no-uppercase`)
