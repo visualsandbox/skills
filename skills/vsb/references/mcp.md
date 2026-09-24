@@ -37,6 +37,10 @@ the reader.
 | `vsb sandbox selection` | `get_selection` |
 | `vsb sandbox docs` | `read_sandbox_docs` |
 | `vsb sandbox docs write` | `write_sandbox_doc` |
+| `vsb design new` | `create_design` |
+| `vsb design get` | `get_design` |
+| `vsb design update` | `update_design` |
+| `vsb design export` | `export_design` (no `png`) |
 | `vsb presets list` | `list_presets` |
 | `vsb presets get <uuid>` | `get_preset` |
 | `vsb balance` | `get_balance` |

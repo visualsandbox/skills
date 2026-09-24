@@ -160,6 +160,7 @@ open -a Preview "$DIR"/*
 | `vsb sandbox docs` | List the markdown files on the canvas — `BRAND.md`, `CHARACTER.md`, a shot list |
 | `vsb sandbox docs read <name>` | Print one file's markdown |
 | `vsb sandbox docs write <name>` | Create or replace one file (`--file <path>`, or pipe it in) |
+| `vsb design <list\|new\|update\|get\|layers\|export>` | Designs on the canvas: pages, screens and code drawings in named layers; export as HTML, React, SVG or PNG — free; see the `vsb-design` skill |
 | `vsb feedback "<msg>"` | Send feedback/bug report to the Visual Sandbox team (`--kind`, `--image`) |
 | `vsb skills <list|install|update|remove>` | Manage agent skill packs in `.claude/skills/` |
 | `vsb init` | One-shot install of the default skill bundle |
@@ -183,6 +184,7 @@ list, run `vsb skills install <name>`, then read
 | `vsb-nano-banana` | Run a Nano Banana model |
 | `vsb-ugc-people` | Make a UGC-style photo of one person for a 9:16 ad |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
+| `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table and the async poll |
 | `vsb-p-video` | Run `video/p-video`, the cheapest video model |
 | `vsb-p-video-prompting` | Write a P-Video prompt |

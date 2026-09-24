@@ -40,8 +40,11 @@ which sends an agent holding MCP tools to
 ## The MCP tools
 
 `list_models`, `get_model`, `estimate_cost`, `generate`, `get_job`,
-`list_jobs`, `upload_media`, `list_presets`, `get_preset`, `get_balance` —
-one for each `vsb` command. Add the server on its own, without the plugin:
+`list_jobs`, `upload_media`, `list_sandbox_items`, `get_selection`,
+`read_sandbox_docs`, `write_sandbox_doc`, `create_design`, `get_design`,
+`update_design`, `export_design`, `list_presets`, `get_preset`,
+`get_balance`, `top_up`, `list_skills`, `get_skill` — one for each `vsb`
+command. Add the server on its own, without the plugin:
 
 ```bash
 claude mcp add --transport http visual-sandbox https://visualsandbox.com/mcp
@@ -58,6 +61,7 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-video`](skills/vsb-video/) | Generate / edit video — async + status polling |
 | [`vsb-audio`](skills/vsb-audio/) | Generate sound effects, ambient audio, speech |
 | [`vsb-vector`](skills/vsb-vector/) | Make SVGs — Quiver for icons, raster-then-Recraft-vectorize for detailed art, colour count asked first |
+| [`vsb-design`](skills/vsb-design/) | Design pages, screens and code drawings on the canvas in named layers — export as HTML, React, SVG or PNG, free |
 | [`vsb-presets`](skills/vsb-presets/) | Run, save, override, and share reproducible model configurations |
 | [`vsb-nano-banana`](skills/vsb-nano-banana/) | Prompt the Nano Banana family well — edit-mode rules, text rendering, multi-reference blending |
 | [`vsb-image-prompting`](skills/vsb-image-prompting/) | Canonical prompt-craft trunk for every image model — anatomy, reference keep/ignore rules |

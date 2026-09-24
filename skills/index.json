@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "a4b566b7312b2d04497249fd6402aae13cdeeae1cc643367f0b605f09fb655fc",
+  "bundle": "055b724bf67bbd75725afa9f934196d6cc210add82ce4216416923837becb867",
   "skills": [
     {
       "name": "vsb",
@@ -13,13 +13,13 @@
         },
         {
           "path": "references/mcp.md",
-          "sha256": "a83944975df0a0309e6e0ffa84005f5c38bff1033b25f06205d3126a8d764c09",
-          "bytes": 7834
+          "sha256": "f3379e11aca9b31954ebc4ed13e15446385df7f41a808b72a82df8aad414df93",
+          "bytes": 8004
         },
         {
           "path": "SKILL.md",
-          "sha256": "dbac81af5343a7a5f21283f1b9e56258b0e656af98269b08a27c2948055de363",
-          "bytes": 28976
+          "sha256": "b2e8a61ed5d3ae6d59db8b56a01a9be3e3fcc1596838c066340aff4c8ba5aa34",
+          "bytes": 29298
         }
       ]
     },
@@ -54,6 +54,22 @@
           "path": "SKILL.md",
           "sha256": "8817aa77b1e067ca6998d18c809531b80ee7769195080e2c61c4328d856f9e36",
           "bytes": 8143
+        }
+      ]
+    },
+    {
+      "name": "vsb-design",
+      "description": "Make designs on the Visual Sandbox canvas with `vsb design` (or the `create_design` MCP tool): web pages, app screens, cards, posters and vector drawings, organized in named layers like a Figma file, and exported as HTML, React, SVG or PNG. Trigger when the user wants to \"design a page\", \"mock up a screen\", \"make a landing page / hero / card\", \"draw a picture or an illustration in code\", \"make an SVG by drawing it\", \"put a design on the canvas\", \"export it to React\", or points at a layer they picked on the canvas (\"change this button\"). Free: nothing is generated and nothing is billed.",
+      "files": [
+        {
+          "path": "references/drawing.md",
+          "sha256": "2b41ddcdb2c634a0936e8341fb39c58e2a4e97fd3097741b8c769989289436ba",
+          "bytes": 4054
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "8d5a29f73e05d9aa77feb1833862e96952509c8735bc5dccc50d75950ff1ac1c",
+          "bytes": 7398
         }
       ]
     },
