@@ -7,6 +7,7 @@ description: >
   the background from images via the vsb CLI. All execution goes through
   `vsb run image/<slug>` — sync, ~5–10s for the standard models. Always
   verify slugs with `vsb models --modality image --json` first.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Image generation with vsb

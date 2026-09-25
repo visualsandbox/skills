@@ -7,6 +7,7 @@ description: >
   reproduce the same kind of output. Trigger when the user mentions "preset",
   "saved config", a `visualsandbox.com/p/<uuid>/` share URL, or wants to
   re-run the same recipe across many inputs.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Visual Sandbox presets

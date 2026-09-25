@@ -9,6 +9,7 @@ description: >
   "boomerang this", or names any time-and-motion technique. Runs locally
   through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for
   generating the clip and `vsb-cut` for joining clips.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Bend time with vsb

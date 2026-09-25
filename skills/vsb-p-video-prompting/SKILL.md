@@ -11,6 +11,7 @@ description: >
   DO/DON'T list straight from Pruna's docs, and the `prompt_upsampling`
   override rule. Pairs with [`vsb-p-video`](../vsb-p-video/SKILL.md) for runtime
   (draft toggle, pricing, schema, async + poll).
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # P-Video prompting

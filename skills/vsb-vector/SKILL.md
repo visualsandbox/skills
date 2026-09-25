@@ -10,6 +10,7 @@ description: >
   illustration, generate a flat raster with an image model first and
   trace it with `vector/recraft-vectorize`. Always ask the user how many
   colours the SVG must have before you run anything.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Vector generation with vsb

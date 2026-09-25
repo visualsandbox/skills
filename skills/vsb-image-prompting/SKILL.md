@@ -12,6 +12,7 @@ description: >
   original background), and the "enumerate models before picking cheapest"
   rule. Model-specific quirks live in sibling skills (`vsb-nano-banana`,
   `vsb-ugc-people`).
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Image prompting (model-agnostic)

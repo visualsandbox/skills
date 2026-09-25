@@ -13,6 +13,7 @@ description: >
   examples live in [references/templates.md](references/templates.md).
   Runtime, flags and locked parameters live in
   [`vsb-seedance`](../vsb-seedance/SKILL.md).
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Seedance prompting

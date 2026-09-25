@@ -10,6 +10,7 @@ description: >
   composite, noise repair), and the `output_format` / `resolution` settings that
   decide the outcome. For writing the prompt itself, read
   [`vsb-image-prompting`](../vsb-image-prompting/SKILL.md) first.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Iterating on an image without degrading it

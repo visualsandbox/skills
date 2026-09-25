@@ -10,6 +10,7 @@ description: >
   that is `vsb design` (free, editable layers), so read `vsb-design`.
   Covers both surfaces: the visual-sandbox MCP tools and the vsb CLI.
   Always pipe through --json when output will be parsed by an agent.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Visual Sandbox: the MCP tools and the vsb CLI

@@ -11,6 +11,7 @@ description: >
   canvas", "export it to React", or points at a layer they picked on the
   canvas ("change this button"). Free: nothing is generated and nothing is
   billed.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Design on the canvas

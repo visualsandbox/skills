@@ -8,6 +8,7 @@ description: >
   "make a montage", "split screen", "jump cut this", or names any film
   transition. Runs locally through ffmpeg: free, instant, nothing
   uploaded. Pair it with `vsb-video` for generating the clips first.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Cut clips together with vsb

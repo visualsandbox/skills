@@ -10,6 +10,7 @@ description: >
   wrong. For the universal prompt-anatomy rules and reference-image
   subject-anchor pattern, read [`vsb-image-prompting`](../vsb-image-prompting/SKILL.md)
   first — this skill only adds nano-banana-specific quirks on top.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Prompting Nano Banana

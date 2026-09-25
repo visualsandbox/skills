@@ -11,6 +11,7 @@ description: >
   person", or is about to run `vsb run image/<slug>` for a person shot
   intended to look like real UGC. Pairs with the `vsb-nano-banana` skill for
   prompt craft and the `vsb-image` skill for picking a model.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # UGC people for 9:16 ad creative

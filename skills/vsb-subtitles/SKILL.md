@@ -10,6 +10,7 @@ description: >
   this video", "burn subs", asks for a caption style, or wants a
   transcript of a video with timestamps. Accepts a local file or a
   TikTok/Instagram/YouTube URL.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Subtitle a video with vsb

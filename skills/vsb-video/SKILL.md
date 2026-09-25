@@ -6,6 +6,7 @@ description: >
   text-to-video, image-to-video, or motion-control video via the vsb CLI.
   Always uses async + status polling — video runs take 30s–3min. Verify slugs
   with `vsb models --modality video --json`.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Video generation with vsb

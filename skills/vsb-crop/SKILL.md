@@ -9,6 +9,7 @@ description: >
   "zoom in on the face", or a clip must be shorter or a different shape before
   a model run or a join. Runs locally through ffmpeg: free, nothing uploaded.
   Pair with `vsb-cut` for joining clips and `vsb-speed` for retiming.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Trim and reframe with vsb

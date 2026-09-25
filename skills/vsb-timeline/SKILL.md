@@ -11,6 +11,7 @@ description: >
   is assembling more than two clips. Runs locally through ffmpeg: free,
   nothing uploaded. Pair with `vsb-video` for generating the shots and
   `vsb-cut` for a single named film transition.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Edit on a timeline with vsb

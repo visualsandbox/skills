@@ -10,6 +10,7 @@ description: >
   user **draft or standard** before running.
   Pairs with the parent [`vsb-video`](../vsb-video/SKILL.md) skill for the async +
   poll pattern.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # P-Video (Pruna AI)

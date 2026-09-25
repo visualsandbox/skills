@@ -8,6 +8,7 @@ description: >
   voiceover, narration, text to speech or a custom voice via the vsb CLI. SFX and speech runs are quick; music scales
   with track length. Submit with `--async` then poll with `vsb status`
   for anything long.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Audio generation with vsb

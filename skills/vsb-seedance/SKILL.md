@@ -12,6 +12,7 @@ description: >
   video, and the safety filter. Prompt craft lives in
   [`vsb-seedance-prompting`](../vsb-seedance-prompting/SKILL.md). Pairs with
   [`vsb-video`](../vsb-video/SKILL.md) for the async + poll pattern.
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Seedance (ByteDance)

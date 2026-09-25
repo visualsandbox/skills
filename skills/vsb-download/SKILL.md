@@ -8,6 +8,7 @@ description: >
   "what is this video about", "watch this", "summarize this video",
   "download this tiktok/reel/short", or wants a local copy of a social
   video. Metadata-only lookups use `--info` (no download, no bytes).
+license: Proprietary. See LICENSE for the terms.
 ---
 
 # Download + understand a video with vsb
