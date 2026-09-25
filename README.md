@@ -155,4 +155,5 @@ before opening a PR.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Proprietary. You may install the skills into your own agents and use them with
+Visual Sandbox. See [LICENSE](LICENSE) for the full terms.

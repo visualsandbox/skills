@@ -3,7 +3,7 @@
   "version": "0.2.47",
   "private": true,
   "description": "Agent skill packs for Visual Sandbox — consumed by the vsb CLI.",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "scripts": {
     "gen": "bun run scripts/gen-index.ts",
