@@ -33,7 +33,7 @@ the shell's exit is the "done" signal, no poll loop needed. Rules in
 | Task | Slug | Notes |
 |------|------|-------|
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
-| Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v3` (default) is the most expressive and follows audio tags like `[whispers]`, 5,000 characters per run; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
+| Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v4` (default) is the newest and most natural and follows audio tags like `[whispers]`, 10,000 characters per run; `v3` also follows tags, 5,000; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
 | A new voice from a written description | `audio/elevenlabs-voice-design` | ElevenLabs Voice Design v3. Returns one MP3 sample of a new voice reading one line. A sample is an audition, not the voiceover: pass it to `audio/elevenlabs-tts` as `--designed_voice`. Run again for another take. Billed per character of the sample line. The web Composer runs one design per click. Safety-filtered: a description that reads as a child, like "girl", is refused; "woman" passes. Not voice cloning. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
 | Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
@@ -70,18 +70,18 @@ Descriptive, sensory, concrete:
 ```bash
 vsb run audio/elevenlabs-tts \
   --prompt "[excited] We did it! [laughs] Okay... now the hard part." \
-  --voice george --mode v3 --json
+  --voice george --mode v4 --json
 ```
 
 - The flag is `--mode`, not `--version`: the CLI owns `--version`. Values:
-  `v3` (default), `multilingual-v2`, `flash-v2.5`. Limits are in the table.
+  `v4` (default), `v3`, `multilingual-v2`, `flash-v2.5`. Limits are in the table.
 - `--voice` takes one of 21 stock keys: `adam`, `alice`, `bella`, `bill`,
   `brian`, `callum`, `charlie`, `chris`, `daniel`, `eric`, `george`,
   `harry`, `jessica`, `laura`, `liam`, `lily`, `matilda`, `river`,
   `roger`, `sarah`, `will`. `vsb schema audio/elevenlabs-tts --json`
   lists them.
 - Audio tags (`[whispers]`, `[laughs]`, `[sighs]`, `[excited]`) work in
-  `v3` only. Put the tag where it should happen. Remove the tags before
+  `v4` and `v3` only. Put the tag where it should happen. Remove the tags before
   you switch to another mode. The voice limits what a tag can do: a calm
   voice does not shout on cue.
 - Pauses come from commas and `...`. `v3` takes no SSML break tags.
@@ -222,7 +222,7 @@ vsb pricing audio/elevenlabs-voice-design --json  # per 1,000 characters of the 
 ```
 
 Speech is billed per character of text, spaces and audio tags included.
-`flash-v2.5` costs half as much as the other two modes.
+`flash-v2.5` costs half as much as the other modes.
 
 Music is billed by track length, prorated per second — a 30s bed costs a
 few cents, a 5-minute song under a dollar.
