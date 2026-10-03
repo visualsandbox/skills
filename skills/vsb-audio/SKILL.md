@@ -33,7 +33,7 @@ the shell's exit is the "done" signal, no poll loop needed. Rules in
 | Task | Slug | Notes |
 |------|------|-------|
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
-| Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v4` (default) is the newest and most natural and follows audio tags like `[whispers]`, 10,000 characters per run; `v3` also follows tags, 5,000; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
+| Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--my_voice <name>` or `--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v4` (default) is the newest and most natural and follows audio tags like `[whispers]`, 10,000 characters per run; `v3` also follows tags, 5,000; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
 | A new voice from a written description | `audio/elevenlabs-voice-design` | ElevenLabs Voice Design v3. Returns one MP3 sample of a new voice reading one line. A sample is an audition, not the voiceover: pass it to `audio/elevenlabs-tts` as `--designed_voice`. Run again for another take. Billed per character of the sample line. The web Composer runs one design per click. Safety-filtered: a description that reads as a child, like "girl", is refused; "woman" passes. Not voice cloning. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
 | Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
@@ -130,6 +130,22 @@ vsb run audio/elevenlabs-tts --prompt "<script>" \
 - Only the user who designed a sample can speak with it. Any other URL,
   an uploaded recording included, is refused. This is voice design, not
   voice cloning, and cloning is not offered.
+
+### Your voices
+
+`vsb voices` lists every voice the user designed, newest first, with its id,
+its name and its sample URL. Name one once, then speak with it by name, with
+no sample URL to keep:
+
+```bash
+vsb voices                                  # list (MCP: list_voices)
+vsb voices rename <id> narrator             # name it; "" clears the name
+vsb run audio/elevenlabs-tts --my_voice narrator --prompt "<script>" --json
+```
+
+- `--my_voice` takes a name (any case) or an id, and wins over
+  `--designed_voice`. An unknown name fails before any charge.
+- Two voices of one user cannot share a name.
 
 ## Eleven Music
 

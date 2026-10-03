@@ -32,6 +32,7 @@ the reader.
 | `vsb run <slug>` | `generate` |
 | `vsb status <job_id>` | `get_job` |
 | `vsb jobs` | `list_jobs` |
+| `vsb voices` | `list_voices` |
 | `vsb upload <file>` | `upload_media` |
 | `vsb sandbox nodes` | `list_sandbox_items` |
 | `vsb sandbox selection` | `get_selection` |
