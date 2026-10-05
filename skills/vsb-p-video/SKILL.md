@@ -28,6 +28,13 @@ Three generation tiers now share this family. Price alone no longer picks one.
 | `video/p-video-2` | The clip has to talk, or needs 1080p, 48 fps, a last frame, or a run past 15s. It writes native speech with lip-sync from dialogue in the prompt, and also takes an audio track to drive motion. |
 | `video/p-video-2-pro` | The best Pruna picture, and the lowest rate per second of the three at 480p. Silent: no audio in, no audio out, and 768p is the ceiling. |
 
+People who talk, with one voice across shots: `video/p-video-2 --image <still>
+--audio <ElevenLabs line>` is the cheapest path. The clip runs as long as the
+audio, so `--duration` has no effect; pad the line with silence to the shot
+length. Say in the prompt that the person speaks. Compare it with the other
+paths in [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend) before you
+spend.
+
 Three more slugs in the family transform a clip you already have rather than
 generate one, and they are covered in [`vsb-video`](../vsb-video/SKILL.md):
 `video/p-video-edit`, `video/p-video-replace`, `video/p-video-animate`, plus

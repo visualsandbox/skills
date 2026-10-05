@@ -140,6 +140,10 @@ JOB=$(vsb run video/seedance-2.5 \
 
 ### Lip-sync a portrait to a recording
 
+This works only for a face that is not photoreal. A photoreal face, an
+AI-generated one included, is refused (see Gotchas). For photoreal people, use
+the paths in [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend).
+
 ```bash
 FACE=$(vsb upload ./host.jpg --json | jq -r '.url')
 LINE=$(vsb upload ./line.mp3 --json | jq -r '.url')
@@ -175,9 +179,22 @@ JOB=$(vsb run video/seedance-2.5 \
 ## Gotchas
 
 - **Safety filter (E005).** Seedance refuses "drone" and "FPV" wording; write
-  "aerial flythrough". It also refuses many human subject selfie-style
-  inputs. On `"Your input was flagged by the model's safety filter"`, retry
-  the same inputs on `video/p-video` before you rewrite the prompt.
+  "aerial flythrough". On `"Your input was flagged by the model's safety
+  filter"`, retry the same inputs on `video/p-video` before you rewrite the
+  prompt.
+- **Photoreal faces are refused.** ByteDance's real-face detector rejects any
+  `image` or reference with a photoreal face, AI-generated faces included:
+  `provider_safety`, "The input or output was flagged as sensitive". Changing
+  the prompt or the URL does not help. A still with no face passes. For
+  people who talk, read [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend).
+- **A first frame excludes every reference list (E006).** `image` and
+  `last_frame_image` cannot go with `reference_images`, `reference_videos` or
+  `reference_audios`. Pick one mode.
+- **`reference_audios` needs a reference image or video.** It takes up to 10
+  clips and 30 s in total on 2.5, and 3 clips and 15 s on 2.0. It is the
+  lip-sync input, so it works only in reference mode.
+- **`use_virtual_avatar`** exists on the Cloudflare copy of Seedance, for AI
+  characters. Visual Sandbox does not expose it.
 - **Subtitles appear uninvited,** more often in portrait. Add "No subtitles."
   to every prompt that does not want them. Strip text from reference assets
   first.

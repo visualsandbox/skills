@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "1dc4cc855b9a3ce84028767370111703c8a997d9cda814f14923c48413186c03",
+  "bundle": "f01f5ce8a8705fd51759c6aee7366bf1bd9f92bc799883033f68822f59386a6c",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "5dad34ca888948c1e7c66ecb9357b001e4fb723925fc388220b6e4a6a9418f16",
-          "bytes": 30900
+          "sha256": "d107feef0b7ea76286fcf2659ac6839a27338755daa3b1a326529e5ba54b67db",
+          "bytes": 31205
         }
       ]
     },
@@ -30,8 +30,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "2340936bedcc929b31595a3a3a8835ecf8c1a253a05c2eb82f78e39b4d85115d",
-          "bytes": 13559
+          "sha256": "f3f31eb1ac3534a680a13aad5dd13d8c4d70456a4fbf593ebcdfe9da8bb8178d",
+          "bytes": 13841
         }
       ]
     },
@@ -138,8 +138,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "3b3311ba0bc6325542992a28bd2b46ef9b43d2b7c245516ee3456be66ad94044",
-          "bytes": 7782
+          "sha256": "72243c2402501e7527b408fa615d1a119baba9313678794eb66d259b590d22b6",
+          "bytes": 8229
         }
       ]
     },
@@ -173,8 +173,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "69d295787540719954438a0a4a5d4fbc2b6afe2c544a88b018659af9d0872df1",
-          "bytes": 9144
+          "sha256": "afc43495c0f6257f39cc0ae794100a1b2a85447ba80f8664cb46a9944a4c371c",
+          "bytes": 10316
         }
       ]
     },
@@ -267,13 +267,13 @@
     },
     {
       "name": "vsb-video",
-      "description": "Generate or edit video with Visual Sandbox. Trigger when the user wants text-to-video, image-to-video, or motion-control video via the vsb CLI. Always uses async + status polling — video runs take 30s–3min. Verify slugs with `vsb models --modality video --json`.",
+      "description": "Generate or edit video with Visual Sandbox. Trigger when the user wants text-to-video, image-to-video, or motion-control video via the vsb CLI. Always uses async + status polling — video runs take 30s–3min. Verify slugs with `vsb models --modality video --json`. Read it before any video in which people speak: it picks the speech and lip-sync path, and the price of each.",
       "renamed_from": "video",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "4d7aa1faa84b26207ef058184833955b20d167efb2e900ffcee8854d49e0bf78",
-          "bytes": 19722
+          "sha256": "584142ad0fd50c68fa88e0550d7eeb42aff2e08af14aa8b3bb7a7c06377b4bcc",
+          "bytes": 25825
         }
       ]
     }

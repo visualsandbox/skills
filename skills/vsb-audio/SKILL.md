@@ -90,9 +90,13 @@ vsb run audio/elevenlabs-tts \
 - Text over the mode's limit is rejected before any charge. About 1,000
   characters make a minute of speech. Split a longer script at paragraph
   breaks and run each part.
-- The MP3 is a voice track for `video/kling-avatar-v2` (a photo performs
-  the audio) or `video/lipsync-2-pro` (redub footage). For voice and
-  video in one run, `video/p-video-avatar` writes its own speech.
+- The MP3 is a voice track for `video/p-video-2` (`--audio`, the cheapest
+  way to keep one voice across shots), `video/kling-avatar-v2` (a photo
+  performs the audio) or `video/lipsync-2-pro` (new words on a clip in which
+  the person already talks). For voice and video in one run,
+  `video/p-video-avatar` writes its own speech. Pick the path in
+  [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend) before you
+  make the lines.
 
 ## ElevenLabs Voice Design
 

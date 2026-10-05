@@ -5,7 +5,8 @@ description: >
   Generate or edit video with Visual Sandbox. Trigger when the user wants
   text-to-video, image-to-video, or motion-control video via the vsb CLI.
   Always uses async + status polling — video runs take 30s–3min. Verify slugs
-  with `vsb models --modality video --json`.
+  with `vsb models --modality video --json`. Read it before any video in which
+  people speak: it picks the speech and lip-sync path, and the price of each.
 license: Proprietary. See LICENSE for the terms.
 ---
 
@@ -27,7 +28,7 @@ Agents: don't block the conversation on a running job either — start it, keep 
 JOB=$(vsb run video/veo-3.1-fast \
   --prompt "a tiger walking through tall grass at golden hour, camera tracks alongside" \
   --aspect_ratio 16:9 \
-  --duration 5 \
+  --duration 8 \
   --async --json | jq -r '.job_id')
 
 echo "Job: $JOB"
@@ -86,9 +87,110 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Swap who is on camera, keep the shot | `video/p-video-replace` | Pruna AI. Source clip plus 1-3 front-facing photos. Scene, camera, lighting and performance survive, only the person changes. 720p/1080p, `turbo` for speed, source up to 30s. Name who to change in `instruction_prompt` when two people are in frame. |
 | Move a still with a clip's motion and audio | `video/p-video-animate` | Pruna AI. One `image` plus one driving `video`. The image sets the look, the video sets the motion, timing and audio, so lip sync needs no second pass. 720p/1080p, `turbo`, source up to 30s. Cheaper than `kling-v3-motion-control`, which adds an orientation control. |
 | A photo speaks a typed script | `video/p-video-avatar` | Pruna AI. The only avatar model that writes the speech itself: type the words and pick one of 30 voices across 10 languages, or attach audio to override both. One photo in, MP4 out at 720p or 1080p. The cheapest talking head here. Length follows the speech; keep clips under 3 minutes or the face drifts. |
-| Change what a person on camera says | `video/lipsync-2-pro` | Sync. Redraws only the mouth and keeps your footage, so it starts from video, never a still. Source up to 30s, `sync_mode` decides what happens when the two lengths differ. Slow by design: minutes for a clip of seconds. The final pass, not the draft pass. |
+| Change what a person on camera says | `video/lipsync-2-pro` | Sync. Redraws only the mouth and keeps your footage, so it starts from video, never a still. The person must already talk in the clip. Makes no voice. Source up to 30s, `sync_mode` decides what happens when the two lengths differ. Slow by design: minutes for a clip of seconds. The final pass, not the draft pass. |
 | Enlarge a short clip and rebuild its detail | `video/flux-video-upscale` | Black Forest Labs. Video in, video out; keeps the frame shape and the audio. `upscale_factor` 1.5-3, output capped near 4K, `creativity` 0 precise (faithful, for faces and products) or 1 creative (invents detail, tuned for generated footage). Source MP4 under 50 MB and 6s. Use `video/video-upscale` for longer or real footage and for frame-rate changes. |
 | Enlarge a finished clip, or change its frame rate | `video/video-upscale` | Topaz Labs. Not a generator: video in, video out, no prompt. 720p / 1080p / 4K and 24 / 30 / 60 fps. Source MP4 or MOV under 200 MB, capped at 60s / 30s / 10s by target resolution. Use it to finish a 720p generation for delivery. |
+
+## People who talk: pick the sound path before you spend
+
+Read this section before any video in which people speak. The model you pick
+decides who makes the voice, who moves the lips, and whether the clips have
+sound at all. A wrong pick costs the whole batch.
+
+### Which model does what
+
+Prices are per second of output at 720p, from `vsb pricing` in October 2026.
+Read them live before you quote.
+
+| Slug | Photoreal faces | Speech it writes | Takes your voice track | $/s | Use it for |
+|------|-----------------|------------------|------------------------|-----|------------|
+| `video/veo-3.1` | Accepted, a child too, in a real run | Yes. `--generate_audio true`, the line in double quotes | No | 0.25 silent, 0.50 with audio | **Path A default.** Native speech and lips in one pass |
+| `video/kling-v3-omni-video` | Accepted, a child too, in a real run | Yes. `--generate_audio true` (the default is `false`), the line in quotes | No | 0.21 silent, 0.28 with audio | Path A for up to 15 s, or several shots in one clip |
+| `video/p-video-2` | Accepted | Yes, from quoted dialogue | Yes, `--audio`. The clip runs as long as the audio | 0.02 draft, 0.04 standard | **Path B default.** Cheapest, one voice across shots |
+| `video/kling-avatar-v2` | Not tested | No | Yes, `--audio`, one portrait. Length = audio | 0.07 `std`, 0.14 `pro` | A talking head with little body motion |
+| `video/lipsync-2-pro` | Accepted | No | Yes, `--audio`, on a clip you already have | 0.11 | New words on a clip where the person already talks |
+| `video/seedance-2.5` | **Refused**, AI faces too | Yes, from quoted dialogue | Only `reference_audios`, see below | 0.29 | Shots with no photoreal face |
+
+### Path A: native speech, one voice per clip
+
+Run `video/veo-3.1` with `--generate_audio true`. Write the line in the prompt
+in double quotes and name who says it. The model makes the voice, the lip
+movement and the room sound in one run. Pick this path when one voice per clip
+is fine: one speaker, an ad, a short scene.
+
+- Each clip invents its own voice. The same character can sound different in
+  the next shot. Describe the voice the same way in every prompt (age, accent,
+  pitch, pace) to keep it close. It still drifts.
+- Veo cannot take an ElevenLabs voice or any other audio file.
+- A clip is 4, 6 or 8 seconds. `--reference_images` work only at 16:9 and 8
+  seconds, and Veo ignores `--last_frame_image` when they are set.
+- `video/veo-3.1-fast` is the same path at $0.19/s with audio. It takes no
+  reference images, and its face check was not tested.
+
+### Path B: one voice in every shot
+
+Make each line with `audio/elevenlabs-tts` and one designed voice per
+character ([`vsb-audio`](../vsb-audio/SKILL.md)). Then give the line to a
+model that takes audio:
+
+1. **`video/p-video-2 --image <still> --audio <line>` (Recommended).** It is the
+   cheapest path, and the voice is the same in every shot. The clip runs as
+   long as the audio, so `--duration` has no effect. Pad the line with silence
+   to the shot length you want. Say in the prompt that the person speaks, and
+   leave sound words out of the prompt. The mouth moves less than with native
+   speech.
+2. **A clip in which the person already talks, then `video/lipsync-2-pro`.**
+   Make the clip with Path A, or prompt the speech motion ("she talks to him,
+   her mouth moves"). Lipsync redraws the mouth to follow the ElevenLabs line,
+   and the output carries that line. Pad the line to the clip length and pass
+   `--sync_mode cut_off`. Pass `--active_speaker true` when two faces are in
+   frame.
+
+ElevenLabs Voice Design refuses a voice that reads as a child. Path B has no
+child voice, so tell the user before you plan a child who speaks.
+
+### What Lipsync 2 Pro is, and what it is not
+
+Lipsync 2 Pro changes the words of a clip in which a person already talks. Use
+it to dub, to fix a line, or to swap a voice for one that stays the same
+across shots. It makes no voice. It does not make a still face or a closed
+mouth talk: Sync's docs say a clip with no speaking motion gets no lip
+movement. A silent clip of a person who does not talk is the wrong input.
+
+### Seedance 2.5 and photoreal people
+
+- ByteDance's real-face detector refuses every input with a photoreal face,
+  AI-generated faces included. The error is `provider_safety`, "The input or
+  output was flagged as sensitive". A still with no face passes.
+- `image` (the first frame) cannot go with `reference_images`,
+  `reference_videos` or `reference_audios`. The error is E006.
+- `reference_audios` drives lip-sync, but it needs at least one reference
+  image or video. That reference carries the face, so the face filter refuses
+  it too.
+- The Cloudflare copy of Seedance has a `use_virtual_avatar` input for AI
+  characters. Visual Sandbox does not expose it. Do not plan around it.
+- Use Seedance 2.5 for shots with no photoreal face. A stylized character may
+  pass; test one clip first.
+
+### Before you spend
+
+1. **Say how the sound gets made, before the first run.** Name the path. When
+   the clips are silent (`--generate_audio false`), say so, and say where the
+   voices, effects and music come from. The user sees silent clips on the
+   canvas and must know why.
+2. **Run one pilot of the whole chain.** Make one shot with picture, voice,
+   lips and mix. Show it to the user and get a yes before the batch.
+3. **Say the full price of a batch before you run it** when it is more than
+   about $10. Count every clip, every voice line and the likely retakes.
+4. **Check the sound of every result.** A clip can come back with no audio
+   stream. No output from this command means no audio:
+
+   ```bash
+   ffprobe -v error -select_streams a -show_entries stream=codec_name,duration -of csv=p=0 clip.mp4
+   ```
+
+5. **Mix with `vsb video timeline`** ([`vsb-timeline`](../vsb-timeline/SKILL.md)):
+   shots on the base layer, voices, effects and music on the audio layer.
 
 ## Veo 3.1 (text-to-video, image-to-video)
 
@@ -97,7 +199,7 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 JOB=$(vsb run video/veo-3.1-fast \
   --prompt "a hummingbird hovering near a red flower in slow motion, sunlight filtering through leaves" \
   --aspect_ratio 16:9 \
-  --duration 5 \
+  --duration 8 \
   --async --json | jq -r '.job_id')
 
 # Image-to-video — pass the still image to seed the first frame (verify the exact
@@ -109,7 +211,7 @@ JOB=$(vsb run video/veo-3.1-fast \
   --prompt "the woman turns her head and smiles" \
   --image "$URL" \
   --aspect_ratio 9:16 \
-  --duration 5 \
+  --duration 8 \
   --async --json | jq -r '.job_id')
 ```
 
@@ -218,8 +320,8 @@ JOB=$(vsb run video/kling-v3-omni-video \
 
 - Bind references by position in the prompt. Write "the first image", "the
   second image". Up to 7 references, or 4 when a reference video is attached.
-- `--reference_video` has two modes. `--video_reference_type feature` rewrites
-  the clip in place and keeps its motion and timing. `base` lifts the camera
+- `--reference_video` has two modes. `--video_reference_type base` rewrites
+  the clip in place and keeps its motion and timing. `feature` lifts the camera
   move and the look onto a new prompt-driven scene.
 - Native audio turns off when a reference video is attached, because the
   reference supplies the track. `4k` does not accept a reference video.
@@ -268,14 +370,14 @@ vsb pricing video/veo-3.1-fast --json
 #   "slug": "video/veo-3.1-fast",
 #   "currency": "USD",
 #   "unit": "second",
-#   "user_cost_estimate": 0.10,
+#   "user_cost_estimate": 0.19,
 #   ...
 # }
 ```
 
-Most video models are billed per *second of output*. A 5-second clip on
-`veo-3.1-fast` at $0.10/s = $0.50. On `veo-3.1` standard, that doubles. Always
-show the user the estimated cost before confirming.
+Most video models are billed per *second of output*. An 8-second clip on
+`veo-3.1-fast` with audio at $0.19/s = $1.52. On `veo-3.1` with audio it is
+$0.50/s, so $4.00. Always show the user the estimated cost before confirming.
 
 ## Cancelling
 
