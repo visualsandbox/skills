@@ -154,6 +154,44 @@ JOB=$(vsb run video/seedance-2.5 \
   --async --json | jq -r '.job_id')
 ```
 
+### One realistic AI character across shots
+
+Seedance refuses a photoreal face unless `--ai_character true` is on. Use this
+recipe only for a character that an image model made. Ask the user to confirm
+that the person is AI-made and that they hold the rights, before the first
+run. Never use it with a photo of a real person.
+
+1. Make the face. Load [`vsb-image-prompting`](../vsb-image-prompting/SKILL.md)
+   first. A front-facing head-and-shoulders portrait, even light, plain
+   background.
+2. Make a full-body shot of the same character from the face, in the outfit
+   the scenes need. Put the face in `--image_input`.
+3. Run Seedance with both images as references and the flag on. Do not set
+   `--image`: with the flag on, a first frame guides the face only.
+4. For the next shot, keep the same two references and the same words for the
+   character. Change only the action, the place and the camera.
+
+```bash
+FACE=$(vsb run image/gpt-image-2.5-flare --quality high --aspect_ratio 3:4 \
+  --prompt "Photorealistic studio portrait of a woman in her late twenties, shoulder-length dark wavy hair, natural skin texture, navy t-shirt, front-facing head and shoulders, soft even light, plain light-grey background." \
+  --json | jq -r '.result.urls[0]')
+BODY=$(vsb run image/gpt-image-2.5-flare --quality high --aspect_ratio 9:16 \
+  --image_input "[\"$FACE\"]" \
+  --prompt "The same woman from the reference, full body, standing, front view, navy t-shirt, mid-blue jeans, white sneakers, plain light-grey background, photorealistic studio photo." \
+  --json | jq -r '.result.urls[0]')
+JOB=$(vsb run video/seedance-2.5 \
+  --prompt "Use [Image1] for the woman's face and hair, and [Image2] for her body and outfit. She walks toward the camera on a sunny city street and smiles. Tracking shot at eye level." \
+  --reference_images "[\"$FACE\", \"$BODY\"]" --ai_character true \
+  --resolution 480p --duration 5 --aspect_ratio 16:9 \
+  --async --json | jq -r '.job_id')
+```
+
+What the tests showed (2026-10-07, Seedance 2.5): without the flag, the
+portrait and every character sheet with a face were refused on both
+providers. A sheet with no face passed, but the model made up a new face. With
+the flag, the portrait passed as a reference and as a start frame, and the
+face matched in every frame.
+
 ### Edit a clip
 
 ```bash
