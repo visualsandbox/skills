@@ -167,8 +167,9 @@ movement. A silent clip of a person who does not talk is the wrong input.
 - `reference_audios` drives lip-sync, but it needs at least one reference
   image or video. That reference carries the face, so the face filter refuses
   it too.
-- The Cloudflare copy of Seedance has a `use_virtual_avatar` input for AI
-  characters. Visual Sandbox does not expose it. Do not plan around it.
+- `--ai_character true` lets an AI-made face through and keeps it the same
+  across shots. Ask the user first, and never set it for a real person.
+  Recipe in [`vsb-seedance`](../vsb-seedance/SKILL.md#one-realistic-ai-character-across-shots).
 - Use Seedance 2.5 for shots with no photoreal face. A stylized character may
   pass; test one clip first.
 

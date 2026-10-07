@@ -77,6 +77,7 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-timeline`](skills/vsb-timeline/) | Build a longer edit — shots end to end, sound under, titles over, one render |
 | [`vsb-subtitles`](skills/vsb-subtitles/) | Burn TikTok-style word-by-word captions into a video |
 | [`vsb-download`](skills/vsb-download/) | Download a TikTok/IG/YouTube video and read it with frame grids |
+| [`vsb-film`](skills/vsb-film/) | Make a short film end to end — script, shot list, one cast across shots, sound, edit, captions |
 
 ## Install
 
@@ -109,7 +110,8 @@ them answers what comes first — what am I making, and what should the shot be?
 
 [`docs/film-pyramid.md`](docs/film-pyramid.md) plans six skills that sit above
 the model, from an idea down to a finished cut, and says how they hand work to
-each other. Nothing in it is built yet.
+each other. The first one, [`vsb-film`](skills/vsb-film/), is built as one
+skill that holds the whole flow. The split into tiers is still a plan.
 
 ## Layout
 

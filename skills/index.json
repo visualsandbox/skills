@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "22fb1adb5ee799accc06daf9826a3f62588af99181b6a421b1bc04729aeaaa0a",
+  "bundle": "c6fcaab98e75bcec36a42eb4619818c3355c255ed89fa1bdb4668ff0856972ca",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "d107feef0b7ea76286fcf2659ac6839a27338755daa3b1a326529e5ba54b67db",
-          "bytes": 31205
+          "sha256": "b889618b03306c6516bdb12a607adc0adc4a13f025f33293716c53704ce846d8",
+          "bytes": 31322
         }
       ]
     },
@@ -81,6 +81,17 @@
           "path": "SKILL.md",
           "sha256": "11d27f4a2267196bafdaf6d9c9978faf560ed9202b84115c441e917825aa811d",
           "bytes": 5366
+        }
+      ]
+    },
+    {
+      "name": "vsb-film",
+      "description": "Make a short AI film end to end with Visual Sandbox: script, shot list, character and location sheets, start frames, one video per shot, dialogue, music and sound effects, edit, captions. Trigger when the user wants a short film, a story with several shots, a scene with the same character in every shot, a trailer, a music video, or \"make a film / episode / series\" with the vsb CLI. Gives the phases in order with the exact commands, a shot-list template, the budget step, and which model to use for which shot. Model craft lives in the sibling packs it links to.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "5125d648e098a02aa03515520420c48dcd5a586db28cad5518374e0dd6941884",
+          "bytes": 13314
         }
       ]
     },
@@ -173,8 +184,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "12136962421b9917a6d719a25bc4d61c0c8db6f41742951cdd0f6d98d786c956",
-          "bytes": 13149
+          "sha256": "b28646c419b926c6457ba0b8b688765c24083084b44aee7049e2208e722240b1",
+          "bytes": 13172
         }
       ]
     },
@@ -272,8 +283,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "707d7f4b51a04e3d7b2c2325e6a422d8c78abef4cd1a71903115b47173c2204f",
-          "bytes": 25896
+          "sha256": "95aa43d80f59c840ed19dc20bd3c032a6af9d59d7f3bf6c9f8aaf43ce14458f9",
+          "bytes": 25993
         }
       ]
     }

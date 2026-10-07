@@ -239,8 +239,8 @@ JOB=$(vsb run video/seedance-2.5 \
 - **`reference_audios` needs a reference image or video.** It takes up to 10
   clips and 30 s in total on 2.5, and 3 clips and 15 s on 2.0. It is the
   lip-sync input, so it works only in reference mode.
-- **`use_virtual_avatar`** exists on the Cloudflare copy of Seedance, for AI
-  characters. Visual Sandbox does not expose it.
+- **`use_virtual_avatar`** on the Cloudflare copy of Seedance is the input
+  behind `--ai_character`. Use the flag; there is no second input to set.
 - **Subtitles appear uninvited,** more often in portrait. Add "No subtitles."
   to every prompt that does not want them. Strip text from reference assets
   first.

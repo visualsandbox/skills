@@ -1,6 +1,8 @@
 # The film pyramid
 
-A plan for the skills that sit **above** the model. Nothing here is built yet.
+A plan for the skills that sit **above** the model. Only `vsb-film` is built,
+as one skill that holds the whole flow from script to captions. The other
+five tiers are still a plan; split them out of `vsb-film` when it grows too long.
 This file holds the shape and the reasoning so the build does not drift.
 
 ## The gap

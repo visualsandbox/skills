@@ -212,6 +212,7 @@ list, run `vsb skills install <name>`, then read
 | `vsb-timeline` | Build a longer edit: shots end to end, sound under, titles over (local, free, CLI only) |
 | `vsb-subtitles` | Burn word-by-word captions into a video (CLI only) |
 | `vsb-download` | Download a TikTok, Instagram or YouTube video and read what is in it (CLI only) |
+| `vsb-film` | Make a short film of several shots: script, shot list, one cast across shots, sound, edit, captions |
 
 Prepare media with these commands, not with a raw `ffmpeg` call.
 
