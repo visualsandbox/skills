@@ -109,7 +109,7 @@ Read them live before you quote.
 | `video/p-video-2` | Accepted | Yes, from quoted dialogue | Yes, `--audio`. The clip runs as long as the audio | 0.02 draft, 0.04 standard | **Path B default.** Cheapest, one voice across shots |
 | `video/kling-avatar-v2` | Not tested | No | Yes, `--audio`, one portrait. Length = audio | 0.07 `std`, 0.14 `pro` | A talking head with little body motion |
 | `video/lipsync-2-pro` | Accepted | No | Yes, `--audio`, on a clip you already have | 0.11 | New words on a clip where the person already talks |
-| `video/seedance-2.5` | **Refused**, AI faces too | Yes, from quoted dialogue | Only `reference_audios`, see below | 0.29 | Shots with no photoreal face |
+| `video/seedance-2.5` | **Refused**, AI faces too. An AI-made face passes with `--ai_character true` | Yes, from quoted dialogue | Only `reference_audios`, see below | 0.29 | Shots with no photoreal face, or an AI character |
 
 ### Path A: native speech, one voice per clip
 

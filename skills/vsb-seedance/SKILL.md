@@ -140,8 +140,8 @@ JOB=$(vsb run video/seedance-2.5 \
 
 ### Lip-sync a portrait to a recording
 
-This works only for a face that is not photoreal. A photoreal face, an
-AI-generated one included, is refused (see Gotchas). For photoreal people, use
+A photoreal face is refused unless the person is an AI-made character and you
+pass `--ai_character true` (see Gotchas). For a real person, use
 the paths in [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend).
 
 ```bash
@@ -182,10 +182,18 @@ JOB=$(vsb run video/seedance-2.5 \
   "aerial flythrough". On `"Your input was flagged by the model's safety
   filter"`, retry the same inputs on `video/p-video` before you rewrite the
   prompt.
-- **Photoreal faces are refused.** ByteDance's real-face detector rejects any
-  `image` or reference with a photoreal face, AI-generated faces included:
-  `provider_safety`, "The input or output was flagged as sensitive". Changing
-  the prompt or the URL does not help. A still with no face passes. For
+- **Photoreal faces are refused, unless `--ai_character true`.** ByteDance's
+  real-face detector rejects any `image` or reference with a photoreal face,
+  AI-generated faces included: "flagged as sensitive" on Replicate, "may
+  contain real person" on Cloudflare. Character sheets with a face are refused
+  too. A still with no face passes, but the model then invents the face.
+  `--ai_character true` sends the images through ByteDance's virtual avatar
+  library on Cloudflare, and a realistic AI face then passes and stays the
+  same. It is a promise that every person in the images is AI-made and that
+  the user holds the rights: never set it for a photo of a real person, and
+  ask the user before you set it. With it on, `image` guides the face only and
+  does not fix the opening shot, and Seedance 2.0 and 2.0 Fast cap at
+  12 s. For
   people who talk, read [`vsb-video` → People who talk](../vsb-video/SKILL.md#people-who-talk-pick-the-sound-path-before-you-spend).
 - **A first frame excludes every reference list (E006).** `image` and
   `last_frame_image` cannot go with `reference_images`, `reference_videos` or
