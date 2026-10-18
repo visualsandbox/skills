@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "fe6f9ad813f30a13e6a8e92a3e09e5a525d3acc07ed05025ae838b9de3528d91",
+  "bundle": "60cf7560c43e1b9d645368bd0edb042b3b55444e8dd7cae0d2fd99398a0dc7ac",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "58a7ce5a9c80c76d2abf01dc349eace14a1a6fc448a662a13fe2e23802d92a19",
-          "bytes": 31735
+          "sha256": "5d0120cca058b49873b056faef12a955657eae97c8ab6b51e450ce5ec606e0d4",
+          "bytes": 31779
         }
       ]
     },
