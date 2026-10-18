@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "visual-sandbox": {
+      "type": "streamable-http",
+      "url": "https://visualsandbox.com/mcp/chatgpt"
+    }
+  }
+}

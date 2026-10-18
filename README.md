@@ -67,6 +67,10 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-image-prompting`](skills/vsb-image-prompting/) | Canonical prompt-craft trunk for every image model — anatomy, reference keep/ignore rules |
 | [`vsb-image-iteration`](skills/vsb-image-iteration/) | Edit an image more than once without generation loss — prompt stacking, contact sheet, crop-and-composite |
 | [`vsb-ugc-people`](skills/vsb-ugc-people/) | UGC-style single-person ad photos — selfie POV + talking-head formats for 9:16 TikTok/Reels |
+| [`vsb-setup`](skills/vsb-setup/) | Onboarding over MCP — connection check, first image, first video |
+| [`vsb-ugc-ad`](skills/vsb-ugc-ad/) | Creator-style 9:16 video ad — script, approved first frame, then speech |
+| [`vsb-product-photoshoot`](skills/vsb-product-photoshoot/) | A set of product photos from one photo, product kept identical |
+| [`vsb-ad-variations`](skills/vsb-ad-variations/) | 3 to 6 versions of one ad, one change each, for an A/B test |
 | [`vsb-seedance`](skills/vsb-seedance/) | Run the Seedance family — tiers, reference lists, locked aspect and duration per task, price jumps |
 | [`vsb-seedance-prompting`](skills/vsb-seedance-prompting/) | Prompt craft for Seedance — asset bindings, shot lists, timestamps, edits, extensions, templates |
 | [`vsb-p-video`](skills/vsb-p-video/) | Run P-Video, the cheapest video model — draft toggle, pricing, async + poll |

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "c6fcaab98e75bcec36a42eb4619818c3355c255ed89fa1bdb4668ff0856972ca",
+  "bundle": "64d077b31667ea3fff453ac5dd598d3acb7d655eb0b9b65e1398975717a8c7ea",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,19 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "b889618b03306c6516bdb12a607adc0adc4a13f025f33293716c53704ce846d8",
-          "bytes": 31322
+          "sha256": "58a7ce5a9c80c76d2abf01dc349eace14a1a6fc448a662a13fe2e23802d92a19",
+          "bytes": 31735
+        }
+      ]
+    },
+    {
+      "name": "vsb-ad-variations",
+      "description": "Make several versions of one image ad to test against each other with the Visual Sandbox MCP tools: the same product and offer, with a different hook, scene, person or layout in each version. Trigger when the person asks for \"ad variations\", \"versions to A/B test\", \"more creatives\", \"different hooks\", \"5 ads for Meta\", \"new angles for this ad\" or sends one ad and asks for more like it. Changes one thing per version, so a test says which thing worked. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "ea12f11723617807eff042f92159049741e33d1ceec8cec8b244ae3052d33593",
+          "bytes": 3220
         }
       ]
     },
@@ -179,6 +190,17 @@
       ]
     },
     {
+      "name": "vsb-product-photoshoot",
+      "description": "Make a set of product photos from one photo of the product with the Visual Sandbox MCP tools: hero shots, lifestyle scenes, flat lays and ad images that keep the product the same in every picture. Trigger when the person asks for \"product photos\", \"a product shoot\", \"photos for my store\", \"Amazon or Shopify images\", \"lifestyle shots of my product\", \"a hero image\", or sends a product photo and asks to make it look professional. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "cd9b341f9e9985cd9ec34f65519fc48eb7648479229affd7eff33b4a7054d1c9",
+          "bytes": 3327
+        }
+      ]
+    },
+    {
       "name": "vsb-seedance",
       "description": "Run the ByteDance Seedance family in Visual Sandbox well: `video/seedance-2.5` (up to 30 reference images, reference video and audio lists), `video/seedance-2` (1080p and 4K), `video/seedance-2-fast`, and `video/seedance-2.0-mini`. Trigger whenever the user is about to call `vsb run video/seedance-*`, names Seedance, or asks for reference-driven video: a cast held across shots, a motion copied from a clip, a voice from an audio file, a first and last frame, a video edit, or a video extension. Covers the flags, the reference numbering, the locked aspect and duration rules per task, the price jump for a reference video, and the safety filter. Prompt craft lives in [`vsb-seedance-prompting`](../vsb-seedance-prompting/SKILL.md). Pairs with [`vsb-video`](../vsb-video/SKILL.md) for the async + poll pattern.",
       "files": [
@@ -202,6 +224,17 @@
           "path": "SKILL.md",
           "sha256": "017e4d1a5487de021e4a3028b4c5d86b339f452634c8eaf1e215005ac3c566c3",
           "bytes": 11791
+        }
+      ]
+    },
+    {
+      "name": "vsb-setup",
+      "description": "Get a new person started with Visual Sandbox over the MCP tools, in ChatGPT, Claude or any other chat client. Trigger right after the plugin is installed, when the person says \"set up Visual Sandbox\", \"what can you make\", \"get started\", \"how does this work\", or when the first tool call says the account is not connected. Checks the connection and the balance, shows what the plugin makes, and walks the person from one image to a first video. Uses the MCP tools only, never a shell.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "962b32ac70a2f13044e72b41b36e086df7829832f5477857d8688bc570994ced",
+          "bytes": 3972
         }
       ]
     },
@@ -235,6 +268,17 @@
           "path": "SKILL.md",
           "sha256": "7e698b065699a4e85adbb643542267d9281ea15463c4f3567f512abf7d09c6e2",
           "bytes": 12352
+        }
+      ]
+    },
+    {
+      "name": "vsb-ugc-ad",
+      "description": "Make a creator-style UGC video ad for a product with the Visual Sandbox MCP tools: a vertical 9:16 clip of one person who shows, uses or talks about the product, for TikTok, Instagram Reels or YouTube Shorts. Trigger when the person asks for a \"UGC ad\", \"creator ad\", \"testimonial video\", \"unboxing video\", \"talking head ad\", \"TikTok ad for my product\" or \"a person holding my product\". Plans a script, approves the first frame as an image, then animates it with speech. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "58e0dc6cdd1b4c2f9eceb81e8cf240a3049ef2555b280ba67ac6c6abb2467a36",
+          "bytes": 3943
         }
       ]
     },

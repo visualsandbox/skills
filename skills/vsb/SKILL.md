@@ -197,6 +197,10 @@ list, run `vsb skills install <name>`, then read
 | `vsb-image-iteration` | Edit the same image a second time |
 | `vsb-nano-banana` | Run a Nano Banana model |
 | `vsb-ugc-people` | Make a UGC-style photo of one person for a 9:16 ad |
+| `vsb-setup` | Start a new person on the MCP tools: check the connection, then a first image and a first video |
+| `vsb-ugc-ad` | Make a creator-style 9:16 video ad of one person and a product, script first |
+| `vsb-product-photoshoot` | Make a set of product photos from one photo, with the product the same in each |
+| `vsb-ad-variations` | Make 3 to 6 versions of one ad that each change one thing, to test |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
 | `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table, the async poll, and the sound path for people who talk |
