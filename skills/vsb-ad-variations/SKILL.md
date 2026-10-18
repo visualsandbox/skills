@@ -74,5 +74,5 @@ person likes, with [`vsb-video`](../vsb-video/SKILL.md).
   the words the person gave you.
 - Call `estimate_cost` before a set of more than six versions, and say the
   total.
-- When a run is refused for want of credit, say the balance is too low and
-  that credit is added on visualsandbox.com.
+- When a run is refused for want of credit, say the balance is too low, and
+  follow what the server instructions say about credit.

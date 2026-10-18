@@ -88,5 +88,5 @@ video costs many times more than an image.
 - Every `generate` costs money. Never run twice to check a result you have.
   `get_job` returns the image, or four frames of a video, so you can look.
 - Send the same `sandbox_name` on every `generate` in one task.
-- When a run is refused for want of credit, say the balance is too low and
-  that credit is added on visualsandbox.com.
+- When a run is refused for want of credit, say the balance is too low, and
+  follow what the server instructions say about credit.

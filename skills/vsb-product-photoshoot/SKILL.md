@@ -75,5 +75,5 @@ with [`vsb-video`](../vsb-video/SKILL.md).
 - Never change the product. A changed label or shape is a failed shot, even
   when the picture looks good. Say so and run the shot again.
 - Never add a logo, a price or a claim that the person did not give you.
-- When a run is refused for want of credit, say the balance is too low and
-  that credit is added on visualsandbox.com.
+- When a run is refused for want of credit, say the balance is too low, and
+  follow what the server instructions say about credit.

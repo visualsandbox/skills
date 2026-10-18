@@ -89,5 +89,5 @@ video run and no new image.
 - Never run a video twice to check it. Read the four frames `get_job` sends.
 - Keep the product label sharp. If the model changes the label, say so and
   offer a new frame, not a new video.
-- When a run is refused for want of credit, say the balance is too low and
-  that credit is added on visualsandbox.com.
+- When a run is refused for want of credit, say the balance is too low, and
+  follow what the server instructions say about credit.
