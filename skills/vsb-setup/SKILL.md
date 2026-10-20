@@ -65,8 +65,9 @@ before a video run.
 6. Give the person the `share_url` and the `sandbox_url`.
 
 If the person sent a photo, use it as a reference. Pass a public `https` URL
-to `generate`, or pass a local file to `upload_media` as a base64 data URI
-and use the URL it returns.
+to `generate`. For a file attached in the chat, call `upload_media` with it as
+`file`. For a local file, call `upload_media` with a base64 `data_uri`. Use
+the URL it returns.
 
 ## 4. Offer one next step
 

@@ -22,7 +22,8 @@ Use the MCP tools only.
 ## 1. Get the base
 
 - **An ad they already have.** Use it as the reference image. Pass a public
-  `https` URL, or a local file to `upload_media`.
+  `https` URL. Give an ad attached in the chat, or a local file, to
+  `upload_media` first.
 - **Only a product.** Make the base ad first with
   [`vsb-product-photoshoot`](../vsb-product-photoshoot/SKILL.md), then come
   back here.

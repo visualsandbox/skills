@@ -24,8 +24,8 @@ look right as a still image first, and spends on video once.
 
 Ask only for what is missing. Never ask more than three questions.
 
-- **The product.** A photo is best. Pass a public `https` URL, or a local
-  file to `upload_media`.
+- **The product.** A photo is best. Pass a public `https` URL. Give a photo
+  attached in the chat, or a local file, to `upload_media` first.
 - **The hook.** The one thing the ad must say, such as "it fixed my skin in
   a week".
 - **The format.** Pick one: a talking head, a selfie walk-and-talk, an

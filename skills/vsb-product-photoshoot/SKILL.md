@@ -23,8 +23,9 @@ Use the MCP tools only.
 
 - Ask for one clear photo of the product, if the person sent none. A phone
   photo on a plain table is enough.
-- Pass a public `https` URL straight to `generate`. For a local file, call
-  `upload_media` with a base64 data URI and use the URL it returns.
+- Pass a public `https` URL straight to `generate`. For a photo attached in
+  the chat, call `upload_media` with it as `file`. For a local file, call
+  `upload_media` with a base64 `data_uri`. Use the URL it returns.
 - Ask where the pictures go: a store page, an ad, or social media. That sets
   the shape: 1:1 for a store, 4:5 or 9:16 for social media, 16:9 for a
   banner.
