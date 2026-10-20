@@ -38,6 +38,12 @@ the reader.
 | `vsb characters create` | `create_character` |
 | `vsb characters update <character>` | `update_character` |
 | `vsb characters delete <character>` | `delete_character` |
+| `vsb run tool/video-join` | `join_clips` |
+| `vsb run tool/video-add-audio` | `add_audio` |
+| `vsb run tool/video-captions` | `add_captions` |
+| `vsb run tool/video-trim` | `trim_video` |
+| `vsb run tool/video-frame` | `extract_frame` |
+| `vsb run tool/video-overlay` | `add_logo` |
 | `vsb upload <file>` | `upload_media` |
 | `vsb sandbox nodes` | `list_sandbox_items` |
 | `vsb sandbox selection` | `get_selection` |
