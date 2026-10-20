@@ -5,10 +5,11 @@
  *   bun run scripts/build-openai-plugin.ts          # writes output/openai/*.zip
  *   bun run scripts/build-openai-plugin.ts --check  # validates only
  *
- * The ZIP holds `plugin.json`, the skills listed in SHIPPED, and the icon.
- * It holds no MCP server: the portal sets the server when the plugin is
- * created, and an upload cannot change it. `openai/mcp.json` records which
- * address that is, and this script checks it.
+ * The ZIP is a portable Agent Plugins package: `plugin.json`, `mcp.json`
+ * with the one server, the skills listed in SHIPPED, and the icon. The first
+ * upload must carry the server, because the portal cannot add one to a
+ * plugin that has none. The review test cases ride along in `plugin.json`,
+ * which the portal accepts beside exactly one server.
  *
  * Every limit below is one from OpenAI's submission guide. A package that
  * breaks one is refused at upload, so it is refused here first.
@@ -71,6 +72,7 @@ const openai = structuredClone(overlay.extensions["com.openai"]);
 const ui = openai.interface ?? {};
 
 const manifest = {
+  $schema: "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   name: overlay.name,
   version: overlay.version,
   description: base.description,
@@ -79,16 +81,13 @@ const manifest = {
   repository: base.repository,
   license: base.license,
   keywords: overlay.keywords,
-  skills: "./skills/",
   extensions: { "com.openai": openai },
 };
 
-// The portal mints the plugin id when the plugin is created, and refuses an
-// upload under any other name. Until then the build validates but writes no
-// ZIP.
-const placeholder = !/^app-[0-9a-f]+$/.test(manifest.name ?? "");
-if (placeholder && !CHECK_ONLY) {
-  fail("name is still the placeholder: paste the app-… id from the OpenAI portal into openai/plugin.openai.json");
+// A stable package identifier. The portal keeps its own plugin id: a ZIP
+// upload takes the identity of the plugin it is uploaded to.
+if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(manifest.name ?? "") || chars(manifest.name) > 64) {
+  fail("name must be lowercase letters, numbers and single hyphens, 64 characters at most");
 }
 if (!/^\d+\.\d+\.\d+$/.test(manifest.version ?? "")) fail("version must be x.y.z");
 if (chars(manifest.description) > 4000) fail("description is longer than 4000 characters");
@@ -150,8 +149,10 @@ for (const [kind, list] of [["positive", positive], ["negative", negative]] as c
 if (typeof openai.review?.commerce !== "boolean") fail("review.commerce must be true or false");
 if (!openai.publication?.release_notes) fail("publication.release_notes is required");
 
-const servers = Object.values(mcp.mcpServers ?? {}) as { url?: string }[];
-if (servers.length !== 1 || servers[0].url !== MCP_URL) fail(`openai/mcp.json must name one server, ${MCP_URL}`);
+const servers = Object.values(mcp.mcpServers ?? {}) as { url?: string; type?: string }[];
+if (servers.length !== 1 || servers[0].url !== MCP_URL || servers[0].type !== "streamable-http") {
+  fail(`openai/mcp.json must name one streamable-http server, ${MCP_URL}`);
+}
 
 for (const name of SHIPPED) {
   const file = join(ROOT, "skills", name, "SKILL.md");
@@ -165,14 +166,18 @@ for (const name of SHIPPED) {
   }
 }
 
+// The demo video is private, so it comes from the environment, never from
+// the repository. Without it the portal asks for the link in the form.
+const demo = process.env.OPENAI_DEMO_RECORDING_URL;
+if (demo) {
+  if (!https(demo)) fail("OPENAI_DEMO_RECORDING_URL must be an HTTPS URL");
+  openai.review.demo_recording_url = demo;
+}
+
 if (errors.length) {
   console.error(errors.map((e) => `error: ${e}`).join("\n"));
   process.exit(1);
 }
-
-// The test cases go into the portal's review form, not into the package:
-// the portal takes them in a package only beside a bundled MCP server.
-delete openai.review.test_cases;
 
 const staging = mkdtempSync(join(tmpdir(), "visual-sandbox-openai-"));
 const pkg = join(staging, "visual-sandbox");
@@ -211,12 +216,12 @@ for (const name of SHIPPED) {
 }
 cpSync(join(OPENAI, "assets"), join(pkg, "assets"), { recursive: true });
 writeFileSync(join(pkg, "plugin.json"), JSON.stringify(manifest, null, 2) + "\n");
+cpSync(join(OPENAI, "mcp.json"), join(pkg, "mcp.json"));
 cpSync(join(ROOT, "LICENSE"), join(pkg, "LICENSE"));
 
 const summary = `${SHIPPED.length} skills, ${positive.length}+${negative.length} review cases, ${manifest.keywords.length} keywords`;
 if (CHECK_ONLY) {
   console.log(`OpenAI package ${manifest.version} is valid (${summary}).`);
-  if (placeholder) console.warn("warning: name is still the placeholder, so a build would refuse to write the ZIP.");
 } else {
   const out = join(ROOT, "output", "openai");
   mkdirSync(out, { recursive: true });

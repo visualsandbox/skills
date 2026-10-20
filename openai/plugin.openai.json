@@ -1,5 +1,5 @@
 {
-  "name": "REPLACE-WITH-PORTAL-APP-ID",
+  "name": "visual-sandbox",
   "version": "1.0.0",
   "keywords": [
     "ai image generator",
@@ -60,7 +60,7 @@
           "A shared canvas for every result"
         ],
         "websiteURL": "https://visualsandbox.com/mcp-server/",
-        "supportURL": "https://visualsandbox.com/mcp-server/",
+        "supportURL": "https://visualsandbox.com/support/",
         "privacyPolicyURL": "https://visualsandbox.com/privacy/",
         "termsOfServiceURL": "https://visualsandbox.com/terms/",
         "defaultPrompt": [
@@ -80,8 +80,8 @@
             {
               "description": "Text to image. Needs a demo account with credit.",
               "prompt": "Generate an image of a cozy coffee shop interior in warm morning light.",
-              "tools_triggered": "list_models, get_model, generate, get_job (get_skill when the model reads a prompting pack first)",
-              "expected_behavior": "One finished image of the described scene, shown from get_job, with its share link. One generate call, no extra paid variations."
+              "tools_triggered": "list_models, get_model, generate, show_media (get_skill when the model reads a prompting pack first)",
+              "expected_behavior": "One generate call, then the Visual Sandbox card shows the finished image of the described scene, with a link to open it on visualsandbox.com. No extra paid variations."
             },
             {
               "description": "Read the account balance. Nothing is generated or charged.",
@@ -92,20 +92,20 @@
             {
               "description": "Product photo from an attached reference image. Needs image credit.",
               "prompt": "Turn this product photo into a clean studio hero shot on a white background.",
-              "tools_triggered": "upload_media, list_models, get_model, generate, get_job",
-              "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and shows one hero shot in which the product keeps its shape, colour and label."
+              "tools_triggered": "upload_media, list_models, get_model, generate, show_media",
+              "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and the card shows one hero shot in which the product keeps its shape, colour and label."
             },
             {
               "description": "Video with the price shown first. Needs video credit.",
               "prompt": "Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first.",
-              "tools_triggered": "list_models, get_model, estimate_cost, generate, get_job",
-              "expected_behavior": "Shows the estimated price and waits for a yes before generate. After the run, get_job returns four frames of the finished 9:16 clip and its share link. A queued job is not reported as a finished video."
+              "tools_triggered": "list_models, get_model, estimate_cost, generate, show_media",
+              "expected_behavior": "Shows the estimated price and waits for a yes before generate. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
             },
             {
               "description": "Stock voice narration. Needs speech credit.",
               "prompt": "Read this line in a warm, friendly voice: Welcome to Visual Sandbox, your studio for images, video and sound.",
-              "tools_triggered": "list_voices, list_models, get_model, generate, get_job",
-              "expected_behavior": "Picks a stock voice, keeps the words exactly, and delivers one playable audio file with its share link."
+              "tools_triggered": "list_voices, list_models, get_model, generate, show_media",
+              "expected_behavior": "Picks a stock voice, keeps the words exactly, and the card plays the finished audio."
             }
           ],
           "negative": [

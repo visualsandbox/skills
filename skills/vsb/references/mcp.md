@@ -50,6 +50,7 @@ the reader.
 | `vsb topup` | `top_up` |
 | `vsb skills list` | `list_skills` |
 | `vsb skills install <name>` | `get_skill` |
+| none, ChatGPT only | `show_media` (a card with the result, on `/mcp/chatgpt`) |
 
 This table is a copy. The pairing itself lives on the `@tool` decorator in
 `core/mcp/tools.py`, and `manage.py mcp_surface` prints it. If the two ever

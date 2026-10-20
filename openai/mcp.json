@@ -1,8 +1,19 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "visual-sandbox": {
       "type": "streamable-http",
-      "url": "https://visualsandbox.com/mcp/chatgpt"
+      "url": "https://visualsandbox.com/mcp/chatgpt",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "dcr"
+            }
+          }
+        }
+      }
     }
   }
 }
