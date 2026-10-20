@@ -93,7 +93,10 @@
               "description": "Product photo from an attached reference image. Needs image credit.",
               "prompt": "Turn this product photo into a clean studio hero shot on a white background.",
               "tools_triggered": "upload_media, list_models, get_model, generate, show_media",
-              "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and the card shows one hero shot in which the product keeps its shape, colour and label."
+              "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and the card shows one hero shot in which the product keeps its shape, colour and label.",
+              "file_attachment_urls": [
+                "https://cdn.visualsandbox.com/predictions/a8a2164f-3cd9-4666-a1c9-f0099b3e9d3a/76907e18-486a-4341-b9e9-6a03f4039a30/224f935f-c99b-4f44-bf66-f1820dc53646.jpg"
+              ]
             },
             {
               "description": "Video with the price shown first. Needs video credit.",
