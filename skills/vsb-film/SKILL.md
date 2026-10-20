@@ -15,8 +15,10 @@ license: Proprietary. See LICENSE for the terms.
 # Make a short film with vsb
 
 > **On the MCP surface?** Generate with `generate` and `get_job`, and price
-> with `estimate_cost`. The edit commands (`vsb video timeline`, `crop`,
-> `frame`, `subtitles`) run on the local machine and are CLI only. See
+> with `estimate_cost`. The local edit commands (`vsb video timeline`,
+> `crop`, `frame`, `subtitles`) have server tools that run through
+> `generate`: see [`vsb-edit-video`](../vsb-edit-video/SKILL.md). Keep the
+> cast with [`vsb-characters`](../vsb-characters/SKILL.md). See
 > [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
 
 A model makes one clip at a time and forgets the last one. This page is the

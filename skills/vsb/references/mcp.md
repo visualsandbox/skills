@@ -33,6 +33,11 @@ the reader.
 | `vsb status <job_id>` | `get_job` |
 | `vsb jobs` | `list_jobs` |
 | `vsb voices` | `list_voices` |
+| `vsb characters` | `list_characters` |
+| `vsb characters get <character>` | `get_character` |
+| `vsb characters create` | `create_character` |
+| `vsb characters update <character>` | `update_character` |
+| `vsb characters delete <character>` | `delete_character` |
 | `vsb upload <file>` | `upload_media` |
 | `vsb sandbox nodes` | `list_sandbox_items` |
 | `vsb sandbox selection` | `get_selection` |

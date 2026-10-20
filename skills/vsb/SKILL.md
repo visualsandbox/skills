@@ -201,6 +201,8 @@ list, run `vsb skills install <name>`, then read
 | `vsb-ugc-ad` | Make a creator-style 9:16 video ad of one person and a product, script first (MCP only) |
 | `vsb-product-photoshoot` | Make a set of product photos from one photo, with the product the same in each (MCP only) |
 | `vsb-ad-variations` | Make 3 to 6 versions of one ad that each change one thing, to test (MCP only) |
+| `vsb-edit-video` | Join clips, add a voiceover, music and captions, trim and reframe, take a frame, add a logo, on the server (MCP only) |
+| `vsb-characters` | Keep one person, mascot or product the same across shots: the sheet, the voice, the reuse |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
 | `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table, the async poll, and the sound path for people who talk |
@@ -418,6 +420,7 @@ source of truth — this list goes stale, the registry does not.
 - **Video** (always async, 30s–3min): `video/veo-3.1`, `video/veo-3.1-fast`, `video/seedance-2`, `video/seedance-2-fast`, `video/seedance-2.0-mini`, `video/seedance-2.5`, `video/kling-v3-omni-video`, `video/kling-v3-motion-control`, `video/kling-avatar-v2`, `video/grok-imagine-video`, `video/grok-imagine-video-1.5` (image required), `video/flux-3` (storyboard from keyframes, or continue a clip), `video/minimax-h3`, `video/wan-3` (up to 30s, silent), `video/ltx-2.5-fast` (up to 4K), `video/p-video`, `video/p-video-2`, `video/p-video-2-pro`, `video/p-video-edit` (edit a clip), `video/p-video-replace` (swap the person), `video/p-video-animate` (motion onto a still), `video/p-video-avatar` (a photo speaks), `video/lipsync-2-pro` (redub existing footage), `video/video-upscale` (Topaz: enlarge or retime an existing clip, no prompt), `video/flux-video-upscale` (short clips, invents detail)
 - **Audio** (async, 5–30s): `audio/elevenlabs-sound-fx`, `audio/elevenlabs-tts` (text to speech, 21 stock voices or a designed voice), `audio/elevenlabs-voice-design` (a sample of a new voice from a description, for TTS to speak with), `audio/eleven-music`, `audio/minimax-music-2.6` (a full song, one flat price), `audio/minimax-music-cover` (re-sing a recording), `audio/scribe` (speech to text)
 - **3D**: `3d/hunyuan-3d-3.1`
+- **Edit** (free, on the server, except captions at 5 cents): `tool/video-join`, `tool/video-add-audio`, `tool/video-captions`, `tool/video-trim`, `tool/video-frame`, `tool/video-overlay`. See `vsb-edit-video`. The local `vsb video` commands do the same on this machine.
 - **Vector**: `vector/quiver-arrow-2` (the default: generate, vectorize, edit and animate an SVG), `vector/quiver-arrow-2-telos` (same four, plus a frontier reasoning model and a much longer brief), `vector/quiver-arrow-1.1` (generate and vectorize only, at a flat price per file), `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Arrow 2 for icons and for anything that starts from an SVG, raster-then-vectorize for detailed art, and ask the colour count first.
 
 For per-modality recipes, see [Skill packs](#skill-packs).

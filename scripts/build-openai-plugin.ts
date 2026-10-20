@@ -44,6 +44,8 @@ const SHIPPED = [
   "vsb-product-photoshoot",
   "vsb-ugc-ad",
   "vsb-ad-variations",
+  "vsb-edit-video",
+  "vsb-characters",
   "vsb-image",
   "vsb-image-prompting",
   "vsb-image-iteration",
