@@ -171,6 +171,11 @@ movement. A silent clip of a person who does not talk is the wrong input.
 - `--ai_character true` lets an AI-made face through and keeps it the same
   across shots. Ask the user first, and never set it for a real person.
   Recipe in [`vsb-seedance`](../vsb-seedance/SKILL.md#one-realistic-ai-character-across-shots).
+- Seedance speaks a line from `reference_audios` again in its own voice, so
+  the voice drifts from clip to clip. To keep one voice, run each clip
+  through `audio/elevenlabs-voice-changer` and put that sound back with
+  `tool/video-add-audio --mode replace`. Recipe in
+  [`vsb-seedance`](../vsb-seedance/SKILL.md#a-talking-ai-presenter-in-one-voice).
 - Use Seedance 2.5 for shots with no photoreal face. A stylized character may
   pass; test one clip first.
 

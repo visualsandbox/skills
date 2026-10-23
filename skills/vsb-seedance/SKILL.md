@@ -154,6 +154,44 @@ JOB=$(vsb run video/seedance-2.5 \
   --async --json | jq -r '.job_id')
 ```
 
+### A talking AI presenter in one voice
+
+The recipe for a presenter who says your line in your voice, clip after clip.
+It was proven on a series of 15 s talking-head clips in October 2026.
+
+1. **The face.** One portrait from `image/gpt-image-2.5-flare`, the shot you
+   want: the framing, the room and the light. Use it in every clip. Ask the
+   user to confirm that the person is AI-made before the first run.
+2. **The line.** Speak it with `audio/elevenlabs-tts` in the voice you keep
+   (`--my_voice`, see [`vsb-audio`](../vsb-audio/SKILL.md)). Keep it about
+   10 s for a 15 s clip. Pad it: 1 s of silence before the line, then silence
+   to the clip length, so the clip opens and closes on a quiet face.
+3. **The clip.** The face in `--reference_images`, never in `--image`: a first
+   frame cannot go with reference audio (E006). `--ai_character true` is
+   required for the face to pass.
+4. **The check.** Seedance can drop words. Transcribe the clip with
+   `audio/scribe` and compare it with the line, word by word. Give the
+   speech window about 1.5 s more than the line in the prompt, and write
+   "says every word of [Audio1] in full and in order".
+5. **The voice.** Seedance speaks [Audio1] again in its own voice. The words
+   and the timing match the line, but the voice drifts from clip to clip. Run
+   the clip through `audio/elevenlabs-voice-changer` with the same voice, then
+   put that sound back on the clip with `tool/video-add-audio --mode replace`.
+   The lips stay in sync, because the timing does not change.
+
+```bash
+JOB=$(vsb run video/seedance-2.5 \
+  --prompt "Animate [Image1] exactly as it is framed: the same shot, the same angle and the same distance from the first frame to the last. He is [Image1]: his face, hair, clothes and the room behind him. Use [Audio1] as his spoken line; do not generate new dialogue. He says every word of [Audio1] in full and in order. His lips move in exact sync with [Audio1]. 0-1s: he is silent and looks into the lens. 1-12s: he says [Audio1] into the lens like a relaxed host, with small head movements. After his last word: he smiles and holds still. No subtitles. No music; only his voice and quiet room tone." \
+  --reference_images "[\"$FACE\"]" --reference_audios "[\"$LINE\"]" \
+  --ai_character true --aspect_ratio 16:9 --resolution 720p --duration 15 \
+  --async --json | jq -r '.job_id')
+# Wait for the job (see vsb-video), then take its video URL:
+CLIP=$(vsb status "$JOB" --result --json | jq -r '.result.urls[0]')
+NEW=$(vsb run audio/elevenlabs-voice-changer --audio "$CLIP" --my_voice narrator \
+  --remove_background_noise true --json | jq -r '.result.urls[0]')
+vsb run tool/video-add-audio --video "$CLIP" --audio "$NEW" --mode replace --json
+```
+
 ### One realistic AI character across shots
 
 Seedance refuses a photoreal face unless `--ai_character true` is on. Use this

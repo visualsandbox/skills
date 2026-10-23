@@ -35,6 +35,7 @@ exit is the "done" signal. `vsb status` never waits on its own. Rules in
 | Sound effects (0.5–30s clips) | `audio/elevenlabs-sound-fx` | ElevenLabs. Foley, ambient, transitions, UI sounds. Loop mode for tiling beds. |
 | Voiceover or narration from a script (text to speech) | `audio/elevenlabs-tts` | ElevenLabs. 21 stock voices (`--voice`, default `george`), or a voice you designed (`--my_voice <name>` or `--designed_voice <sample url>`, see below). No voice cloning: a recording of a real person is refused. `--mode v4` (default) is the newest and most natural and follows audio tags like `[whispers]`, 10,000 characters per run; `v3` also follows tags, 5,000; `multilingual-v2` reads long narration more evenly, 10,000; `flash-v2.5` costs half as much, 40,000. Billed per character. |
 | A new voice from a written description | `audio/elevenlabs-voice-design` | ElevenLabs Voice Design v3. Returns one MP3 sample of a new voice reading one line. A sample is an audition, not the voiceover: pass it to `audio/elevenlabs-tts` as `--designed_voice`. Run again for another take. Billed per character of the sample line. The web Composer runs one design per click. Safety-filtered: a description that reads as a child, like "girl", is refused; "woman" passes. Not voice cloning. |
+| Speak a recording again in another voice (voice changer, speech to speech) | `audio/elevenlabs-voice-changer` | ElevenLabs. Takes an audio or a video file of up to 5 minutes and one of the voices TTS takes: `--voice`, `--designed_voice` or `--my_voice`. Keeps the words, the timing and the emotion; only the voice changes. Use it to put one voice back on clips that a video model voiced itself. Billed per minute of the recording: the quote holds 5 minutes, then drops to the real length. |
 | Music (10s–5min tracks) | `audio/eleven-music` | ElevenLabs music_v2. Full structured tracks, vocals (model-written or your own lyrics) or instrumental. 48 kHz MP3. |
 | Full song or instrumental from a style description | `audio/minimax-music-2.6` | MiniMax. One flat price per track whatever the length, so long songs are cheapest here. Own lyrics with section tags, auto-written lyrics, or instrumental. It honours a stated key and BPM. You cannot set the length: expect two to four minutes. |
 | Re-sing a song you already have in a new style | `audio/minimax-music-cover` | MiniMax. The only model that takes a recording as input. Anchors on the melody and swaps the voice, instruments and arrangement, with optional replacement lyrics. The source needs audible singing, and the melody can still drift, so listen before you use it. |
@@ -150,6 +151,27 @@ vsb run audio/elevenlabs-tts --my_voice narrator --prompt "<script>" --json
 - `--my_voice` takes a name (any case) or an id, and wins over
   `--designed_voice`. An unknown name fails before any charge.
 - Two voices of one user cannot share a name.
+
+## ElevenLabs Voice Changer
+
+Use it when a recording has the right words and timing but the wrong voice.
+The main case is a video model, such as Seedance 2.5, that speaks your line
+again in its own voice. Change the voice back, then put the sound on the clip.
+
+```bash
+# 1. A video is fine: the run takes its sound.
+NEW=$(vsb run audio/elevenlabs-voice-changer --audio "<clip url>" \
+  --my_voice narrator --json | jq -r '.result.urls[0]')
+# 2. Replace the clip's own sound with the new voice.
+vsb run tool/video-add-audio --video "<clip url>" --audio "$NEW" --mode replace --json
+```
+
+- The output is as long as the input, so the lip sync of a clip holds.
+- Turn on `--remove_background_noise true` when the recording has room tone
+  or music. Without it, the noise can come back as a hiss in the new voice.
+- 5 minutes at most per run. Cut a longer recording into parts.
+- It takes the same voices as Text to Speech. A recording of a real person
+  cannot become a voice: there is no voice cloning.
 
 ## Eleven Music
 
