@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -41,7 +41,7 @@
       "interface": {
         "displayName": "Visual Sandbox",
         "shortDescription": "Create images, video and ads",
-        "longDescription": "Create images, videos, ads and audio in ChatGPT with more than 100 AI models in one place. Turn a product photo into a set of store photos, make a creator-style video ad with a script and a voice, or make several versions of one ad to test against each other.\n\nGenerate and edit images with models such as Nano Banana, GPT Image and FLUX. Animate a photo or make a clip from text with models such as Seedance, Veo and Kling, at 9:16 for TikTok, Reels and Shorts or 16:9 for YouTube. Make voiceovers, music and sound effects, SVG logos and icons, 3D models, and web pages or cards in editable layers.\n\nEdit the result in the same chat: join clips, add a voiceover, music and word-timed captions, trim to 9:16 and place your logo. Save a person or a product as a character once, and keep the same face and voice in every shot.\n\nAsk for an estimate before a run, and the plugin shows what the run costs on your account before anything starts. Your results land on a canvas at visualsandbox.com, where you can see the whole set side by side, use any picture as the reference for the next one, and share a link.\n\nGenerations are charged to your Visual Sandbox account. Results vary by model. For help, contact hello@visualsandbox.com.",
+        "longDescription": "Create images, videos, ads and audio in ChatGPT with more than 50 AI models in one place. Turn a product photo into a set of store photos, make a creator-style video ad with a script and a voice, or make several versions of one ad to test against each other.\n\nGenerate and edit images with models such as Nano Banana, GPT Image and FLUX. Animate a photo or make a clip from text with models such as Seedance, Veo and Kling, at 9:16 for TikTok, Reels and Shorts or 16:9 for YouTube. Make voiceovers, music and sound effects, SVG logos and icons, 3D models, and web pages or cards in editable layers.\n\nEdit the result in the same chat: join clips, add a voiceover, music and word-timed captions, trim to 9:16 and place your logo. Save a person or a product as a character once, and keep the same face and voice in every shot.\n\nAsk for an estimate before a run, and the plugin shows what the run costs on your account before anything starts. Your results land on a canvas at visualsandbox.com, where you can see the whole set side by side, use any picture as the reference for the next one, and share a link.\n\nGenerations are charged to your Visual Sandbox account. Results vary by model. For help, contact hello@visualsandbox.com.",
         "developerName": "Visual Sandbox",
         "category": "Creativity",
         "capabilities": [
@@ -86,8 +86,8 @@
             {
               "description": "Text to image. Needs a demo account with credit.",
               "prompt": "Generate an image of a cozy coffee shop interior in warm morning light.",
-              "tools_triggered": "generate_image, show_media (get_skill when the model reads a prompting pack first)",
-              "expected_behavior": "One generate_image call, then the Visual Sandbox card shows the finished image of the described scene, with a link to open it on visualsandbox.com. No extra paid variations."
+              "tools_triggered": "an image_* model tool such as image_gpt_image_2_5_flare, show_media (get_skill when the model reads a prompting pack first)",
+              "expected_behavior": "One image_* model tool call, then the Visual Sandbox card shows the finished image of the described scene, with a link to open it on visualsandbox.com. No extra paid variations."
             },
             {
               "description": "Read the account balance. Nothing is generated or charged.",
@@ -98,7 +98,7 @@
             {
               "description": "Product photo from an attached reference image. Needs image credit.",
               "prompt": "Turn this product photo into a clean studio hero shot on a white background.",
-              "tools_triggered": "upload_media, generate_image, show_media",
+              "tools_triggered": "upload_media, an image_* model tool such as image_nano_banana_2, show_media",
               "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and the card shows one hero shot in which the product keeps its shape, colour and label.",
               "file_attachment_urls": [
                 "https://cdn.visualsandbox.com/predictions/a8a2164f-3cd9-4666-a1c9-f0099b3e9d3a/76907e18-486a-4341-b9e9-6a03f4039a30/224f935f-c99b-4f44-bf66-f1820dc53646.jpg"
@@ -107,13 +107,13 @@
             {
               "description": "Video with the price shown first. Needs video credit.",
               "prompt": "Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first.",
-              "tools_triggered": "estimate_cost, generate_video, show_media",
-              "expected_behavior": "Shows the estimated price and waits for a yes before generate_video. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
+              "tools_triggered": "estimate_cost, a video_* model tool such as video_p_video_2, show_media",
+              "expected_behavior": "Shows the estimated price and waits for a yes before the run starts. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
             },
             {
               "description": "Stock voice narration. Needs speech credit.",
               "prompt": "Read this line in a warm, friendly voice: Welcome to Visual Sandbox, your studio for images, video and sound.",
-              "tools_triggered": "list_voices, generate_audio, show_media",
+              "tools_triggered": "list_voices, audio_elevenlabs_tts, show_media",
               "expected_behavior": "Picks a stock voice, keeps the words exactly, and the card plays the finished audio."
             }
           ],
@@ -136,7 +136,7 @@
         "commerce_description": "Visual Sandbox sells nothing in ChatGPT. The ChatGPT server address has no checkout or top-up tool and returns no purchase link. Generations are charged to the person's existing Visual Sandbox account. When the balance is too low, the plugin says so and says that credit is added on visualsandbox.com."
       },
       "publication": {
-        "release_notes": "First release. Generate and edit images, videos, voiceovers, music, sound effects, SVGs and 3D models with more than 100 AI models. Edit video in the chat: join clips, add sound and captions, trim, reframe and add a logo. Save characters that stay the same across shots. Includes guided setup, product photo shoots, UGC-style video ads and ad variations for testing. Every result shows in a card and lands on a shared canvas at visualsandbox.com."
+        "release_notes": "First release. Generate and edit images, videos, voiceovers, music, sound effects, SVGs and 3D models with more than 50 AI models. Edit video in the chat: join clips, add sound and captions, trim, reframe and add a logo. Save characters that stay the same across shots. Includes guided setup, product photo shoots, UGC-style video ads and ad variations for testing. Every result shows in a card and lands on a shared canvas at visualsandbox.com."
       }
     }
   }
