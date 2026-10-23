@@ -22,12 +22,12 @@ Keep it under 6 minutes. No voice is needed.
 |---|--------------|--------|-------|
 | 1 | Connect. Select **Connect**, type `review@visualsandbox.com`, then the password. Approve the consent page. | none | OAuth |
 | 2 | The balance. | How much credit is left on my Visual Sandbox account? | `get_balance` |
-| 3 | An image. The card shows the result. | Generate an image of a cozy coffee shop interior in warm morning light. | `generate`, `show_media` |
-| 4 | A product photo. Attach the photo first. | Turn this product photo into a clean studio hero shot on a white background. | `upload_media`, `generate`, `show_media` |
-| 5 | A video with the price first. Say yes to the price. The card shows the percent, then plays the clip. | Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first. | `estimate_cost`, `generate`, `show_media` |
-| 6 | A voice. The card plays the audio. | Read this line in a warm, friendly voice: Welcome to Visual Sandbox, your studio for images, video and sound. | `list_voices`, `generate`, `show_media` |
-| 7 | An edit. Join the clips from 3 and 5 and burn captions. The card plays the result. | Join the coffee shop picture and the paper airplane video into one 9:16 video, add a calm voiceover that says what it is, and add captions. | `join_clips`, `generate` (voiceover), `add_audio`, `add_captions`, `show_media` |
-| 8 | A character. Save the product from 4, then use it in a new picture. | Save this mug as a character named Sage Mug, then show it on a café table at sunrise. | `create_character`, `get_character`, `generate`, `show_media` |
+| 3 | An image. The card shows the result. | Generate an image of a cozy coffee shop interior in warm morning light. | `generate_image`, `show_media` |
+| 4 | A product photo. Attach the photo first. | Turn this product photo into a clean studio hero shot on a white background. | `upload_media`, `generate_image`, `show_media` |
+| 5 | A video with the price first. Say yes to the price. The card shows the percent, then plays the clip. | Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first. | `estimate_cost`, `generate_video`, `show_media` |
+| 6 | A voice. The card plays the audio. | Read this line in a warm, friendly voice: Welcome to Visual Sandbox, your studio for images, video and sound. | `list_voices`, `generate_audio`, `show_media` |
+| 7 | An edit. Join the clips from 3 and 5 and burn captions. The card plays the result. | Join the coffee shop picture and the paper airplane video into one 9:16 video, add a calm voiceover that says what it is, and add captions. | `join_clips`, `generate_audio` (voiceover), `add_audio`, `add_captions`, `show_media` |
+| 8 | A character. Save the product from 4, then use it in a new picture. | Save this mug as a character named Sage Mug, then show it on a café table at sunrise. | `create_character`, `get_character`, `generate_image`, `show_media` |
 | 9 | Three requests where the plugin does nothing. | Write three short Instagram captions for a coffee shop that launches an oat milk latte. / What is the best aspect ratio and length for a YouTube Short? / Find me a stock photo of a mountain sunset that I can use in a presentation. | none |
 | 10 | Open one result on visualsandbox.com from the card. | none | none |
 

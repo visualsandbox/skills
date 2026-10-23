@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -86,8 +86,8 @@
             {
               "description": "Text to image. Needs a demo account with credit.",
               "prompt": "Generate an image of a cozy coffee shop interior in warm morning light.",
-              "tools_triggered": "list_models, get_model, generate, show_media (get_skill when the model reads a prompting pack first)",
-              "expected_behavior": "One generate call, then the Visual Sandbox card shows the finished image of the described scene, with a link to open it on visualsandbox.com. No extra paid variations."
+              "tools_triggered": "generate_image, show_media (get_skill when the model reads a prompting pack first)",
+              "expected_behavior": "One generate_image call, then the Visual Sandbox card shows the finished image of the described scene, with a link to open it on visualsandbox.com. No extra paid variations."
             },
             {
               "description": "Read the account balance. Nothing is generated or charged.",
@@ -98,7 +98,7 @@
             {
               "description": "Product photo from an attached reference image. Needs image credit.",
               "prompt": "Turn this product photo into a clean studio hero shot on a white background.",
-              "tools_triggered": "upload_media, list_models, get_model, generate, show_media",
+              "tools_triggered": "upload_media, generate_image, show_media",
               "expected_behavior": "Uploads the attached photo, runs one image edit with it as the reference, and the card shows one hero shot in which the product keeps its shape, colour and label.",
               "file_attachment_urls": [
                 "https://cdn.visualsandbox.com/predictions/a8a2164f-3cd9-4666-a1c9-f0099b3e9d3a/76907e18-486a-4341-b9e9-6a03f4039a30/224f935f-c99b-4f44-bf66-f1820dc53646.jpg"
@@ -107,13 +107,13 @@
             {
               "description": "Video with the price shown first. Needs video credit.",
               "prompt": "Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first.",
-              "tools_triggered": "list_models, get_model, estimate_cost, generate, show_media",
-              "expected_behavior": "Shows the estimated price and waits for a yes before generate. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
+              "tools_triggered": "estimate_cost, generate_video, show_media",
+              "expected_behavior": "Shows the estimated price and waits for a yes before generate_video. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
             },
             {
               "description": "Stock voice narration. Needs speech credit.",
               "prompt": "Read this line in a warm, friendly voice: Welcome to Visual Sandbox, your studio for images, video and sound.",
-              "tools_triggered": "list_voices, list_models, get_model, generate, show_media",
+              "tools_triggered": "list_voices, generate_audio, show_media",
               "expected_behavior": "Picks a stock voice, keeps the words exactly, and the card plays the finished audio."
             }
           ],
