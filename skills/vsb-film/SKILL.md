@@ -188,7 +188,7 @@ JOB=$(vsb run video/seedance-2.5 \
   --resolution 480p --duration 5 --aspect_ratio 16:9 --seed 41 \
   --async --json | jq -r '.job_id')
 # background shell: wait until the job is terminal, then fetch the result
-until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
+until vsb status "$JOB" --json 2>&1 | jq -e '.status | IN("completed","failed","cancelled","error")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --json > "/tmp/vsb-$JOB.json"
 jq -r '.result.urls[0]' "/tmp/vsb-$JOB.json"
 ```

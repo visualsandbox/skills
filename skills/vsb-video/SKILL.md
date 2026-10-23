@@ -35,7 +35,7 @@ echo "Job: $JOB"
 
 # 2. Wait in a BACKGROUND shell. vsb status never waits, so loop until the
 #    job is terminal. The shell's exit is the "done" signal.
-until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
+until vsb status "$JOB" --json 2>&1 | jq -e '.status | IN("completed","failed","cancelled","error")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json > "/tmp/vsb-$JOB.json" 2>&1
 
 # 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:

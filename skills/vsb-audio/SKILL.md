@@ -222,7 +222,7 @@ JOB=$(vsb run audio/eleven-music --prompt "..." --duration_seconds 120 \
 vsb status "$JOB" --json | jq -r '.status'   # non-blocking peek
 
 # Wait — run this in a BACKGROUND shell; it notifies on completion.
-until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
+until vsb status "$JOB" --json 2>&1 | jq -e '.status | IN("completed","failed","cancelled","error")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --download "./out/{request_id}.mp3" --json > "/tmp/vsb-$JOB.json"
 ```
 
