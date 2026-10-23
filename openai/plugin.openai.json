@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -74,7 +74,7 @@
           "Make a 10-second vertical UGC video ad for my product with a short script.",
           "Make four versions of this ad, each with a different headline."
         ],
-        "brandColor": "#FFD23D",
+        "brandColor": "#C99A00",
         "brandColorDark": "#FFD23D",
         "composerIcon": "./assets/icon.png",
         "logo": "./assets/icon.png"
