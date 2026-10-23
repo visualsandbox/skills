@@ -82,6 +82,8 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-subtitles`](skills/vsb-subtitles/) | Burn TikTok-style word-by-word captions into a video |
 | [`vsb-download`](skills/vsb-download/) | Download a TikTok/IG/YouTube video and read it with frame grids |
 | [`vsb-film`](skills/vsb-film/) | Make a short film end to end — script, shot list, one cast across shots, sound, edit, captions |
+| [`vsb-edit-video`](skills/vsb-edit-video/) | Edit video on the server over MCP — join, voiceover, music, captions, trim to 9:16, logo |
+| [`vsb-characters`](skills/vsb-characters/) | Keep one person, mascot or product the same in every shot with saved characters |
 
 ## Install
 
