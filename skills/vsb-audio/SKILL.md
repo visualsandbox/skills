@@ -24,8 +24,8 @@ Four jobs: sound effects, music, speech and voice design. Short SFX finishes in
 for tracks over ~60s.
 
 Start every run in a **background shell** (Claude Code: `run_in_background:
-true`) so the turn stays free, and put the blocking `--result` wait there too —
-the shell's exit is the "done" signal, no poll loop needed. Rules in
+true`) so the turn stays free, and put the wait loop there too — the shell's
+exit is the "done" signal. `vsb status` never waits on its own. Rules in
 [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
 
 ## What's live
@@ -221,7 +221,8 @@ JOB=$(vsb run audio/eleven-music --prompt "..." --duration_seconds 120 \
   --instrumental true --async --json | jq -r '.job_id')
 vsb status "$JOB" --json | jq -r '.status'   # non-blocking peek
 
-# Blocking wait — run this one in a BACKGROUND shell; it notifies on completion.
+# Wait — run this in a BACKGROUND shell; it notifies on completion.
+until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --download "./out/{request_id}.mp3" --json > "/tmp/vsb-$JOB.json"
 ```
 

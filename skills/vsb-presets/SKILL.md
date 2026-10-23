@@ -68,7 +68,7 @@ vsb presets run 8a7f...uuid --json
 # → submits + returns { status: "submitted", job_id, slug, hint }
 ```
 
-Then poll with `vsb status <job_id> --result --download "./out/{request_id}.{ext}" --json` — `--download` only if the user opted into local saves; otherwise drop it and hand back the share page `https://visualsandbox.com/share/<job_id>/` ([vsb critical rule 5](../vsb/SKILL.md#critical-rules-read-first)).
+Then wait with the poll loop from [vsb pattern 3](../vsb/SKILL.md#3-async--poll-video--audio) and fetch with `vsb status <job_id> --result --download "./out/{request_id}.{ext}" --json` — `--download` only if the user opted into local saves; otherwise drop it and hand back the share page `https://visualsandbox.com/share/<job_id>/` ([vsb critical rule 5](../vsb/SKILL.md#critical-rules-read-first)).
 
 `vsb presets run` always submits async — it doesn't block. This keeps it
 behaviorally identical for fast image and slow video presets.

@@ -106,9 +106,9 @@ image (see [Show the result](#show-the-result-open-every-image-in-preview)).
 Rules for the async modalities (video, audio, batches):
 
 - Submit with `--async --json`, capture `job_id`, move on immediately.
-- Don't call `vsb status --result` right after starting — it blocks until the job finishes. Check `.status` non-blocking instead: `vsb status <job_id> --json | jq -r '.status'`.
+- `vsb status` never waits, with or without `--result`. It returns the current state at once, so a running job comes back with `result: null`. Check `.status`: `vsb status <job_id> --json | jq -r '.status'`.
 - Pending jobs carry `eta_seconds` (typical wall time for this model) and `elapsed_seconds` — sleep for roughly `eta_seconds - elapsed_seconds` before the next poll instead of a blind interval.
-- Better than polling: put the blocking wait in a background shell — `vsb status <job_id> --result --json > /tmp/vsb-<job>.json` with `run_in_background: true`. It notifies on completion while the conversation continues.
+- Put the wait in a background shell with `run_in_background: true`: a loop that polls `.status` until it is `completed`, `failed` or `cancelled`, then one `vsb status <job_id> --result --json > /tmp/vsb-<job>.json` (pattern 3 below). The shell's exit notifies you while the conversation continues.
 - Between other tasks (or when the user asks "is it done?"), sweep everything still running in one call: `vsb jobs --pending --json`. Works even when you never captured the ids (session restart, jobs started elsewhere).
 - Only after `status == "completed"`, fetch the result: `vsb status <job_id> --result --json`. Add `--download "./out/{request_id}.{ext}"` only if the user asked for local copies (critical rule 5).
 - When reporting a finished job, link its share page — `https://visualsandbox.com/share/<job_id>/` — and mention it's also on their canvas at `https://visualsandbox.com/sandbox/`. Don't paste raw CDN URLs (critical rule 5).
@@ -292,7 +292,9 @@ vsb schema video/veo-3.1 --json | jq '.inputs'
 JOB=$(vsb run video/veo-3.1-fast --prompt "a tiger walking through tall grass" --async --json | jq -r '.job_id')
 
 # 2. Wait in a BACKGROUND shell (Claude Code: run_in_background: true).
-#    --result blocks until the job finishes, so the notification is the "done" signal.
+#    vsb status never waits, so loop until the job is terminal, then fetch
+#    the result. The shell's exit is the "done" signal.
+until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --json > "/tmp/vsb-$JOB.json" 2>&1
 
 # 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:
@@ -368,8 +370,8 @@ pipe), refetch them by job id:
 vsb status <job_id> --result --json | jq '.result.urls'
 ```
 
-`--result` blocks if the job is still running; for an instant peek skip it and
-inspect `.status` first.
+`--result` does not wait. On a running job it returns `result: null`, so check
+that `.status` is `completed` first.
 
 ## When something breaks — report it (default ON)
 

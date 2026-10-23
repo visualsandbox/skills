@@ -19,7 +19,7 @@ license: Proprietary. See LICENSE for the terms.
 
 Video runs are slow (30s–3min). **Always use `--async`**, then poll with `vsb status`. Don't block a sync `vsb run` on a 2-minute job — the CLI will sit there and re-poll, blowing your terminal session.
 
-Agents: don't block the conversation on a running job either — start it, keep talking, check later. Put the blocking wait in a **background shell** (Claude Code: `run_in_background: true`) instead of a poll loop, so the harness notifies you when the job lands. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
+Agents: don't block the conversation on a running job either — start it, keep talking, check later. Put the wait loop in a **background shell** (Claude Code: `run_in_background: true`), so the harness notifies you when the job lands. `vsb status` never waits on its own. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
 
 ## The async + poll pattern
 
@@ -33,8 +33,9 @@ JOB=$(vsb run video/veo-3.1-fast \
 
 echo "Job: $JOB"
 
-# 2. Wait in a BACKGROUND shell — --result blocks until the job is terminal,
-#    so the shell's exit is the "done" signal. No poll loop, no foreground sleep.
+# 2. Wait in a BACKGROUND shell. vsb status never waits, so loop until the
+#    job is terminal. The shell's exit is the "done" signal.
+until vsb status "$JOB" --json | jq -e '.status | IN("completed","failed","cancelled")' > /dev/null; do sleep 10; done
 vsb status "$JOB" --result --download "./out/{request_id}.{ext}" --json > "/tmp/vsb-$JOB.json" 2>&1
 
 # 3. On the notification, read /tmp/vsb-$JOB.json. Non-blocking peek any time:
