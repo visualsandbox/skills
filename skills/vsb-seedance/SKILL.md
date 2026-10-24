@@ -33,8 +33,8 @@ vsb pricing video/seedance-2.5 --json
 
 | Slug | Pick it for | Resolution | Duration | Aspect |
 |------|-------------|------------|----------|--------|
-| `video/seedance-2.5` | Hero shots, many references, native audio, clips up to 30 s. The slowest model in the catalog: about 4 minutes for a short clip, longer for a long one. | 480p, 720p | -1, 4 to 30 | 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, adaptive |
-| `video/seedance-2` | 1080p or 4K output | 480p to 4K | -1, 4 to 15 | adds 9:21 |
+| `video/seedance-2.5` | Hero shots, many references, native audio, clips up to 30 s. The slowest model in the catalog: about 4 minutes for a short clip, longer for a long one. Draft, then finish at 1080p. | 480p, 720p, 1080p | -1, 4 to 30 | 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, adaptive |
+| `video/seedance-2` | 4K output, or 1080p with up to 15 s | 480p to 4K | -1, 4 to 15 | adds 9:21 |
 | `video/seedance-2-fast` | Same inputs as `seedance-2`, faster and cheaper, 720p cap | 480p, 720p | -1, 4 to 15 | adds 9:21 |
 | `video/seedance-2.0-mini` | Drafts and batches at the lowest rate. One reference video and one reference audio only. No adaptive. | 480p, 720p | 4 to 12 | no adaptive |
 
@@ -252,7 +252,30 @@ JOB=$(vsb run video/seedance-2.5 \
   --async --json | jq -r '.job_id')
 ```
 
+### Draft, then finish at 1080p
+
+`--draft true` makes a quick 480p preview at the 480p rate. When a take is
+right, pass its output URL as `draft_video`. The same video comes back at
+1080p, with no prompt and no other input. A draft is good for seven days,
+and only its owner can finish it.
+
+```bash
+DRAFT=$(vsb run video/seedance-2.5 \
+  --prompt "$(cat prompt.txt)" \
+  --duration 5 --draft true \
+  --async --json | jq -r '.job_id')
+URL=$(vsb status "$DRAFT" --result --json | jq -r '.result.urls[0]')
+
+JOB=$(vsb run video/seedance-2.5 \
+  --draft_video "$URL" \
+  --async --json | jq -r '.job_id')
+```
+
 ## Gotchas
+
+- **1080p, Draft and `draft_video` run on fal.** 480p and 720p run on
+  Replicate, at about half the fal rate. `ai_character` runs on Cloudflare,
+  so it cannot combine with 1080p or Draft.
 
 - **Safety filter (E005).** Seedance refuses "drone" and "FPV" wording; write
   "aerial flythrough". On `"Your input was flagged by the model's safety
