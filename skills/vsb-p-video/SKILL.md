@@ -26,7 +26,7 @@ Three generation tiers now share this family. Price alone no longer picks one.
 |---|---|
 | `video/p-video` | Bulk prompt exploration. Its draft rate is still the lowest in the whole catalog. No audio of any kind. |
 | `video/p-video-2` | The clip has to talk, or needs 1080p, 48 fps, a last frame, or a run past 15s. It writes native speech with lip-sync from dialogue in the prompt, and also takes an audio track to drive motion. |
-| `video/p-video-2-pro` | The best Pruna picture, and the lowest rate per second of the three at 480p. Silent: no audio in, no audio out, and 768p is the ceiling. |
+| `video/p-video-2-pro` | The best Pruna picture. Silent: no audio in, no audio out, and 768p is the ceiling. |
 
 People who talk, with one voice across shots: `video/p-video-2 --image <still>
 --audio <ElevenLabs line>` is the cheapest path. The clip runs as long as the
