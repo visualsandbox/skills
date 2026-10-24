@@ -36,8 +36,9 @@ only after the person confirms it. Never clone a public figure.
 1. Call `estimate_cost` for `audio/elevenlabs-voice-clone`. Tell the person
    the price and wait for their yes.
 2. Run it with `audio` (the recording URL), `confirm_rights: true`, and a
-   short `prompt` that the clone reads back as a sample. Set `keep: true`
-   when the person wants to use the voice again later.
+   short `prompt` that the clone reads back as a sample. The voice stays
+   usable later: Visual Sandbox keeps the recording, and a later run clones
+   the voice again when it needs to. An account can clone 3 times a day.
 3. Call `show_media` with the job id, so the person hears the sample.
 
 ## 4. Read a script in the voice
