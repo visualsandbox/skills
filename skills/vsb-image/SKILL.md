@@ -49,23 +49,29 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 |------|--------------|-----|
 | Fast text-to-image / edit | `image/nano-banana-2-lite` | Google. Default. Cheapest (~$0.05/image), fastest, ~5s, on the newer NB2 architecture. Handles both text-to-image AND image edits — the same endpoint switches modes when a reference image array is non-empty. |
 | Same cost, original model | `image/nano-banana` | The original Gemini 3 model at the same ~$0.05/image. Fall back here if a lite result looks off. |
-| Higher quality / 4K / web-grounded | `image/nano-banana-2` | Full NB2 — adds `resolution` (up to 4K) and web-search grounding. |
+| Higher quality / 4K / web-grounded | `image/nano-banana-2.1` | Google. The update to NB2: sharper output, cleaner text, steadier subjects across edits. **Pick it over `nano-banana-2`:** it costs about half as much at 1K and 2K (~$0.05 at 1K, ~$0.07 at 2K, ~$0.15 at 4K), and each of `google_search` / `image_search` adds a small charge, as on NB2. `resolution` `1K`/`2K`/`4K`, ten aspect ratios plus `match_input_image` (the default). References go in `image_input`: up to 14, but the backup route reads only the first three. |
+| Existing NB2 work | `image/nano-banana-2` | Full NB2 — adds `resolution` (up to 4K) and web-search grounding as a paid add-on. Superseded by `nano-banana-2.1`; keep it only for a project already built on its look. |
 | Top-tier Google output | `image/nano-banana-pro` | Most expensive of the family, sharpest detail. |
 | Fast OpenAI generate or edit, up to 4K | `image/gpt-image-2.5-flare` | OpenAI. The fast tier of GPT Image 2.5 and the default OpenAI pick. One endpoint for text-to-image and edit. ~7–12s at 1K, ~12–24s at 4K, where `gpt-image-2` averages ~50s, and about half the price at high quality. `quality` is `low`/`medium`/`high`/`xhigh`/`max`; `resolution` is a separate control at `1K`/`2K`/`4K`; eight aspect ratios plus `match_input_image`. `background: transparent` returns a real alpha channel (the schema switches JPG to PNG for you). References go in `image_input`. |
+| Precise edits that must hold across many passes | `image/gpt-image-2.5-sunburst` | OpenAI. The precision tier of GPT Image 2.5, slower than Flare. It changes only what you name and keeps the face, the composition and the light, also across multi-image composites and long chains of edits. One flat price per image for each `quality` tier (~$0.02 `low`, ~$0.06 `medium`, ~$0.16 `high`, ~$0.32 `xhigh`, ~$0.63 `max`); the ratio and the references do not move it. Seven aspect ratios plus `match_input_image`, `background: transparent`, JPG/PNG/WEBP. **No `resolution` field, so use Flare for 4K.** No seed. References go in `image_input`. Explore in Flare, finish here. |
 | Photoreal / text rendering / multi-ref edit | `image/gpt-image-2` | OpenAI, the older tier. Best for legible typography, posters, product mockups. Slower and pricier than `gpt-image-2.5-flare`; reach for it only when a Flare result looks off. |
 | Cheapest text-to-image | `image/z-image-turbo` | Tongyi-MAI via PrunaAI. Cheapest image model in the catalog, 8-step, sub-second. Renders short English and Chinese text well. **Takes no reference image, so it cannot edit.** Apache 2.0 license. |
 | Fast iteration that still takes references | `image/flux-2-klein-9b` | Black Forest Labs. 4-step, sub-second, one endpoint for text-to-image and edit. Up to 5 references, output up to 4 MP. **FLUX Non-Commercial License — never use it for client work or paid ad creative.** |
+| Cheap edits with up to 10 references, native 4K | `image/flux-3-image-klein` | Black Forest Labs. The compact FLUX 3 model (5.6B), newer than Klein 9B and scored above it by BFL. One endpoint for text-to-image and edit; up to 10 references in `image_input`, called "image 1", "image 2" in the prompt. `resolution` is `1K`/`1.5K`/`2K`/`4K`, 15 aspect ratios plus `match_input_image`, optional `seed`. ~$0.02/image up to 2K, ~$0.05 at 4K, and references are free. Weak on exact counts, charts and diagrams. **FLUX Kommunity License: free commercial use only for a user with annual revenue under $5M. Ask before you use it for client work.** |
 | Many references, product + character compositing | `image/seedream-5-pro` | ByteDance. Takes up to 10 references and holds detail at 1K or 2K. The edit-capable model with the highest reference count. Commercial use allowed. |
 | Posters, packaging, real brands and places, flat price at 2K | `image/grok-imagine-image-2` | xAI. Plans typography and layout before drawing, and names real brands, cities, and landmarks straight from the prompt. **One flat price per output image, so 2K at medium quality costs the same as a 1K draft.** Takes one reference image (a single string, not an array), so it cannot composite several. Slow: ~53s at medium/2K, ~15s at low/1K. Commercial use allowed. |
 | Change one region, keep every other pixel | `image/flux-fill-pro` | The only mask model in the catalog. It repaints the masked area and carries the rest of the photo through unchanged. It also outpaints. |
 | Budget volume, 3K, or a related set in one run | `image/seedream-5-lite` | ByteDance. The light tier of Seedream 5, on the same endpoint. One flat price per output image at 2K or 3K, up to 14 references, and a sequential mode that returns a whole set (storyboard, character sheet, brand kit) from one prompt, billed per image returned. Step up to `image/seedream-5-pro` when a single frame is the deliverable. |
 | Illustration, anime, painterly, one style across a series | `image/krea-2-medium` | Krea. Foundation model tuned for expressive artistic directions, with style transfer from up to 10 reference images and a `creativity` control (`raw`/`low`/`medium`/`high`) that sets how far it departs from the prompt. Faster and steadier than Large across a batch. **Style transfer only, so it cannot edit a photo.** Commercial use allowed. |
 | Photorealism with real texture, grain and motion blur | `image/krea-2-large` | Krea. Twice the size of Medium, with the richest output at `creativity: high`. Same 10 style references, same 8 aspect ratios including 2.35:1, same optional `moodboard_id`. Slower and pricier than Medium, so compose in Medium and finish here. **Style transfer only, so it cannot edit a photo.** Commercial use allowed. |
+| Instruction edits: a product into a new scene, a color or outfit swap, a local fix | `image/krea-3` | Krea. Fast instruction-following editor, the edit model of the Krea family. Up to 8 images in `image_input`. `thinking_mode` `fast` (default) or `high` for multi-step edits; `resolution` `1K`/`2K`. `regional_edit: true` (experimental, needs an image) changes only the part that must change and keeps every other pixel. ~$0.04–0.10 per output image by mode and resolution, **plus ~$0.03 per input megapixel**, so send inputs of about 1 MP. Text-to-image is experimental and small text is weak. No style references, no `output_format` field. Commercial use allowed. |
+| Art-directed poster, ad or brand image from a short prompt | `image/recraft-v4.1` | Recraft. Tuned with designers: it picks the layout, the palette and the light, and sets quoted text into the composition. ~$0.05/image flat, about 1 MP, 11 aspect ratios, prompts up to 10,000 characters. **Text-to-image only: no reference image, so it cannot edit.** Commercial use allowed; outputs may not train AI models. |
+| Cheap, fast drafts with a designed look | `image/recraft-v4.1-flash` | Recraft. Its fastest, cheapest model, with quality close to V4.1. ~$0.01/image flat (`image/z-image-turbo` is still cheaper), about 1 MP, the same 11 aspect ratios. No styles. **Text-to-image only, so it cannot edit.** Render the final with `image/recraft-v4.1`. |
 | Put real clothing on a real person | `image/p-image-try-on` | Pruna AI. Person photo plus up to 6 garment photos; face, pose, body and background carry through untouched, and a whole outfit layers in one pass. `garment_images` is a list even for one item. Shows the look, never the fit. Footwear is the weakest category; eyewear, handheld items, gloves and stacked jewelry are unsupported. Billed per run PLUS per input megapixel, so resize inputs before sending. |
 | Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
 | Upscale, portraits and print | `image-enhance/upscale` | Topaz. Same — `image-enhance` category. Tuned for photographic realism, with five named enhance models and a face refinement step. One flat rate per image whatever the size. |
 | Cheap, fast upscale at volume | `image-enhance/p-image-upscale` | Pruna AI. About a second a run. `upscale_mode: target` names the output in megapixels; `factor` multiplies each side (2/4/6/8). `enhance_details` and `enhance_realism` both default off; Realism is for AI-generated sources. Charged by the size of the result, so it is cheapest on small outputs. Pick `image-enhance/upscale` (Topaz) for portraits and print. |
-| SVG, vector, logo, icon, cut file | see [`vsb-vector`](../vsb-vector/SKILL.md) | Not an image model job. Quiver for icons; a flat PNG from this page traced by `vector/recraft-vectorize` for detailed art. |
+| SVG, vector, logo, icon, cut file | see [`vsb-vector`](../vsb-vector/SKILL.md) | Not an image model job. Quiver for icons; `vector/recraft-v4.1-svg` for a new SVG from a prompt at a flat price; a flat PNG from this page traced by `vector/recraft-vectorize` for detailed art. |
 
 **Tier up for detail-critical work.** The cheap defaults are for simple,
 throwaway, or high-volume generations. When the task is detail-critical —
@@ -181,6 +187,35 @@ An `outpaint` preset makes the model ignore the mask. Output size follows the
 input, so there is no aspect-ratio field and outpainting is the one case that
 changes the dimensions.
 
+### Krea 3 (instruction edit and regional edit)
+
+```bash
+SRC=$(vsb upload ./living-room.jpg --json | jq -r '.url')
+
+vsb run image/krea-3 \
+  --prompt "Change the sofa to deep green velvet. Keep everything else the same." \
+  --image_input "[\"$SRC\"]" \
+  --regional_edit true \
+  --resolution 2K \
+  --json
+```
+
+Lead with the change, then add one sentence about what stays. Do not list
+everything that should stay. With several images, name each one by what it
+shows: "put the sneaker from the second image on the person in the first".
+
+`regional_edit` keeps every pixel outside the change, so it is the one way to
+edit the latest output again without a loss in quality. Use it for a local
+change: recolor or swap an object, add or remove an element, change the words
+on a sign. Leave it off for a restyle, a relight or a new scene. It is
+experimental: slower than a regular edit, and the quality can be lower.
+
+Each input image adds a charge by its megapixels. About 1 MP per input is
+enough. With five or more inputs, each one is reduced to 1536 px on its long
+edge, so send four or fewer when every reference needs its full detail. The
+`seed` does not reproduce a result, because the model expands the prompt
+first.
+
 ### Seedream 5 Pro (up to 10 references)
 
 ```bash
@@ -290,17 +325,20 @@ vsb pricing image/z-image-turbo --json | jq '.tiers'
   whole picture on each pass, so loss compounds. Never feed your own last
   output back in as `image_input` — grow the prompt and re-run from the
   original instead. Full workflows in
-  [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md).
+  [`vsb-image-iteration`](../vsb-image-iteration/SKILL.md). Two exceptions
+  keep every pixel outside the change: `flux-fill-pro` with a mask, and
+  `krea-3` with `regional_edit: true`.
 - **`output_format` defaults to `jpg` on every image model except
   `flux-fill-pro`,** which defaults to `png` because a fill is usually the
-  input to the next fill. Pass `--output_format png` whenever the output may
-  become an input.
+  input to the next fill. `krea-3` has no `output_format` field. Pass
+  `--output_format png` whenever the output may become an input.
 
 - **Input field names vary by model** — Nano Banana uses an array (currently `image_input`), most enhance models take a single string (currently `image`), GPT Image 2 has its own shape. `vsb run` pre-validates against the schema, so just `vsb schema <slug>` once and copy the exact field name.
 - **`aspect_ratio: "match_input_image"` only makes sense in edit mode** (when reference images are set). For text-to-image alone it falls back to a default.
 - **`output_format` defaults to `jpg`.** If you want transparent PNG (e.g. for compositing), set `--output_format png` and remember the alpha channel is only meaningful for edit/cutout flows.
-- **`z-image-turbo` cannot edit.** It has no reference-image field. If the
-  task attaches any image, pick another model before you write the prompt.
+- **`z-image-turbo`, `recraft-v4.1` and `recraft-v4.1-flash` cannot edit.**
+  They have no reference-image field. If the task attaches any image, pick
+  another model before you write the prompt.
 - **`flux-2-klein-9b` is non-commercial.** Never pick it for client work,
   paid ad creative, or anything the user will sell. Use Nano Banana,
   GPT Image 2, or Seedream 5 Pro instead.

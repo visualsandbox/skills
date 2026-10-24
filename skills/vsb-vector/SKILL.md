@@ -20,7 +20,7 @@ license: Proprietary. See LICENSE for the terms.
 > below. The route choice and the prompt craft on this page still apply.
 > See [`vsb` → Two ways to run](../vsb/SKILL.md#two-ways-to-run-mcp-tools-or-the-cli).
 
-Four live models. Verify with `vsb models --modality vector --json` before
+Five live models. Verify with `vsb models --modality vector --json` before
 you trust this table.
 
 | Slug | Input | Cost | Good for |
@@ -28,19 +28,21 @@ you trust this table.
 | `vector/quiver-arrow-2` | prompt, or prompt + images, or image only, or `svg` (+ prompt) | ~$0.07 an icon, ~$0.60 a dense illustration, ~$0.03 an edit or an animation | **The default.** Icons, glyphs, monoline marks, simple logos. The only family that edits and animates an SVG you already have. |
 | `vector/quiver-arrow-2-telos` | same as Arrow 2 | ~$0.10 an icon, ~$0.90 a dense illustration, ~$0.04 an edit or an animation | Arrow 2 plus a frontier reasoning model. A diagram whose logic must hold, an infographic from real figures, a mark that must obey a page of brand rules. Reads about eight times as much brief. |
 | `vector/quiver-arrow-1.1` | prompt, or prompt + reference images, or image only | $0.25 a generate, $0.19 a vectorize, flat | Only when a dense illustration must land on a known flat price. Cannot edit and cannot animate. |
+| `vector/recraft-v4.1-svg` | prompt only, plus `aspect_ratio` | ~$0.05 per SVG, flat | Recraft. A new SVG from a prompt at one low price, even for a dense illustration, with Recraft's composition and colour. **No reference images, and it cannot edit or animate.** About 20 seconds. Commercial use allowed. |
 | `vector/recraft-vectorize` | one raster image | ~$0.02 per SVG | Tracing any raster into editable paths. The second half of the illustration route. |
 
 **The Arrow 2 family is token-billed**, so the price moves with how much
 drawing the model does. `vsb pricing` shows a ceiling, and the user is
 charged for what the model actually produced, never more than the quote.
-Arrow 1.1 is the only flat price in the table.
+Arrow 1.1 and Recraft V4.1 SVG are the flat-price generators.
 
 **Do not pick Telos for an icon.** It draws the same shapes as Arrow 2 and
 costs half again as much. Pick it when the thinking is the hard part.
 
 Start every run in a **background shell** (Claude Code: `run_in_background:
-true`). All four models are sync. Recraft finishes in seconds; the Arrow 2
-family takes about a minute, and Telos longer. Rules in
+true`). All five models are sync. Recraft Vectorize finishes in seconds and
+Recraft V4.1 SVG in about 20; the Arrow 2 family takes about a minute, and
+Telos longer. Rules in
 [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
 
 ## Ask first, then route
@@ -123,6 +125,10 @@ vsb run vector/recraft-vectorize --image "$RASTER" --json
 - Keep the raster square unless the user asked for another shape.
 - This is one chain, not two. Do not feed the SVG, or the traced raster,
   back into an image model. Change the prompt and rerun step 1 instead.
+- One step instead of two: `vector/recraft-v4.1-svg --prompt "..."` draws
+  the SVG directly at a flat price. Use the same palette and background
+  sentences. It takes no reference image, so the two-step chain stays the
+  route when the user supplies a style or a character to match.
 
 ## Route C: vectorize only
 

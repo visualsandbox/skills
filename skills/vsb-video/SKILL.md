@@ -72,7 +72,7 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | General-purpose, cheap | `video/seedance-2` | ByteDance. Solid quality, lower cost. The only Seedance with 1080p and 4K. See [`vsb-seedance`](../vsb-seedance/SKILL.md). |
 | Same family, faster | `video/seedance-2-fast` | Lower quality but ~2× faster than `seedance-2`. See [`vsb-seedance`](../vsb-seedance/SKILL.md). |
 | Cheapest Seedance, drafts and batches | `video/seedance-2.0-mini` | ByteDance. Same inputs as `seedance-2` at the lowest rate; 480p/720p only; one reference video + one reference audio. See [`vsb-seedance`](../vsb-seedance/SKILL.md). |
-| Newest Seedance, many references | `video/seedance-2.5` | ByteDance. Up to 30 reference images, reference videos and audios as lists, native audio, `adaptive` aspect; 480p/720p only. Runtime in [`vsb-seedance`](../vsb-seedance/SKILL.md), prompt craft in [`vsb-seedance-prompting`](../vsb-seedance-prompting/SKILL.md). |
+| Newest Seedance, many references | `video/seedance-2.5` | ByteDance. Up to 30 reference images, reference videos and audios as lists, native audio, `adaptive` aspect; 480p to 1080p, and `--draft true` for a cheap 480p take to finish at 1080p. Runtime in [`vsb-seedance`](../vsb-seedance/SKILL.md), prompt craft in [`vsb-seedance-prompting`](../vsb-seedance-prompting/SKILL.md). |
 | Everything in one endpoint, multi-shot, native audio | `video/kling-v3-omni-video` | Kuaishou. Text-to-video, start and end frames, up to 7 reference images, reference-video edit or style transfer, lip-synced audio, and up to 6 shots in one clip. 3–15s, `standard` 720p / `pro` 1080p / `4k`. Slow, about 3 minutes. |
 | A portrait performs an audio file | `video/kling-avatar-v2` | Kuaishou. Audio-driven talking head. Feed one portrait plus one audio file and the face lip-syncs the whole clip. No prompt-driven motion. Output length matches the audio. `std` to iterate, `pro` for 1080p. |
 | Short clip with sound, cheap, any length 1–15s | `video/grok-imagine-video` | xAI. Text-to-video and image-to-video on one slug. Native audio always on, no toggle. 480p/720p at one flat rate per second. ~50s for a 5s 720p clip. |
@@ -91,6 +91,8 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Change what a person on camera says | `video/lipsync-2-pro` | Sync. Redraws only the mouth and keeps your footage, so it starts from video, never a still. The person must already talk in the clip. Makes no voice. Source up to 30s, `sync_mode` decides what happens when the two lengths differ. Slow by design: minutes for a clip of seconds. The final pass, not the draft pass. |
 | Enlarge a short clip and rebuild its detail | `video/flux-video-upscale` | Black Forest Labs. Video in, video out; keeps the frame shape and the audio. `upscale_factor` 1.5-3, output capped near 4K, `creativity` 0 precise (faithful, for faces and products) or 1 creative (invents detail, tuned for generated footage). Source MP4 under 50 MB and 6s. Use `video/video-upscale` for longer or real footage and for frame-rate changes. |
 | Enlarge a finished clip, or change its frame rate | `video/video-upscale` | Topaz Labs. Not a generator: video in, video out, no prompt. 720p / 1080p / 4K and 24 / 30 / 60 fps. Source MP4 or MOV under 200 MB, capped at 60s / 30s / 10s by target resolution. Use it to finish a 720p generation for delivery. |
+| Rebuild lost detail in a soft, old or generated clip, fast | `video/starlight-fast-2` | Topaz Labs. Generative (diffusion) upscaler, no prompt. `resolution` 1080p or 4k. Source MP4, MOV or WEBM, up to 10s. Keeps the source frame rate, no fps control. Billed per output frame, so a 60fps source costs twice a 30fps one. Half the price per frame of `starlight-precise-2.6`. Sound in the output is not documented. |
+| Rebuild faces, fabrics and fine text for final delivery | `video/starlight-precise-2.6` | Topaz Labs. The quality Starlight tier, no prompt. `resolution` 1080p or 4k, `sharpness` 1-5 (default 3; lower for faces, higher for text). Source MP4, MOV or WEBM, up to 5s. Keeps the source frame rate. Twice the price per frame of `starlight-fast-2`; test there first. |
 
 ## People who talk: pick the sound path before you spend
 
@@ -110,7 +112,7 @@ Read them live before you quote.
 | `video/p-video-2` | Accepted | Yes, from quoted dialogue | Yes, `--audio`. The clip runs as long as the audio | 0.02 draft, 0.04 standard | **Path B default.** Cheapest, one voice across shots |
 | `video/kling-avatar-v2` | Not tested | No | Yes, `--audio`, one portrait. Length = audio | 0.07 `std`, 0.14 `pro` | A talking head with little body motion |
 | `video/lipsync-2-pro` | Accepted | No | Yes, `--audio`, on a clip you already have | 0.11 | New words on a clip where the person already talks |
-| `video/seedance-2.5` | **Refused**, AI faces too. An AI-made face passes with `--ai_character true` | Yes, from quoted dialogue | Only `reference_audios`, see below | 0.29 | Shots with no photoreal face, or an AI character |
+| `video/seedance-2.5` | **Refused**, AI faces too. An AI-made face passes with `--ai_character true` | Yes, from quoted dialogue | Voice samples in `reference_audios`, see Path C | 0.29 | Shots with no photoreal face, or an AI character |
 
 ### Path A: native speech, one voice per clip
 
@@ -178,6 +180,37 @@ movement. A silent clip of a person who does not talk is the wrong input.
   [`vsb-seedance`](../vsb-seedance/SKILL.md#a-talking-ai-presenter-in-one-voice).
 - Use Seedance 2.5 for shots with no photoreal face. A stylized character may
   pass; test one clip first.
+
+### Path C: Seedance 2.5 with voice samples, for cartoon characters
+
+Use this path for a series of shots with stylized characters who talk. The
+voices stay the same in every shot, and Seedance moves the mouths and makes
+the sound effects in the same run. A cartoon bird passed the face filter on
+2026-10-05.
+
+1. Make one voice sample for each speaker, once for the whole series: a
+   designed ElevenLabs voice ([`vsb-audio`](../vsb-audio/SKILL.md)), or the
+   real voice of a product. Put several kinds of lines in it: a question, an
+   order, a laugh.
+2. Cut the samples. **All reference audio of one run must be 15 seconds or
+   less in total.** Two samples of 32 s and 18 s failed with "The model
+   rejected these inputs". Samples of 8.8 s and 5.3 s passed. Cut at a pause.
+3. Upload the samples once, and pass the same URLs in every shot:
+   `--reference_audios '["<speaker 1>","<speaker 2>"]'`.
+4. Pass the storyboard frame as a reference image, not as `--image`. A
+   reference audio cannot go with a first frame (E006). Write "Image 1 is
+   the opening shot: start on this composition". The clip starts close to
+   the frame, not on it. Add the character sheet as Image 2.
+5. Write each line in the prompt, and name its voice:
+   `The bird says, in the voice of Audio 1: "Make it blue." Its beak opens
+   and closes in sync with its words.` For a voice from off screen, say that
+   no character moves its mouth to it.
+6. End the prompt with: `Audio 1 and Audio 2 are only voice samples: copy the
+   voices, not their words. No other speech. No music.` Add the music later
+   in the edit, over all the shots.
+
+Do not join the exact lines of one shot into the reference audio. Each shot
+then gets a different audio, and Seedance changes the voice from shot to shot.
 
 ### Before you spend
 
@@ -350,7 +383,7 @@ JOB=$(vsb run video/video-upscale \
   --async --json | jq -r '.job_id')
 ```
 
-This is the one video slug that takes no prompt. The source clip is the whole
+It takes no prompt, like the two Starlight slugs. The source clip is the whole
 input, so there is no `--prompt`, no `--aspect_ratio` and no `--duration`, and
 the output keeps the shape of the source.
 
@@ -368,6 +401,11 @@ the output keeps the shape of the source.
 - **The common chain**: generate the shot on the model with the best motion,
   then finish it here. A still image goes to `image-enhance/upscale` instead,
   never here.
+- **Starlight rebuilds the detail instead.** `video/starlight-fast-2` and
+  `video/starlight-precise-2.6` take the same `--video` and `--resolution`
+  (`1080p` or `4k` only, no `--fps`). Precise also takes `--sharpness 1-5`.
+  The caps are 10s on Fast 2 and 5s on Precise 2.6. Both bill per output frame
+  at the source frame rate, so a 60fps source costs twice a 30fps one.
 
 ## Cost estimation (do this BEFORE running)
 
