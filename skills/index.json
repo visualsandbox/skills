@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "b1cb2e51e418d076187f3a0329abf502c8e513fa129a2d3b2c033268ca91ffee",
+  "bundle": "cbf918d8af57bddad0865390353ad57ccfa8403df1b4919bd9dd1432f91cb947",
   "skills": [
     {
       "name": "vsb",
@@ -13,13 +13,13 @@
         },
         {
           "path": "references/mcp.md",
-          "sha256": "9bc26807c2fa390d1fb8375cb79f2ffaacf854d9769e9f38b24362d08f473843",
-          "bytes": 8773
+          "sha256": "76ff39b97df867197c9d5919bfe8cbd3783ae853a7788866bd612f9b3b39e7a0",
+          "bytes": 10940
         },
         {
           "path": "SKILL.md",
-          "sha256": "56267ffa296c4dca1eb39a59312b98e323475badedef680c96ad6fdee17172f6",
-          "bytes": 33257
+          "sha256": "d4194000894b57480ae251e2df2d57792777f096dfca2774c30d3e93054bc9ad",
+          "bytes": 36059
         }
       ]
     },
@@ -40,8 +40,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "dcfc5d75113c5911b615e5b61739c688b3fe3c0d108d0d34098da4480fbdaeeb",
-          "bytes": 2788
+          "sha256": "f7ef0ee049aa6ccb2791519b34dc0408b9d745b954be30ce7e6e62d54a82b247",
+          "bytes": 2885
         }
       ]
     },
@@ -52,8 +52,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "92f932b7bc56d176f3c8ea4f9824fcd24974698d6a51d4caeac29c5b9bc28842",
-          "bytes": 15455
+          "sha256": "e4ca6cd993f27441d0919d61fc5c0dfa799e4177a9e8d9d54486b112020d5b98",
+          "bytes": 16405
         }
       ]
     },
@@ -63,8 +63,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "b82d411409e7a47496c563aa6b1f3e7dc3f5ab9171e63c2c2f7fbb583b20f3ed",
-          "bytes": 2545
+          "sha256": "de66bcaca701474d61f4a648d811f17ae689a597e4912c63b07572db759173da",
+          "bytes": 2698
         }
       ]
     },
@@ -74,8 +74,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "1332f2af81f8a4011208c2392d91f546c2e36d7c4d5e832cebb2d4df665d3c96",
-          "bytes": 2258
+          "sha256": "1b303ac2a36ff7b40251211511bd3f684b52cbd0bbf8ab79c5df68302db1bc01",
+          "bytes": 2651
         }
       ]
     },
@@ -134,8 +134,19 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "18ca7dc0c744b5702628bb2d5593be3821e190f5d9187d2954639885d61a00e0",
-          "bytes": 3335
+          "sha256": "4d85144cb78b982bf25af012de43e1849b071d936afcb2d79a425c148e3cdf83",
+          "bytes": 3699
+        }
+      ]
+    },
+    {
+      "name": "vsb-feedback",
+      "description": "Send feedback to the Visual Sandbox team with the MCP tool submit_feedback or `vsb feedback`: a bug, a result that missed what was asked, a missing feature or model, something confusing, or praise. Trigger when the person says \"tell them\", \"report this\", \"send feedback\", \"this is broken\", \"this should exist\", \"I love this\", or when a tool fails in a way that is not the person's input or your own mistake. One report for each issue, never when the person asks you not to send one.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "00d697816cd1a8086bc0b6ffc50c6c094af0a6603f4733c06ccea3553f63e32d",
+          "bytes": 2634
         }
       ]
     },
@@ -145,8 +156,19 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "d76612672b5c93d38bfdb0ad5b2e531577da591692d55d401476217c7086b85c",
-          "bytes": 13632
+          "sha256": "e32729b07398d9c89b6daa4a8ec83a36d56e79b3ca60452ad91b97385faae53d",
+          "bytes": 14882
+        }
+      ]
+    },
+    {
+      "name": "vsb-html-video",
+      "description": "Write HTML and render it into a video or a picture with the Visual Sandbox MCP tools render_html_video and render_html_image: motion graphics, kinetic type, an animated explainer, a title card, lower thirds, a logo sting, a social card, a quote card or a thumbnail with exact text. Trigger when the person asks for \"motion graphics\", \"kinetic typography\", \"an animated explainer\", \"a title card\", \"an intro\", \"a lower third\", \"a logo animation\", \"a social card with this text\" or a design that must move. Covers the composition contract, the render clock, GSAP timelines, sound, the limits, and how to check a render. Free. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "ea6719f7f5acf76a36c0731d5762412345c2b75bed3d52a1f502c03d447e6da2",
+          "bytes": 5070
         }
       ]
     },
@@ -157,8 +179,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "44fea0dbb9df5687184dff21b9bc6aeb5291e307382054bdb3e1f75b0e999cb4",
-          "bytes": 18803
+          "sha256": "3d2052e673b153d8869b94406ea06a543dad72144d49a3e92fc5fb27d413950a",
+          "bytes": 19420
         }
       ]
     },
@@ -182,6 +204,17 @@
           "path": "SKILL.md",
           "sha256": "52034d8ce7e2fee0d0389580852e22a478910ca189f8413e9b9ceda1a0e29a1e",
           "bytes": 8477
+        }
+      ]
+    },
+    {
+      "name": "vsb-library-themes",
+      "description": "Keep a brand and its media in Visual Sandbox with the MCP tools: read a brand's colors, fonts, logo and tone from its website into a saved theme, apply the theme to every later prompt, and find, name and tag results in the person's library so they can be used again. Trigger when the person says \"use my brand\", \"set up my brand\", \"match our website\", \"our colors\", \"our logo\", \"find the picture we made last week\", \"use the approved keyframe\", \"name this\", \"tag these\" or gives a website for branded work. Saves only values the person confirmed. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "27ec93b724fceb02458d5feb36ae5f0271af5d879246a8f4f65b1c5b37a5a84a",
+          "bytes": 3864
         }
       ]
     },
@@ -273,23 +306,23 @@
     },
     {
       "name": "vsb-setup",
-      "description": "Get a new person started with Visual Sandbox over the MCP tools, in ChatGPT, Claude or any other chat client. Trigger right after the plugin is installed, when the person says \"set up Visual Sandbox\", \"what can you make\", \"get started\", \"how does this work\", or when the first tool call says the account is not connected. Checks the connection and the balance, shows what the plugin makes, and walks the person from one image to a first video. Uses the MCP tools only, never a shell.",
+      "description": "Get a new person started with Visual Sandbox over the MCP tools, in ChatGPT, Claude or any other chat client, one step per message. Trigger right after the plugin is installed, when the person says \"set up Visual Sandbox\", \"what can you make\", \"get started\", \"how does this work\", or when the first tool call says the account is not connected. Checks the connection, turns the person's photos, product, logo or website into saved anchors, makes one preview keyframe, a first 5-second video and three voice takes, then opens the canvas. Every step is optional. Uses the MCP tools only, never a shell.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "526af5aa7c3042a407ad6022df7510b90e09ecde61ef08279f0bf7af4b1e9b31",
-          "bytes": 4056
+          "sha256": "0320462cb2eb196d767fc7aeb2e564350683bb45e833eb22f6e90a3b94211d73",
+          "bytes": 4942
         }
       ]
     },
     {
       "name": "vsb-short-film",
-      "description": "Make a short film of several shots inside a chat with the Visual Sandbox MCP tools: a story of 15 to 60 seconds with the same character in every shot, joined into one video with music, a voiceover or captions. Trigger when the person asks to \"make a short film\", \"turn this script into a video\", \"a story with several scenes\", \"a trailer\", \"a music video\", \"a multi-scene ad\", or \"an episode with my character\". Plans the shots, gives the total price once, approves the stills before any video, then joins the clips. Uses the MCP tools only; for the CLI, read vsb-film.",
+      "description": "Make a short film of several shots inside a chat with the Visual Sandbox MCP tools: a story of 15 to 60 seconds with the same character in every shot, kept as a film project between chats, joined into one cut with a narration and a music bed. Trigger when the person asks to \"make a short film\", \"turn this script into a video\", \"a story with several scenes\", \"a trailer\", \"a music video\", \"a multi-scene ad\", \"an episode with my character\", or \"continue my film\". Plans the shots, gives the total price once, approves the keyframes before any video, then assembles the cut. Uses the MCP tools only; for the CLI, read vsb-film.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c7a7eb231377d427c611a03775d66bd24286c0b8207a5ce002af039f6ef826d8",
-          "bytes": 3398
+          "sha256": "e55fb6447938e497a911ebf3cc4b99ffd3b17bf36301ec9839447e30fc151d59",
+          "bytes": 4588
         }
       ]
     },
@@ -316,13 +349,24 @@
       ]
     },
     {
+      "name": "vsb-swap-motion",
+      "description": "Put a different person or character into an existing video, or make a photo move the way a person moves in another video, with the Visual Sandbox MCP tools: P-Video Replace swaps the subject, Kling 3.0 Motion Control and P-Video Animate copy a motion onto a photo, and Kling 3.0 Omni restyles or edits a reference video. Trigger when the person asks to \"swap the person in this video\", \"put me in this clip\", \"replace the actor\", \"make my character do this dance\", \"copy this motion\", \"motion transfer\", \"restyle this video\" or \"change what is in this video\". Consent first, a still check before the paid run. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "29cc9f7c44bb239df3621f6b0bc4ec918ee18b0dd342028b18a20d759529d50d",
+          "bytes": 3417
+        }
+      ]
+    },
+    {
       "name": "vsb-talking-avatar",
       "description": "Make a talking video from one photo and a script with the Visual Sandbox MCP tools: a presenter, a spokesperson, an AI avatar or a person who reads a line, with the lips in time with the words. Trigger when the person asks to \"make this photo talk\", \"create my avatar\", \"a talking head\", \"an AI spokesperson\", \"a presenter video\", \"lip sync this picture\", or \"make me say this\". Picks a stock voice, an ElevenLabs voice or the person's cloned voice, asks for the price first, and shows the video in a card. Uses the MCP tools only.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "4e0cc70ee0ab13992f032b4969408a63fe158a7b6a9e0c3513bbb8062ceb97be",
-          "bytes": 2764
+          "sha256": "f7ed7cbdcca5d3c568f6fc5a8fde76adaa48cfcacb932ffbed8c544d1d5d2bd4",
+          "bytes": 2861
         }
       ]
     },
@@ -393,19 +437,19 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "cec46ed47d9abcd421137d48ca20de09e10fae983c4384f17848b83d462305da",
-          "bytes": 26462
+          "sha256": "54748d5c178745a89e4443139baa8d50e83b9b54a0d28df6816b691a2d734c12",
+          "bytes": 27499
         }
       ]
     },
     {
       "name": "vsb-video-to-reels",
-      "description": "Cut a long video into short vertical clips with the Visual Sandbox MCP tools: find the best moments in a podcast, an interview, a webinar or a talk, trim each one to 9:16, and add word-timed captions. Trigger when the person asks to \"turn this video into reels\", \"make shorts from my podcast\", \"find the best clips\", \"clip this interview\", \"repurpose this video for TikTok\", or attaches a long video and asks for short ones. Transcribes the video, proposes the moments, and cuts only the ones the person picks. Uses the MCP tools only.",
+      "description": "Cut a long video into short vertical clips with the Visual Sandbox MCP tools: find the best passages in a podcast, an interview, a webinar or a talk, cut and reframe them to 9:16 in one render, and burn word-timed captions from the source's own transcript. Trigger when the person asks to \"turn this video into reels\", \"make shorts from my podcast\", \"find the best clips\", \"clip this interview\", \"repurpose this video for TikTok\", sends a YouTube, TikTok, Instagram or X link, or attaches a long video and asks for short ones. Transcribes, proposes the passages, and cuts only the ones the person picks. Uses the MCP tools only.",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "82897f8f6120eccdb8e84bc8c6d7c636ebc486d76cb01231eeb386e67f508de1",
-          "bytes": 2684
+          "sha256": "daf31a4db99084a26babcd1a60082b14dd21990f963ad249d83b37e3a1836fe4",
+          "bytes": 4065
         }
       ]
     }

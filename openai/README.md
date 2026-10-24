@@ -1,15 +1,29 @@
 # The OpenAI plugin package (ChatGPT and Codex)
 
 This folder turns this repository into a plugin for the OpenAI plugin
-directory. The directory is how ChatGPT users find a plugin, and it is the
-channel that grew CreativeClaw from $5,254 in August 2026 to $92,894 in
-September. Issue: `visualsandbox/visual-sandbox#67`.
+directory. The directory is how ChatGPT users find a plugin. Issue:
+`visualsandbox/visual-sandbox#67`.
 
 | File | What it does |
 |------|--------------|
 | `plugin.openai.json` | The listing, the keywords, the review test cases, the commerce statement and the release notes. `name` is the package id, `visual-sandbox`. The portal keeps its own plugin id. |
 | `mcp.json` | The one server, `https://visualsandbox.com/mcp/chatgpt`, with OAuth by dynamic client registration. The ZIP ships it at its root. |
 | `assets/icon.png` | The 512 px icon. |
+
+## Starter prompts and their screenshots
+
+The portal takes one 706×860 screenshot for each starter prompt
+(`defaultPrompt`). Each one in `assets/screenshots/` is the result card with a
+real run, drawn by `core/mcp/card.html`. They are not in the ZIP; add them in
+the portal with the next upload.
+
+| Starter prompt | Screenshot | The real run behind it |
+|----------------|------------|------------------------|
+| Animate this product photo into a 5-second vertical video. | `1-animate-product-photo.png` | Veo 3.1 Fast, 8 s, 9:16, $1.50 |
+| Make a 10-second vertical video ad for my product with a script and a voiceover. | `2-vertical-video-ad.png` | Seedance 2.5, 10 s, vertical, $2.89 |
+| Turn this product photo into a clean studio shot and two lifestyle photos. | `3-studio-and-lifestyle-photos.png` | Nano Banana 2 Lite twice ($0.05 each) and FLUX.2 Klein 9B ($0.02) |
+
+Change a starter prompt and its screenshot together.
 
 ## Why a second server address
 
