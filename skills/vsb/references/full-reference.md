@@ -191,7 +191,7 @@ Poll a job. By default returns `JobOut` as-is.
 | Flag | Description |
 |------|-------------|
 | `jobId` | positional |
-| `--result` | Include the full `result` blob (urls, cost, dimensions). Implied by `--download`. |
+| `--result` | Wait until the job is completed, failed or cancelled, then include the full `result` blob (urls, cost, dimensions). Implied by `--download`. |
 | `--cancel` | POST to `/v1/jobs/<id>/cancel/`. Returns the cancelled job; exits 1 with a clear message if it had already finished (409). |
 | `--download [template]` | Download result media when status is `completed`. Same templating as `vsb run`. |
 
