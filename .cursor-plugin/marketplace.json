@@ -1,0 +1,17 @@
+{
+  "name": "visual-sandbox",
+  "owner": {
+    "name": "Vlad Artym",
+    "email": "hello@visualsandbox.com"
+  },
+  "metadata": {
+    "description": "The Visual Sandbox plugin for Cursor and Grok Bot."
+  },
+  "plugins": [
+    {
+      "name": "visual-sandbox",
+      "source": "./",
+      "description": "Generate images, video, audio, 3D and vector with Visual Sandbox, with the skills that teach an agent to prompt every model well. Pay per generation."
+    }
+  ]
+}
