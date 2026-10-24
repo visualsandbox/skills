@@ -41,6 +41,18 @@ raw CDN URL.
 > with model-specific quirks in [`vsb-nano-banana`](../vsb-nano-banana/SKILL.md) and
 > [`vsb-ugc-people`](../vsb-ugc-people/SKILL.md).
 
+## Rules for every paid image run
+
+- **Keep a simple request simple.** "Make an image of X" is one image: no
+  questionnaire, no extra drafts, no variations nobody asked for.
+- **One request is one paid attempt.** A complaint or "fix it" is not a yes
+  for a new run. Say what you would change, and ask first.
+- **Review mode (MCP).** A run of 10 cents or more can answer
+  `awaiting_approval`. In ChatGPT, call `show_media`; elsewhere, give the
+  `share_url`. Never press Generate for the person.
+- **Branded work** reads the brand first with `get_theme`
+  ([`vsb-library-themes`](../vsb-library-themes/SKILL.md)).
+
 ## Picking a model
 
 Verify the live catalog with `vsb models --modality image --json | jq '.models[] | {slug, category, owner}'`.

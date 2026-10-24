@@ -52,8 +52,9 @@ Describe only the motion and the camera. The photo already holds the look.
 1. Call `estimate_cost` with the model and the inputs. Tell the person the
    price and wait for their yes.
 2. Run the model with the photo `url`, the prompt, the aspect ratio and a
-   duration of 5. Pass the agreed price as `approved_cost_usd` where the
-   tool asks for it. Name the work with `sandbox_name`.
+   duration of 5. Name the work with `sandbox_name`. In Review mode, a run
+   of 10 cents or more waits for the person's press of Generate: show the
+   card with `show_media`, or give the review link. Never press it for them.
 3. Call `show_media` with the job id at once. The card shows the percent and
    then plays the clip.
 4. When the person wants to judge it yourself, call `get_job` after

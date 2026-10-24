@@ -30,6 +30,28 @@ canvas with `vsb sandbox docs write`, so a later session finds them:
 `FILM.md` (script and look), `CHARACTER.md` (cast and places, with image
 URLs), `SHOTS.md` (the shot list).
 
+## Keep the film as a project
+
+A film project keeps the brief, the script, the shot list and where each shot
+stands on the server, so another session, the CLI or a chat goes on from the
+same place. It writes the plan to the film's canvas as `FILM.md`.
+
+```bash
+vsb films create "Night shift" --brief "A robot barista's last night" --aspect-ratio 16:9 --target-seconds 45 --json
+vsb films update "Night shift" --script-file script.md --stage script_ok --json
+vsb films update "Night shift" --shots-file shots.json --json   # [{"id":"shot-1","title":"...","prompt":"..."}]
+vsb films get "Night shift" --json                              # each shot's keyframe, job and clip
+vsb films assemble "Night shift" --audio-mode narration --json
+```
+
+Send the film's `sandbox_uuid` with every run (`--sandbox-uuid`), and record
+each shot's job id in the project (`--shots-file`, or `patch_shots` over MCP)
+when its run starts; the shot's clip fills in by itself. The stages are
+`drafting`, `script_ok`, `storyboard_ok`, `preview_ok` and `final`. Move the
+stage on only when the person approved that step. `vsb films assemble` joins
+the shots in order and lays the narration and a ducked music bed; use the
+timeline (phase 7) when the cut needs more than that.
+
 ## Rules before the first run
 
 1. **Price the whole film and get a yes.** One shot is cheap. Forty shots with

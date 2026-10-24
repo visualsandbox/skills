@@ -83,6 +83,20 @@ model choice, cost and share links is the same either way.
 
 16. **A UI is a design, not an image.** When the user asks for a UI, a web page, a landing page, an app screen or a mock-up — even "make this" with a screenshot — build it with `vsb design`: HTML and CSS on the canvas, in layers they can pick and edit, and free. Read [`vsb-design`](../vsb-design/SKILL.md) first. Generate an image only when they ask for a picture of it.
 
+17. **One request is one paid attempt.** A complaint, "fix it", a failed job, a refund question or `retryable: true` is not a yes for another paid run. Say what went wrong, say what you would change, and ask before the next take.
+
+18. **Keep a simple request simple.** "Make an image of X" is one image: no questionnaire, no extra drafts, no variations that nobody asked for. Ask a question only when the answer changes the result.
+
+19. **One keyframe image for each shot before a new video.** Make it from the anchors (the character, the theme, the product photo), at the video's shape, and get a yes on it. Say how many images that is before the first one. Skip it when the person gives the first frame, or asks for text to video.
+
+20. **A timeout is not a failure.** A job that is `queued` or `processing` still runs. Check the job you know (`vsb status <job_id>`, `get_job`) before any replacement run, and never say a result exists until its job is `completed`.
+
+21. **Clone a voice only with the speaker's consent.** Ask for it in words. Pass `confirm_rights: true` only after the yes. See [`vsb-clone-voice`](../vsb-clone-voice/SKILL.md).
+
+22. **Review mode (MCP).** On an account in Review mode, a run of 10 cents or more answers `status: "awaiting_approval"`. Nothing runs and nothing is charged. In ChatGPT, call `show_media` with the job id: the card shows the request, the price and a Generate button. Elsewhere, give the person the `share_url`, which is the review page. Never press Generate for the person, and never request the run again while it waits. `get_job` with the same id reports the run after the press.
+
+23. **Say which packs you followed (MCP).** Every tool takes an optional `skills_used` list: the packs or pack files that you followed for that call, such as `["vsb-video", "vsb-seedance-prompting/SKILL.md"]`. Only what you followed for that call. Never prompts, links or personal data. Leave it out when you do not know.
+
 ## Background generations (keep the conversation free)
 
 A generation must never hold the agent's turn hostage. Start it in the
@@ -197,7 +211,7 @@ list, run `vsb skills install <name>`, then read
 | `vsb-image-iteration` | Edit the same image a second time |
 | `vsb-nano-banana` | Run a Nano Banana model |
 | `vsb-ugc-people` | Make a UGC-style photo of one person for a 9:16 ad |
-| `vsb-setup` | Start a new person on the MCP tools: check the connection, then a first image and a first video (MCP only) |
+| `vsb-setup` | Start a new person on the MCP tools, one step per message: anchors, a keyframe, a first video, three voice takes, the canvas (MCP only) |
 | `vsb-ugc-ad` | Make a creator-style 9:16 video ad of one person and a product, script first (MCP only) |
 | `vsb-product-photoshoot` | Make a set of product photos from one photo, with the product the same in each (MCP only) |
 | `vsb-ad-variations` | Make 3 to 6 versions of one ad that each change one thing, to test (MCP only) |
@@ -207,7 +221,7 @@ list, run `vsb skills install <name>`, then read
 | `vsb-short-film` | Make a short film inside a chat: shot list, one total price, approved stills, clips joined (MCP only) |
 | `vsb-talking-avatar` | Make a photo talk with a script, in a stock, ElevenLabs or cloned voice (MCP only) |
 | `vsb-clone-voice` | Clone a voice with consent, then read any script in it (MCP only) |
-| `vsb-video-to-reels` | Cut a long video into 9:16 clips with captions: transcript, picked moments, trim (MCP only) |
+| `vsb-video-to-reels` | Cut a long video or a video link into 9:16 reels with captions: transcript, picked passages, one cut (MCP only) |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
 | `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table, the async poll, and the sound path for people who talk |
@@ -224,6 +238,10 @@ list, run `vsb skills install <name>`, then read
 | `vsb-subtitles` | Burn word-by-word captions into a video (CLI only) |
 | `vsb-download` | Download a TikTok, Instagram or YouTube video and read what is in it (CLI only) |
 | `vsb-film` | Make a short film of several shots: script, shot list, one cast across shots, sound, edit, captions |
+| `vsb-html-video` | Write HTML and render it to a video or a picture: motion graphics, kinetic type, a title card, a social card (free) |
+| `vsb-library-themes` | Set up a brand theme from a website, apply it to every prompt, and find, name and tag saved media |
+| `vsb-swap-motion` | Put a new person into a video, copy a motion onto a photo, or restyle a video, with consent first |
+| `vsb-feedback` | Send a bug, a weak result, a missing feature or praise to the Visual Sandbox team |
 
 Prepare media with these commands, not with a raw `ffmpeg` call.
 
@@ -398,7 +416,8 @@ vsb feedback "Ran image/nano-banana with image_input; expected an edited image, 
 ```
 
 - Not a bug: if the CLI refuses to run with an unsupported-version error (`error_type: "unsupported_version"` on stderr), run `vsb update --json` and retry the original command — don't report it.
-- `--kind`: `bug` for errors, `comment` for suggestions/feature requests, `like` for praise (default: `comment`).
+- `--kind`: `bug` for errors, `generation_quality` for a result that missed the prompt, `missing_feature` for a model or a feature that is not there, `confusing` for a message or a step nobody could follow, `like` for praise, `comment` for anything else (default: `comment`).
+- Over MCP, the same report is `submit_feedback`, with `category` and `source` (`user` or `agent`). Read [`vsb-feedback`](../vsb-feedback/SKILL.md).
 - `--image <path>` attaches a screenshot (png/jpg/gif/webp, max 8 MB).
 - CLI version + platform are appended automatically — don't repeat them in the message.
 

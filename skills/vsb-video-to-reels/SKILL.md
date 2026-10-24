@@ -2,68 +2,95 @@
 name: vsb-video-to-reels
 description: >
   Cut a long video into short vertical clips with the Visual Sandbox MCP
-  tools: find the best moments in a podcast, an interview, a webinar or a
-  talk, trim each one to 9:16, and add word-timed captions. Trigger when the
-  person asks to "turn this video into reels", "make shorts from my
-  podcast", "find the best clips", "clip this interview", "repurpose this
-  video for TikTok", or attaches a long video and asks for short ones.
-  Transcribes the video, proposes the moments, and cuts only the ones the
+  tools: find the best passages in a podcast, an interview, a webinar or a
+  talk, cut and reframe them to 9:16 in one render, and burn word-timed
+  captions from the source's own transcript. Trigger when the person asks to
+  "turn this video into reels", "make shorts from my podcast", "find the best
+  clips", "clip this interview", "repurpose this video for TikTok", sends a
+  YouTube, TikTok, Instagram or X link, or attaches a long video and asks for
+  short ones. Transcribes, proposes the passages, and cuts only the ones the
   person picks. Uses the MCP tools only.
 license: Proprietary. See LICENSE for the terms.
 ---
 
 # Long video to reels
 
-A long video becomes 3 to 5 clips of 15 to 60 seconds, each 9:16 with
-captions. The transcript finds the moments; the person picks them. Use the
-MCP tools only.
+The transcript finds the passages, the person picks them, and one render cuts
+them. You pick the moments; `cut_and_reframe_video` only cuts what it is
+given. Use the MCP tools only.
 
-## 1. Get the video and its length
+## 1. Get the video
 
-- A file attached in the chat goes to `upload_media` as `file`. Use the
-  `url` it returns. An upload can be up to 100 MB. Each edit takes a video
-  of up to 15 minutes, and captions take up to 10 minutes.
-- Ask how long the video is, if you do not know. Round up to the next whole
-  minute. The transcript is priced by that length.
+- **A public page** (YouTube, TikTok, Instagram, X): keep the link for step 2,
+  and call `download_video` with it for step 4. A site can refuse the server;
+  then ask the person to attach the file. Use only video the person has the
+  right to use.
+- **A file in the chat** goes to `upload_media` as `file`. Use the `url` it
+  returns.
+
+The source can be up to 2 hours long.
 
 ## 2. Transcribe it
 
-1. Call `estimate_cost` for `audio/scribe` with `duration_seconds`. Tell the
-   person the price.
-2. Run `audio/scribe` with `audio` (the video URL) and `duration_seconds`.
-3. Call `get_job` after `eta_seconds`. It returns the transcript as lines,
-   each with its start and end second: `[12.3-18.0] The sentence.`
+- **A public page:** call `transcribe_link` with the link. A YouTube video
+  with captions costs nothing. Without captions, Scribe runs at its price for
+  the real length; say so first.
+- **A file:** run `audio/scribe` with the file URL. Call `estimate_cost` with
+  the length first, and say the price.
 
-## 3. Propose the moments
+`get_job` returns the transcript as timed lines, `[12.3-18.0] The sentence.`
+Keep the job id: the captions in step 4 read the words from it.
 
-Pick 3 to 5 moments that stand alone without the rest of the video.
+## 3. Propose the passages
 
-- Each one starts with a strong line in its first 3 seconds: a claim, a
-  question or a surprise.
-- Each one ends at the end of a sentence.
-- Each one is 15 to 60 seconds long.
+A passage with a hook, the context and a payoff beats a quotable line with no
+end. Default to one passage of 30 to 60 seconds; offer up to five.
 
-Show a list: the start and end second, the length, and the first line of
-each. Wait for the person to pick.
+- It opens with a strong line in its first 3 seconds: a claim, a question or
+  a surprise.
+- It ends at the end of a thought, not in the middle of a sentence.
+- It stands alone. A viewer who did not see the rest understands it.
+- A passage can join two or three parts of the source, in order or not, when
+  the joined parts still say what the speaker meant.
 
-## 4. Cut and caption
+Cut at a pause. A pause of 400 ms or more is a clean cut; take care between
+150 and 400 ms; below 150 ms, keep more context. **Never join parts so that a
+speaker seems to say something they did not say.**
 
-For each moment the person picked:
+Show a list: the start and end seconds of each part, the length, and the
+first line. Wait for the person to pick.
 
-1. `trim_video` with `video`, `start_seconds`, `end_seconds`,
-   `aspect_ratio: "9:16"` and `fit: "crop"`. Free. Use `fit: "pad"` when two
-   people sit far apart and the crop would cut one out.
-2. When the trim job is completed, `add_captions` on its result URL with
-   `style: "bold"`. 5 cents each; say so before the runs.
+## 4. Cut, reframe and caption in one run
 
-Use the same `sandbox_name` on every run, such as "Podcast ep 12 reels".
+Call `cut_and_reframe_video` once for each reel:
+
+- `video`: the source URL from step 1.
+- `segments`: the parts in the order the reel plays them, each with `start`
+  and `end` in source seconds. Up to 40 parts and 5 minutes in all, each at
+  least 0.15 s.
+- `framing` for each part: `center_crop` for one person in the middle,
+  `pad` when two people sit far apart, or `crop` with `crop_x`, `crop_y`,
+  `crop_width` and `crop_height` in source pixels to follow one speaker.
+- `aspect_ratio`: `9:16` by default.
+- `captions`: `bold` (large capitals, the spoken word lit up) or `plain`,
+  with `transcript` set to the job id of step 2. Use `none` when the source
+  already has captions burned in.
+
+The cut is free. Captions from the source transcript need no second
+transcription. Send the same `sandbox_name` on every run, such as
+"Podcast ep 12 reels".
+
+To change the caption look later, run `add_captions` on the reel. It has six
+looks; see [`vsb-edit-video`](../vsb-edit-video/SKILL.md).
 
 ## 5. Hand it over
 
-Call `show_media` with the caption job ids, and give the `sandbox_url`.
+Call `show_media` with the job ids, and give the `sandbox_url`. Look at the
+frames before you report a reel.
 
 ## Rules
 
-- Cut nothing before the person picks the moments.
-- Run captions after the trim job is completed, never at the same time.
-- A failed edit costs nothing. Read the error, fix the input, run again.
+- Cut nothing before the person picks the passages.
+- One reel is one run. A complaint about one reel is not a yes for new runs
+  of the others.
+- A failed cut costs nothing. Read the error, fix the input, and run again.

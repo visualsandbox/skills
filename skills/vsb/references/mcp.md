@@ -61,7 +61,28 @@ the reader.
 | `vsb topup` | `top_up` |
 | `vsb skills list` | `list_skills` |
 | `vsb skills install <name>` | `get_skill` |
+| `vsb run tool/video-reels` | `cut_and_reframe_video` |
+| `vsb run tool/video-download` | `download_video` |
+| `vsb run tool/transcribe-link` | `transcribe_link` |
+| `vsb run tool/html-video` | `render_html_video` |
+| `vsb run tool/html-image` | `render_html_image` |
+| `vsb assets search` | `search_assets` |
+| `vsb assets update <asset>` | `update_asset` |
+| `vsb themes` | `list_themes` |
+| `vsb themes get <theme>` | `get_theme` |
+| `vsb themes set <theme>` | `update_theme` |
+| `vsb themes extract <url>` | `extract_theme` |
+| `vsb films` | `list_film_projects` |
+| `vsb films create <name>` | `create_film_project` |
+| `vsb films get <film>` | `get_film_project` |
+| `vsb films update <film>` | `update_film_project` |
+| `vsb films assemble <film>` | `assemble_film` |
+| `vsb feedback` | `submit_feedback` |
 | none, ChatGPT only | `show_media` (a card with the result, on `/mcp/chatgpt`) |
+| none, ChatGPT only | `edit_theme` (a card to check and save a theme) |
+| none, ChatGPT only | `voice_studio` (a card that plays the takes of a voice and records a sample to clone) |
+| none, ChatGPT only | `import_media` (a card where the person picks a file to upload) |
+| none, the card only | `approve_review` (the card's Generate button; a model never calls it) |
 
 This table is a copy. The pairing itself lives on the `@tool` decorator in
 `core/mcp/tools.py`, and `manage.py mcp_surface` prints it. If the two ever
@@ -179,6 +200,27 @@ of model you are about to run:
 
 Every run costs real money. Estimate first, and never run a second time to
 "check" a result you already have.
+
+## Review mode: a paid run waits for the person
+
+An account in Review mode, the default, keeps every run of 10 cents or more
+for the person's yes. The run answers `status: "awaiting_approval"`, and
+nothing runs or is charged.
+
+- **In ChatGPT,** call `show_media` with the job id. The card shows the
+  model, the prompt, the references, the settings and the price in dollars,
+  with one Generate button.
+- **Elsewhere** (Claude, Cursor, a terminal), give the person the
+  `share_url`. It is the review page, `/review/<id>/`, and `/review/` lists
+  every run that waits, with one "Generate all".
+- **Never press Generate for the person,** and never request the same run
+  again while it waits. `get_job` with the same id reports the job once they
+  press, so keep that id.
+- A run that the person declines, or that waits more than 24 hours, comes
+  back `cancelled`. Ask before you request it again.
+
+"Always allow" in the account's preferences turns Review mode off for every
+agent.
 
 ## When a tool refuses
 

@@ -51,6 +51,14 @@ only after the person confirms it. Never clone a public figure.
 To put the voice on a face, read `vsb-talking-avatar`. To put it on a video,
 read `vsb-edit-video` and use `add_audio`.
 
+## In ChatGPT: the Voice Studio card
+
+On an account that may clone a voice, `voice_studio` with no job id opens
+a card that records the person, or takes a saved recording. They tick the
+consent box, and the card sends you the recording's URL. Run the clone
+with that URL and `confirm_rights: true`, then call `voice_studio` with
+the clone's job id so they hear it and save it to a character.
+
 ## Rules
 
 - One clone per voice. Reuse it with `my_voice`; do not clone again.
