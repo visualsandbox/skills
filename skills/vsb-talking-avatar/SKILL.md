@@ -54,8 +54,9 @@ talk", when the person wants a full scene and not only a face.
 
 1. Call `estimate_cost`. Tell the person the price and wait for their yes.
 2. Run the speech first, if the voice needs it. Then run the video model
-   with the photo and the speech. Pass the agreed price as
-   `approved_cost_usd` where the tool asks for it.
+   with the photo and the speech. In Review mode, a run of 10 cents or
+   more waits for the person's press of Generate: show the card with
+   `show_media`, or give the review link. Never press it for them.
 3. Call `show_media` with the job ids. Give the `sandbox_url`.
 
 ## Rules

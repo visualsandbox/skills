@@ -42,7 +42,9 @@ voice. Saving it is free.
 3. Put the description in the prompt, then say what is new in this shot:
    the place, the action, the camera.
 4. For speech, pass the `voice_id` to `audio/elevenlabs-tts`: as `voice` for
-   a stock voice, as `my_voice` for one the person designed.
+   a stock voice, as `my_voice` for a voice the person designed or cloned.
+   A `voice_id` can be the link of one take of a voice, which is what the
+   Voice Studio card saves; `my_voice` takes that link as it is.
 
 For two characters in one shot, pass the pictures of both and name each one
 in the prompt: "the woman from the first pictures, the dog from the last".

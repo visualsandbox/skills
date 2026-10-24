@@ -49,8 +49,13 @@ Captions take a video of up to 10 minutes.
    under the voice.
 4. Add music the same way: `loop_audio: true`, `audio_volume: 0.3`,
    `fade_out_seconds: 1.5`.
-5. Add captions last, on the finished mix: `add_captions`,
-   `style: "bold"` for short-form video.
+5. Add captions last, on the finished mix: `add_captions` with a
+   `style`: `highlight` (the default: large capitals, the spoken word in
+   yellow), `hormozi` (the spoken word in green, yellow or red), `beast`
+   (two or three comic-book words that pop in), `classic` (words appear one
+   by one), `box` (sentences on a dark box) or `plain`. In ChatGPT the card
+   offers the other looks under the captioned video; a press runs the
+   captions again for 5 cents.
 6. Call `show_media` with the job id of each step, or of the last step.
 
 Captions read the speech of the video, so run them after the voiceover is

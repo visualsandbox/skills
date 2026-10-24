@@ -21,6 +21,24 @@ Video runs are slow (30s–3min). **Always use `--async`**, then poll with `vsb 
 
 Agents: don't block the conversation on a running job either — start it, keep talking, check later. Put the wait loop in a **background shell** (Claude Code: `run_in_background: true`), so the harness notifies you when the job lands. `vsb status` never waits on its own. Rules in [`vsb` → Background generations](../vsb/SKILL.md#background-generations-keep-the-conversation-free).
 
+## Rules for every paid video run
+
+- **One request is one paid attempt.** A complaint, "fix it", a failed job or
+  `retryable: true` is not a yes for another run. Ask before the next take.
+- **One keyframe image for each shot first.** Make it from the anchors (the
+  character, the theme, the product photo), at the video's shape, and get a
+  yes on it before any video. Say how many images that is. Skip it when the
+  person gives the first frame or asks for text to video.
+- **A timeout is not a failure.** A `queued` or `processing` job still runs.
+  Check the job you know before any new run, and claim no result before the
+  job is `completed`.
+- **Review mode (MCP).** A run of 10 cents or more can answer
+  `awaiting_approval`. In ChatGPT, call `show_media`: the card shows the
+  price and the Generate button. Elsewhere, give the `share_url`. Never press
+  Generate for the person, and never request the run again while it waits.
+- **A person in the video** must have agreed to it. A cloned voice needs the
+  speaker's consent.
+
 ## The async + poll pattern
 
 ```bash

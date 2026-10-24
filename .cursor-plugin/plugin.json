@@ -1,0 +1,32 @@
+{
+  "name": "visual-sandbox",
+  "displayName": "Visual Sandbox",
+  "version": "0.2.69",
+  "description": "Generate images, video, audio, 3D and vector with Visual Sandbox, with the skills that teach an agent to prompt every model well. Pay per generation.",
+  "author": {
+    "name": "Vlad Artym",
+    "email": "hello@visualsandbox.com",
+    "url": "https://visualsandbox.com"
+  },
+  "homepage": "https://visualsandbox.com",
+  "repository": "https://github.com/visualsandbox/skills",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "mcp",
+    "ai-media",
+    "image-generation",
+    "video-generation",
+    "audio-generation",
+    "voiceover",
+    "ugc-ads"
+  ],
+  "category": "productivity",
+  "tags": [
+    "images",
+    "video",
+    "audio",
+    "voice",
+    "mcp"
+  ],
+  "mcpServers": "./mcp.json"
+}

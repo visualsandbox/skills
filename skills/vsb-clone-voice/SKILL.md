@@ -36,8 +36,9 @@ only after the person confirms it. Never clone a public figure.
 1. Call `estimate_cost` for `audio/elevenlabs-voice-clone`. Tell the person
    the price and wait for their yes.
 2. Run it with `audio` (the recording URL), `confirm_rights: true`, and a
-   short `prompt` that the clone reads back as a sample. Set `keep: true`
-   when the person wants to use the voice again later.
+   short `prompt` that the clone reads back as a sample. The voice stays
+   usable later: Visual Sandbox keeps the recording, and a later run clones
+   the voice again when it needs to. An account can clone 3 times a day.
 3. Call `show_media` with the job id, so the person hears the sample.
 
 ## 4. Read a script in the voice
@@ -50,6 +51,14 @@ only after the person confirms it. Never clone a public figure.
 
 To put the voice on a face, read `vsb-talking-avatar`. To put it on a video,
 read `vsb-edit-video` and use `add_audio`.
+
+## In ChatGPT: the Voice Studio card
+
+On an account that may clone a voice, `voice_studio` with no job id opens
+a card that records the person, or takes a saved recording. They tick the
+consent box, and the card sends you the recording's URL. Run the clone
+with that URL and `confirm_rights: true`, then call `voice_studio` with
+the clone's job id so they hear it and save it to a character.
 
 ## Rules
 

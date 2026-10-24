@@ -43,8 +43,13 @@ which sends an agent holding MCP tools to
 `list_jobs`, `list_voices`, `upload_media`, `list_sandbox_items`, `get_selection`,
 `read_sandbox_docs`, `write_sandbox_doc`, `create_design`, `get_design`,
 `update_design`, `move_layer`, `export_design`, `list_presets`, `get_preset`,
-`get_balance`, `top_up`, `list_skills`, `get_skill` — one for each `vsb`
-command. Add the server on its own, without the plugin:
+`get_balance`, `top_up`, `list_skills`, `get_skill`, the video edit tools,
+the asset library and brand themes (`search_assets`, `update_asset`,
+`list_themes`, `get_theme`, `update_theme`, `extract_theme`), film projects
+(`create_film_project`, `get_film_project`, `update_film_project`,
+`list_film_projects`, `assemble_film`), `render_html_video`,
+`render_html_image` and `submit_feedback` — one for each `vsb` command. Add the
+server on its own, without the plugin:
 
 ```bash
 claude mcp add --transport http visual-sandbox https://visualsandbox.com/mcp
@@ -88,7 +93,11 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-short-film`](skills/vsb-short-film/) | A short film inside a chat over MCP: shot list, one total price, approved stills, then clips joined |
 | [`vsb-talking-avatar`](skills/vsb-talking-avatar/) | A photo and a script to a talking video over MCP, in a stock, ElevenLabs or cloned voice |
 | [`vsb-clone-voice`](skills/vsb-clone-voice/) | Clone a voice over MCP with consent, then read any script in it |
-| [`vsb-video-to-reels`](skills/vsb-video-to-reels/) | A long video to 9:16 clips with captions over MCP: transcript, picked moments, trim |
+| [`vsb-video-to-reels`](skills/vsb-video-to-reels/) | A long video or a video link to 9:16 reels with captions over MCP: transcript, picked passages, one cut |
+| [`vsb-html-video`](skills/vsb-html-video/) | HTML rendered to a video or a picture: motion graphics, kinetic type, title and social cards (free) |
+| [`vsb-library-themes`](skills/vsb-library-themes/) | A brand theme read from a website, applied to every prompt; saved media found, named and tagged |
+| [`vsb-swap-motion`](skills/vsb-swap-motion/) | A new person in a video, a motion copied onto a photo, or a video restyled, consent first |
+| [`vsb-feedback`](skills/vsb-feedback/) | A bug, a weak result, a missing feature or praise sent to the Visual Sandbox team |
 
 ## Install
 
@@ -113,6 +122,20 @@ vsb skills update
 ```
 
 Agents working with `vsb` should follow [`cli-install.md`](cli-install.md) for the full install playbook — covers PATH issues, token recovery, and the first-run verify.
+
+### Other agents
+
+The same repository installs in other agents. Each one reads its own file at
+the root, and every file names the one server, `https://visualsandbox.com/mcp`.
+
+| Agent | Install | Its file |
+|-------|---------|----------|
+| Any agent with the open skills CLI | `npx skills add visualsandbox/skills` | `skills/<name>/SKILL.md` |
+| Cursor, Grok Bot | Add the marketplace `visualsandbox/skills` | `.cursor-plugin/` |
+| Hermes and other Agent Plugins hosts | Point the host at this repository | `plugin.json`, `mcp.json` |
+| OpenClaw | Install the plugin from ClawHub, or from this repository | `openclaw.plugin.json` |
+| Glama | The server listing reads it | `glama.json` |
+| ChatGPT and Codex | The OpenAI plugin directory | `openai/` (see its README) |
 
 ### Planned: the film pyramid
 

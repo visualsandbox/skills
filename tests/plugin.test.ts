@@ -90,6 +90,50 @@ describe("the plugin manifest", () => {
   });
 });
 
+describe("the manifests that other agents read", () => {
+  // Cursor and Grok Bot, Agent Plugins hosts (Hermes), OpenClaw and Glama
+  // each read their own file. A wrong one fails to install without a word.
+  const version = () => readJson("package.json").version;
+  const SERVER = "https://visualsandbox.com/mcp";
+
+  test("each names the plugin and carries the repository's version", () => {
+    for (const path of [".cursor-plugin/plugin.json", "plugin.json", "openclaw.plugin.json"]) {
+      const m = readJson(path);
+      expect(m.name ?? m.id, path).toBeTruthy();
+      expect(m.version, `${path}: run cd ../cli && bun run sync-version`).toBe(version());
+    }
+    expect(readJson(".cursor-plugin/plugin.json").name).toBe("visual-sandbox");
+    expect(readJson("plugin.json").name).toBe("visual-sandbox");
+    expect(readJson("openclaw.plugin.json").id).toBe("visual-sandbox");
+  });
+
+  test("the Cursor marketplace points at this plugin, and its server file is here", () => {
+    const entry = readJson(".cursor-plugin/marketplace.json").plugins[0];
+    expect(entry.name).toBe("visual-sandbox");
+    expect(existsSync(join(ROOT, entry.source))).toBe(true);
+    const servers = readJson(".cursor-plugin/plugin.json").mcpServers;
+    expect(existsSync(join(ROOT, servers))).toBe(true);
+  });
+
+  test("every one names the one production server", () => {
+    expect(readJson("mcp.json").mcpServers["visual-sandbox"].url).toBe(SERVER);
+    expect(readJson("openclaw.plugin.json").mcpServers["visual-sandbox"].url).toBe(SERVER);
+  });
+
+  test("OpenClaw lists packs that are here, and loads an entry that is here", () => {
+    for (const path of readJson("openclaw.plugin.json").skills) {
+      expect(existsSync(join(ROOT, path, "SKILL.md")), path).toBe(true);
+    }
+    for (const entry of readJson("package.json").openclaw.extensions) {
+      expect(existsSync(join(ROOT, entry)), entry).toBe(true);
+    }
+  });
+
+  test("Glama names a maintainer", () => {
+    expect(readJson("glama.json").maintainers.length).toBeGreaterThan(0);
+  });
+});
+
 describe("the commands the plugin adds", () => {
   const dir = join(ROOT, "commands");
   const files = () => readdirSync(dir).filter((n) => n.endsWith(".md"));

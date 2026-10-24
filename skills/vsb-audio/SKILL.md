@@ -137,6 +137,12 @@ vsb run audio/elevenlabs-tts --prompt "<script>" \
 - Only the user who designed a sample can speak with it. Any other URL,
   an uploaded recording included, is refused. This is voice design, not
   voice cloning, and cloning is not offered.
+- `--auditions 3` keeps all three takes that ElevenLabs makes of the voice,
+  for the same price: `result.urls` holds three samples to compare. Each
+  take is its own voice. Pass the take the person picked as
+  `--designed_voice`, or as `--my_voice` (it takes the link of one take).
+  Over MCP in ChatGPT, call `voice_studio` with the job id: the card plays
+  the three takes and saves the picked one to a character.
 
 ### Your voices
 
@@ -153,6 +159,20 @@ vsb run audio/elevenlabs-tts --my_voice narrator --prompt "<script>" --json
 - `--my_voice` takes a name (any case) or an id, and wins over
   `--designed_voice`. An unknown name fails before any charge.
 - Two voices of one user cannot share a name.
+
+## ElevenLabs Voice Isolator
+
+Use it when a recording has the right voice under noise: a street, a fan,
+music. It keeps the speech and removes the rest. Run it on a recording before
+a voice clone or a transcript, or on a clip's sound before you put it back
+with `add_audio`.
+
+```bash
+vsb run audio/elevenlabs-voice-isolator --audio "<url of the recording or the video>" --json
+```
+
+Up to 5 minutes; a video gives its sound. Billed by the length of the
+recording. `vsb pricing audio/elevenlabs-voice-isolator --json` gives the rate.
 
 ## ElevenLabs Voice Changer
 

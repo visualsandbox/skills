@@ -1,0 +1,48 @@
+{
+  "id": "visual-sandbox",
+  "name": "Visual Sandbox",
+  "description": "Generate images, video, audio, 3D and vector with Visual Sandbox, with the skills that teach an agent to prompt every model well. Pay per generation.",
+  "version": "0.2.69",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "mcpServers": {
+    "visual-sandbox": {
+      "transport": "streamable-http",
+      "url": "https://visualsandbox.com/mcp",
+      "auth": "oauth"
+    }
+  },
+  "skills": [
+    "skills/vsb-setup",
+    "skills/vsb-product-photoshoot",
+    "skills/vsb-ugc-ad",
+    "skills/vsb-ad-variations",
+    "skills/vsb-animate-photo",
+    "skills/vsb-short-film",
+    "skills/vsb-talking-avatar",
+    "skills/vsb-clone-voice",
+    "skills/vsb-video-to-reels",
+    "skills/vsb-edit-video",
+    "skills/vsb-html-video",
+    "skills/vsb-library-themes",
+    "skills/vsb-swap-motion",
+    "skills/vsb-feedback",
+    "skills/vsb-characters",
+    "skills/vsb-image",
+    "skills/vsb-image-prompting",
+    "skills/vsb-image-iteration",
+    "skills/vsb-nano-banana",
+    "skills/vsb-ugc-people",
+    "skills/vsb-video",
+    "skills/vsb-p-video",
+    "skills/vsb-p-video-prompting",
+    "skills/vsb-seedance",
+    "skills/vsb-seedance-prompting",
+    "skills/vsb-audio",
+    "skills/vsb-vector",
+    "skills/vsb-design"
+  ]
+}

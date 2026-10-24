@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -112,8 +112,8 @@
             {
               "description": "Video with the price shown first. Needs video credit.",
               "prompt": "Make a 5-second vertical video of a paper airplane flying through a bright studio. Tell me the price first.",
-              "tools_triggered": "estimate_cost, a video_* model tool such as video_p_video_2 with approved_cost_usd, show_media",
-              "expected_behavior": "Shows the price and waits for a yes before the run starts. After the yes, the video tool runs with the agreed price as approved_cost_usd. The card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
+              "tools_triggered": "estimate_cost, a video_* model tool such as video_p_video_2, show_media",
+              "expected_behavior": "Says the price first. The card shows the request with its price in dollars and a Generate button; nothing runs or is charged before the reviewer presses Generate. After the press, the card shows the percent while the clip renders, then plays the finished 9:16 clip. A running job is not reported as a finished video."
             },
             {
               "description": "Stock voice narration. Needs speech credit.",
@@ -141,7 +141,7 @@
         "commerce_description": "Visual Sandbox sells nothing in ChatGPT. The ChatGPT server address has no checkout or top-up tool and returns no purchase link. Generations are charged to the person's existing Visual Sandbox account. When the balance is too low, the plugin says so and says that credit is added on visualsandbox.com."
       },
       "publication": {
-        "release_notes": "Video first. New skills: animate a photo, make a short film with a recurring character, make a talking avatar, clone a voice, and cut a long video into captioned vertical clips. The plugin now asks before any larger run, and a reopened chat keeps the finished result in its card."
+        "release_notes": "A guided first run: your photos, product, logo or website become saved anchors, then one preview frame, a first 5-second video and three voice takes. New skills: motion graphics from HTML, brand themes read from your website, swap a person into a video, and feedback. Reels now cut several parts of a long video or a video link in one run. Films keep their script and shots between chats. A larger run waits for your press of Generate in the card."
       }
     }
   }
