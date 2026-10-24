@@ -84,6 +84,11 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-film`](skills/vsb-film/) | Make a short film end to end — script, shot list, one cast across shots, sound, edit, captions |
 | [`vsb-edit-video`](skills/vsb-edit-video/) | Edit video on the server over MCP — join, voiceover, music, captions, trim to 9:16, logo |
 | [`vsb-characters`](skills/vsb-characters/) | Keep one person, mascot or product the same in every shot with saved characters |
+| [`vsb-animate-photo`](skills/vsb-animate-photo/) | One photo to a 5-second clip over MCP, subject kept unchanged |
+| [`vsb-short-film`](skills/vsb-short-film/) | A short film inside a chat over MCP: shot list, one total price, approved stills, then clips joined |
+| [`vsb-talking-avatar`](skills/vsb-talking-avatar/) | A photo and a script to a talking video over MCP, in a stock, ElevenLabs or cloned voice |
+| [`vsb-clone-voice`](skills/vsb-clone-voice/) | Clone a voice over MCP with consent, then read any script in it |
+| [`vsb-video-to-reels`](skills/vsb-video-to-reels/) | A long video to 9:16 clips with captions over MCP: transcript, picked moments, trim |
 
 ## Install
 
