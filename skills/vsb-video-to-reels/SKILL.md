@@ -32,9 +32,11 @@ The source can be up to 2 hours long.
 
 ## 2. Transcribe it
 
-- **A public page:** call `transcribe_link` with the link. A YouTube video
-  with captions costs nothing. Without captions, Scribe runs at its price for
-  the real length; say so first.
+- **A public page:** call `transcribe_link` with the link. A page with
+  captions, such as most YouTube videos, costs nothing. A page without
+  captions ends the run with no charge. Then say that Scribe charges for the
+  real length, and on a yes call `transcribe_link` again with
+  `use_captions: false`.
 - **A file:** run `audio/scribe` with the file URL. Call `estimate_cost` with
   the length first, and say the price.
 
@@ -72,16 +74,19 @@ Call `cut_and_reframe_video` once for each reel:
   `pad` when two people sit far apart, or `crop` with `crop_x`, `crop_y`,
   `crop_width` and `crop_height` in source pixels to follow one speaker.
 - `aspect_ratio`: `9:16` by default.
-- `captions`: `bold` (large capitals, the spoken word lit up) or `plain`,
-  with `transcript` set to the job id of step 2. Use `none` when the source
-  already has captions burned in.
+- `captions`: one of the six looks of `add_captions`, with `transcript` set
+  to the job id of step 2: `highlight` (large capitals, the spoken word lit
+  up), `hormozi`, `beast`, `classic`, `box` or `plain`. Each look has its own
+  place and number of words. Use `none` when the source already has captions
+  burned in.
 
 The cut is free. Captions from the source transcript need no second
 transcription. Send the same `sandbox_name` on every run, such as
 "Podcast ep 12 reels".
 
-To change the caption look later, run `add_captions` on the reel. It has six
-looks; see [`vsb-edit-video`](../vsb-edit-video/SKILL.md).
+To change the caption look, run `cut_and_reframe_video` again with the same
+parts and another look. The cut is free, and the old captions do not stay on
+the new reel. The looks are in [`vsb-edit-video`](../vsb-edit-video/SKILL.md).
 
 ## 5. Hand it over
 
