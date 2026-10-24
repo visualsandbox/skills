@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "visual-sandbox",
-  "version": "0.2.70",
+  "version": "0.2.71",
   "description": "Generate images, video, audio, 3D and vector with Visual Sandbox, with the skills that teach an agent to prompt every model well. Pay per generation.",
   "author": {
     "name": "Vlad Artym",
