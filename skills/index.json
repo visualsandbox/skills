@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "b1cb2e51e418d076187f3a0329abf502c8e513fa129a2d3b2c033268ca91ffee",
+  "bundle": "259b2c4c85db8f7c015ebe1b25eb511eeea25392cc39702aea43eddddec6411a",
   "skills": [
     {
       "name": "vsb",
@@ -8,8 +8,8 @@
       "files": [
         {
           "path": "references/full-reference.md",
-          "sha256": "1b9e0bd5061fd987728dfb3d07d8dad5fdc3d051065c36e9b0c53418afee4f9f",
-          "bytes": 17138
+          "sha256": "6e3735c1b59dec5261f5970f612bc68c12a80553cc774b3bd98ef3ab12ca345f",
+          "bytes": 17197
         },
         {
           "path": "references/mcp.md",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "56267ffa296c4dca1eb39a59312b98e323475badedef680c96ad6fdee17172f6",
-          "bytes": 33257
+          "sha256": "89cf665ff9745003ac84e6e894b43fe2ae475453ee34db88a10e3c4e050f48f5",
+          "bytes": 33971
         }
       ]
     },
@@ -52,8 +52,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "92f932b7bc56d176f3c8ea4f9824fcd24974698d6a51d4caeac29c5b9bc28842",
-          "bytes": 15455
+          "sha256": "a3cb0e1d6ade57b13fbae8de7f98bf4817b63a437041c915d6adcea76351f380",
+          "bytes": 16244
         }
       ]
     },
@@ -157,8 +157,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "44fea0dbb9df5687184dff21b9bc6aeb5291e307382054bdb3e1f75b0e999cb4",
-          "bytes": 18803
+          "sha256": "29f22312dd876f0a5d507cc4253107da90616183121b211b0e4ac3b7d7816afc",
+          "bytes": 23660
         }
       ]
     },
@@ -250,8 +250,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "a50e67aac6988d6e94617fa7e833e7078885ee8227479351871b1f4fa1f8d654",
-          "bytes": 15906
+          "sha256": "dfb2e2f95043430ba9226b3eb103e1845a9fa1a939ba6a5584f82df5c8c4950b",
+          "bytes": 16756
         }
       ]
     },
@@ -381,8 +381,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "6dd395fefa290e373ec427538396845dd34a3d0367caf5e47899340a30ad1d94",
-          "bytes": 12182
+          "sha256": "c5fcf93da8f98b0a3ef17352d57442d405e2eb8e03c72a040520407c81bf6f37",
+          "bytes": 12833
         }
       ]
     },
@@ -393,8 +393,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "cec46ed47d9abcd421137d48ca20de09e10fae983c4384f17848b83d462305da",
-          "bytes": 26462
+          "sha256": "ead175d916b0ef0fa41ce9ef47b284a2c44f096cfb108edd661ab79f7e46ee4c",
+          "bytes": 29464
         }
       ]
     },
