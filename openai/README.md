@@ -28,11 +28,19 @@ Change a starter prompt and its screenshot together.
 ## Why a second server address
 
 OpenAI forbids selling credit inside a plugin. `/mcp/chatgpt` is the same
-server as `/mcp` without the `top_up` tool, without the top-up link in
-`get_balance`, and without the `vsb` skill pack, which names both. It adds
-`show_media`, which draws the result in a card in the chat. A person adds
-credit on visualsandbox.com, and a new account starts with a small credit.
-The rules live in the django repository, in `core/mcp/transport.py`.
+server as `/mcp` without the `top_up` tool and without the top-up link in
+`get_balance`. It has one tool for each model in place of `generate`,
+`list_models` and `get_model`. It leaves out the `vsb` skill pack, which names
+the top-up, and the eight packs that need the CLI, which `SHIPPED` leaves out
+too. It adds the cards: `show_media` with its Generate button for Review
+mode, `edit_theme`, `voice_studio` and `import_media`. A person adds credit on
+visualsandbox.com, and a new account starts with a small credit. The rules
+live in the django repository, in `core/mcp/transport.py` and
+`core/mcp/skills.py`.
+
+The scan stores the card URI of each tool. Every old card URI must keep
+working until a new scan is approved, so the server serves the current card
+at each one (`PAST_URIS` in `core/mcp/card.py`).
 
 ## Build
 
