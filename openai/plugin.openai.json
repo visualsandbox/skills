@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -45,7 +45,7 @@
       "interface": {
         "displayName": "Visual Sandbox",
         "shortDescription": "Make videos, ads & voiceovers",
-        "longDescription": "Make videos, ads, voiceovers and images in ChatGPT with more than 50 AI models in one place. Animate a product photo, turn a script into a short film with the same character in every shot, or make a creator-style video ad with a voice and captions.\n\nMake a photo talk with a stock voice or your own cloned voice. Cut a long video into short vertical clips with word-timed captions. Turn one product photo into a set of store photos, or make several versions of one ad to test against each other.\n\nEdit in the same chat: join clips, add a voiceover, music and captions, trim to 9:16 and place your logo. Save a person or a product as a character once, and keep the same face and voice in every shot. Make music, sound effects, SVG logos, 3D models and web pages too.\n\nBefore a larger run, the plugin tells you what it costs and waits for your yes. Every result shows in the chat and lands on a canvas at visualsandbox.com, where you see the whole set side by side and share a link. For help, contact hello@visualsandbox.com.",
+        "longDescription": "Make videos, ads, voiceovers and images in ChatGPT with more than 50 AI models in one place. Animate a product photo, turn a script into a short film with the same character in every shot, or make a creator-style video ad with a voice and captions.\n\nMake a photo talk with a stock voice or your own cloned voice. Cut a long video into short vertical clips with word-timed captions. Turn one product photo into a set of store photos, or make several versions of one ad to test against each other.\n\nEdit in the same chat: join clips, add a voiceover, music and captions, trim to 9:16 and place your logo. Save a person or a product as a character once, and keep the same face and voice in every shot. Make music, sound effects, SVG logos, 3D models and web pages too.\n\nA larger run waits until you press Generate in the card. Every result shows in the chat and lands on a canvas at visualsandbox.com, where you see the whole set side by side and share a link. For help, contact hello@visualsandbox.com.",
         "developerName": "Visual Sandbox",
         "category": "Creativity",
         "capabilities": [
@@ -70,7 +70,7 @@
           "Web pages and cards in editable layers",
           "Asks before a larger run"
         ],
-        "websiteURL": "https://visualsandbox.com/chatgpt/",
+        "websiteURL": "https://visualsandbox.com/mcp-server/",
         "supportURL": "https://visualsandbox.com/support/",
         "privacyPolicyURL": "https://visualsandbox.com/privacy/",
         "termsOfServiceURL": "https://visualsandbox.com/terms/",
