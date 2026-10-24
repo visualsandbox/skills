@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "d7f9595657c92b8deb48c451044164e7fea286aff8ac0d35bcced9ef73df2b0e",
+  "bundle": "b1cb2e51e418d076187f3a0329abf502c8e513fa129a2d3b2c033268ca91ffee",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "d599a61a34cd11aa7daf1e4bc33e222ff1ebbca2d7767c7eb9ba362f5e4e8e30",
-          "bytes": 32712
+          "sha256": "56267ffa296c4dca1eb39a59312b98e323475badedef680c96ad6fdee17172f6",
+          "bytes": 33257
         }
       ]
     },
@@ -31,6 +31,17 @@
           "path": "SKILL.md",
           "sha256": "f4c7f58b502817447b4bb53b1a950c81af9793f90350548fbcb737d01430f023",
           "bytes": 3274
+        }
+      ]
+    },
+    {
+      "name": "vsb-animate-photo",
+      "description": "Turn one photo into a short video clip with the Visual Sandbox MCP tools: a product shot that moves, a portrait that comes alive, a still that gets a slow camera move. Trigger when the person asks to \"animate this photo\", \"make this picture move\", \"turn my product photo into a video\", \"add motion\", \"image to video\", or attaches a picture and asks for a clip. Keeps the subject unchanged, asks for the price first, and shows the clip in a card. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "dcfc5d75113c5911b615e5b61739c688b3fe3c0d108d0d34098da4480fbdaeeb",
+          "bytes": 2788
         }
       ]
     },
@@ -54,6 +65,17 @@
           "path": "SKILL.md",
           "sha256": "b82d411409e7a47496c563aa6b1f3e7dc3f5ab9171e63c2c2f7fbb583b20f3ed",
           "bytes": 2545
+        }
+      ]
+    },
+    {
+      "name": "vsb-clone-voice",
+      "description": "Clone a voice from a recording with the Visual Sandbox MCP tools, then read any script in it: a voiceover, an ad, a narration or a talking avatar in the person's own voice. Trigger when the person asks to \"clone my voice\", \"use my voice\", \"make it sound like me\", \"voice cloning\", \"narrate this in my voice\", or attaches a voice recording and asks to reuse it. Checks consent, makes the clone once, and reads scripts in it after that. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "1332f2af81f8a4011208c2392d91f546c2e36d7c4d5e832cebb2d4df665d3c96",
+          "bytes": 2258
         }
       ]
     },
@@ -261,6 +283,17 @@
       ]
     },
     {
+      "name": "vsb-short-film",
+      "description": "Make a short film of several shots inside a chat with the Visual Sandbox MCP tools: a story of 15 to 60 seconds with the same character in every shot, joined into one video with music, a voiceover or captions. Trigger when the person asks to \"make a short film\", \"turn this script into a video\", \"a story with several scenes\", \"a trailer\", \"a music video\", \"a multi-scene ad\", or \"an episode with my character\". Plans the shots, gives the total price once, approves the stills before any video, then joins the clips. Uses the MCP tools only; for the CLI, read vsb-film.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "c7a7eb231377d427c611a03775d66bd24286c0b8207a5ce002af039f6ef826d8",
+          "bytes": 3398
+        }
+      ]
+    },
+    {
       "name": "vsb-speed",
       "description": "Bend time in a clip with `vsb video speed` — slow motion, fast motion, speed ramp, motion blur, low shutter, freeze frame, reverse, boomerang, stutter, step printing, stop motion and a seamless infinite loop. Trigger when the user wants to \"slow this down\", \"speed it up\", \"reverse it\", \"make it loop\", \"freeze on that\", \"add motion blur\", \"boomerang this\", or names any time-and-motion technique. Runs locally through ffmpeg: free, nothing uploaded. Pair with `vsb-video` for generating the clip and `vsb-cut` for joining clips.",
       "files": [
@@ -279,6 +312,17 @@
           "path": "SKILL.md",
           "sha256": "ae7eea122784ccf8b27c1b6ff6bc087e76991ce15ec7bebc5cbd4acdeea7d629",
           "bytes": 5953
+        }
+      ]
+    },
+    {
+      "name": "vsb-talking-avatar",
+      "description": "Make a talking video from one photo and a script with the Visual Sandbox MCP tools: a presenter, a spokesperson, an AI avatar or a person who reads a line, with the lips in time with the words. Trigger when the person asks to \"make this photo talk\", \"create my avatar\", \"a talking head\", \"an AI spokesperson\", \"a presenter video\", \"lip sync this picture\", or \"make me say this\". Picks a stock voice, an ElevenLabs voice or the person's cloned voice, asks for the price first, and shows the video in a card. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "4e0cc70ee0ab13992f032b4969408a63fe158a7b6a9e0c3513bbb8062ceb97be",
+          "bytes": 2764
         }
       ]
     },
@@ -351,6 +395,17 @@
           "path": "SKILL.md",
           "sha256": "cec46ed47d9abcd421137d48ca20de09e10fae983c4384f17848b83d462305da",
           "bytes": 26462
+        }
+      ]
+    },
+    {
+      "name": "vsb-video-to-reels",
+      "description": "Cut a long video into short vertical clips with the Visual Sandbox MCP tools: find the best moments in a podcast, an interview, a webinar or a talk, trim each one to 9:16, and add word-timed captions. Trigger when the person asks to \"turn this video into reels\", \"make shorts from my podcast\", \"find the best clips\", \"clip this interview\", \"repurpose this video for TikTok\", or attaches a long video and asks for short ones. Transcribes the video, proposes the moments, and cuts only the ones the person picks. Uses the MCP tools only.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "82897f8f6120eccdb8e84bc8c6d7c636ebc486d76cb01231eeb386e67f508de1",
+          "bytes": 2684
         }
       ]
     }

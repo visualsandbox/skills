@@ -203,6 +203,11 @@ list, run `vsb skills install <name>`, then read
 | `vsb-ad-variations` | Make 3 to 6 versions of one ad that each change one thing, to test (MCP only) |
 | `vsb-edit-video` | Join clips, add a voiceover, music and captions, trim and reframe, take a frame, add a logo, on the server (MCP only) |
 | `vsb-characters` | Keep one person, mascot or product the same across shots: the sheet, the voice, the reuse |
+| `vsb-animate-photo` | Turn one photo into a 5-second clip, with the subject unchanged (MCP only) |
+| `vsb-short-film` | Make a short film inside a chat: shot list, one total price, approved stills, clips joined (MCP only) |
+| `vsb-talking-avatar` | Make a photo talk with a script, in a stock, ElevenLabs or cloned voice (MCP only) |
+| `vsb-clone-voice` | Clone a voice with consent, then read any script in it (MCP only) |
+| `vsb-video-to-reels` | Cut a long video into 9:16 clips with captions: transcript, picked moments, trim (MCP only) |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
 | `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table, the async poll, and the sound path for people who talk |
