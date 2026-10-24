@@ -33,7 +33,7 @@ the reader.
 | `vsb status <job_id>` | `get_job` |
 | `vsb jobs` | `list_jobs` |
 | `vsb voices` | `list_voices` |
-| `vsb characters` | `list_characters` |
+| `vsb characters list` | `list_characters` |
 | `vsb characters get <character>` | `get_character` |
 | `vsb characters create` | `create_character` |
 | `vsb characters update <character>` | `update_character` |
@@ -69,8 +69,8 @@ the reader.
 | `vsb assets search` | `search_assets` |
 | `vsb assets update <asset>` | `update_asset` |
 | `vsb themes` | `list_themes` |
-| `vsb themes get <theme>` | `get_theme` |
-| `vsb themes set <theme>` | `update_theme` |
+| `vsb themes get <name>` | `get_theme` |
+| `vsb themes set <name>` | `update_theme` |
 | `vsb themes extract <url>` | `extract_theme` |
 | `vsb films` | `list_film_projects` |
 | `vsb films create <name>` | `create_film_project` |
