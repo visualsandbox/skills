@@ -117,7 +117,7 @@ vsb run vector/recraft-vectorize --image "$RASTER" --json
 ```
 
 - **Transparent background wanted?** Run
-  `image-enhance/recraft-remove-background --image "$RASTER"` between
+  `image-enhance/pixelcut-remove-background --image "$RASTER"` between
   step 1 and step 2, and trace its output instead. PNG transparency
   survives the trace.
 - `image/nano-banana-2-lite` is fine for a draft. Use `image/nano-banana-2`

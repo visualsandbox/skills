@@ -80,7 +80,8 @@ Verify the live catalog with `vsb models --modality image --json | jq '.models[]
 | Art-directed poster, ad or brand image from a short prompt | `image/recraft-v4.1` | Recraft. Tuned with designers: it picks the layout, the palette and the light, and sets quoted text into the composition. ~$0.05/image flat, about 1 MP, 11 aspect ratios, prompts up to 10,000 characters. **Text-to-image only: no reference image, so it cannot edit.** Commercial use allowed; outputs may not train AI models. |
 | Cheap, fast drafts with a designed look | `image/recraft-v4.1-flash` | Recraft. Its fastest, cheapest model, with quality close to V4.1. ~$0.01/image flat (`image/z-image-turbo` is still cheaper), about 1 MP, the same 11 aspect ratios. No styles. **Text-to-image only, so it cannot edit.** Render the final with `image/recraft-v4.1`. |
 | Put real clothing on a real person | `image/p-image-try-on` | Pruna AI. Person photo plus up to 6 garment photos; face, pose, body and background carry through untouched, and a whole outfit layers in one pass. `garment_images` is a list even for one item. Shows the look, never the fit. Footwear is the weakest category; eyewear, handheld items, gloves and stacked jewelry are unsupported. Billed per run PLUS per input megapixel, so resize inputs before sending. |
-| Background removal | `image-enhance/recraft-remove-background` | Note: category is `image-enhance`, not `image`. |
+| Background removal | `image-enhance/pixelcut-remove-background` | Pixelcut. The default remover, and free. Transparent PNG at the full input size in about 3s. Clean edges with no halo of the old background colour, keeps fine hair strands, keeps clear parts such as a plastic lid or the plate under a dish, and leaves no stray specks on product shots. Category is `image-enhance`, not `image`. |
+| Background removal, second try | `image-enhance/recraft-remove-background` | Recraft. Also free. Use it only when the Pixelcut cutout misses on a hard image; its edges keep a faint halo of the old background colour. |
 | Upscale, portraits and print | `image-enhance/upscale` | Topaz. Same — `image-enhance` category. Tuned for photographic realism, with five named enhance models and a face refinement step. One flat rate per image whatever the size. |
 | Cheap, fast upscale at volume | `image-enhance/p-image-upscale` | Pruna AI. About a second a run. `upscale_mode: target` names the output in megapixels; `factor` multiplies each side (2/4/6/8). `enhance_details` and `enhance_realism` both default off; Realism is for AI-generated sources. Charged by the size of the result, so it is cheapest on small outputs. Pick `image-enhance/upscale` (Topaz) for portraits and print. |
 | SVG, vector, logo, icon, cut file | see [`vsb-vector`](../vsb-vector/SKILL.md) | Not an image model job. Quiver for icons; `vector/recraft-v4.1-svg` for a new SVG from a prompt at a flat price; a flat PNG from this page traced by `vector/recraft-vectorize` for detailed art. |
@@ -301,14 +302,17 @@ sits on. Long paragraphs break down.
 
 ```bash
 URL=$(vsb upload ./product-photo.jpg --json | jq -r '.url')
-vsb run image-enhance/recraft-remove-background \
+vsb run image-enhance/pixelcut-remove-background \
   --image "$URL" \
   --download "./out/cutout.png" \
   --json
 ```
 
-Note the category is `image-enhance`, not `image`, and `recraft-remove-background`
-+ `upscale` both take a single string field (currently `image`) — different from
+If the cutout misses on a hard image, run the same command with
+`image-enhance/recraft-remove-background`, the fallback.
+
+Note the category is `image-enhance`, not `image`, and both removers
++ `upscale` take a single string field (currently `image`) — different from
 Nano Banana's array. Always run `vsb schema image-enhance/<slug> --json` first
 to confirm field names; the CLI rejects unknown flags with a "Did you mean…?"
 hint before submitting.
@@ -321,7 +325,7 @@ vsb pricing image/nano-banana --json | jq '.user_cost_estimate'
 ```
 
 Nano Banana family is cents-per-image. GPT Image 2 is ~$0.05–0.20 depending on
-quality. Background removal and upscale are sub-cent.
+quality. Background removal is free. Upscale is cents per image.
 
 `z-image-turbo`, `flux-2-klein-9b`, and `nano-banana-2` bill per output
 megapixel or per resolution tier, so `user_cost_estimate` comes back `null`
