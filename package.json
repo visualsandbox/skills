@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "0.2.71",
+  "version": "0.2.72",
   "private": true,
   "description": "Agent skill packs for Visual Sandbox — consumed by the vsb CLI.",
   "license": "SEE LICENSE IN LICENSE",
