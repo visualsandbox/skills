@@ -80,8 +80,19 @@ from the environment and never from this repository.
 
 ## Each later release
 
-Edit the skills, raise `version` and `publication.release_notes`, build, and
-select **Upload plugin to make changes** on the existing plugin. A change to
-the server needs no new ZIP: deploy it, then select **Rescan** under
-**MCPs**. Run `create_review_account --keep-password` to put the reviewer's
-balance back before each review.
+1. Edit the skills, and raise `version` and `publication.release_notes`.
+2. Run `create_review_account --keep-password` on the box to put the
+   reviewer's balance back.
+3. Run `bun run openai:build`.
+4. On the existing plugin, select **Upload new version** and upload the ZIP.
+   Wait until every skill reads **Checks passed**.
+5. Select **Submit for review**, tick the six attestations, and add a note.
+   A skills-only change (1.0.9) was approved in seconds.
+6. Select **Publish plugin**, then **Publish Version**.
+
+A change to the server needs no new ZIP. OpenAI scans the server once a day,
+and **Rescan** under **MCPs** asks for a scan at once. Neither had run for
+12 days on 2026-11-05, and Rescan read "currently unavailable". A default that
+must reach ChatGPT now belongs in the packaged skills, which a new version
+carries. `CHATGPT_DEFAULTS` in the build adds such a block to the packaged
+copy only.
