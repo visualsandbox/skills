@@ -1,6 +1,6 @@
 {
   "name": "visual-sandbox",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "keywords": [
     "ai image generator",
     "ai video generator",
@@ -141,7 +141,7 @@
         "commerce_description": "Visual Sandbox sells nothing in ChatGPT. The ChatGPT server address has no checkout or top-up tool and returns no purchase link. Generations are charged to the person's existing Visual Sandbox account. When the balance is too low, the plugin says so and says that credit is added on visualsandbox.com."
       },
       "publication": {
-        "release_notes": "A guided first run: your photos, product, logo or website become saved anchors, then one preview frame, a first 5-second video and three voice takes. New skills: motion graphics from HTML, brand themes read from your website, swap a person into a video, and feedback. Reels now cut several parts of a long video or a video link in one run. Films keep their script and shots between chats. A larger run waits for your press of Generate in the card."
+        "release_notes": "Lower-cost defaults: a new image starts with Recraft V4.1 Flash at $0.01, and a video starts with P-Video 2. Name any other model to use it instead."
       }
     }
   }
