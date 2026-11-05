@@ -225,6 +225,33 @@ for (const name of SHIPPED) {
     if (kept !== text) writeFileSync(file, kept);
   }
 }
+// The ChatGPT plugin starts with the low-cost models. The packs are shared
+// with the CLI and Claude, which keep their own defaults, so only the
+// packaged copy gets this block, after the frontmatter.
+const CHATGPT_DEFAULTS: Record<string, string> = {
+  "vsb-image": [
+    "## Default model in ChatGPT",
+    "",
+    "For a new image from a prompt, call `image_recraft_v4_1_flash` ($0.01 an image).",
+    "It takes no reference image, so for an edit of a photo call `image_nano_banana_2_lite`.",
+    "Use another model only when the person names one or asks for what these cannot do.",
+    "This rule comes before the defaults in the table below.",
+  ].join("\n"),
+  "vsb-video": [
+    "## Default model in ChatGPT",
+    "",
+    "For a video, call `video_p_video_2`. It makes a clip from a prompt, a first frame or an audio file, with sound.",
+    "Use another model only when the person names one or asks for what P-Video 2 cannot do.",
+    "This rule comes before the defaults in the table below.",
+  ].join("\n"),
+};
+for (const [name, block] of Object.entries(CHATGPT_DEFAULTS)) {
+  const file = join(pkg, "skills", name, "SKILL.md");
+  const text = readFileSync(file, "utf-8");
+  const end = text.indexOf("\n---\n", 4);
+  if (!text.startsWith("---\n") || end < 0) throw new Error(`skills/${name}/SKILL.md has no frontmatter`);
+  writeFileSync(file, `${text.slice(0, end + 5)}\n${block}\n${text.slice(end + 5)}`);
+}
 cpSync(join(OPENAI, "assets"), join(pkg, "assets"), { recursive: true });
 writeFileSync(join(pkg, "plugin.json"), JSON.stringify(manifest, null, 2) + "\n");
 cpSync(join(OPENAI, "mcp.json"), join(pkg, "mcp.json"));
