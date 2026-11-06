@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bundle": "66e1d5c91a81c7ea35e29a1e0178b5772092c75854e461c01b8bff4c544c9d8d",
+  "bundle": "e2f327d2333978c3bdea909276b891a89c265114a6e7eb7bdc705f7147add3d9",
   "skills": [
     {
       "name": "vsb",
@@ -18,8 +18,19 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "ee385d847824082a21236ac2101f04fdff50dd7dabcbce7dffd4a61fbaaf3e35",
-          "bytes": 37193
+          "sha256": "29918e59b74525fcb3cbfc6ac333d42686cb5ca8886b1d47b22d89309d82158c",
+          "bytes": 37291
+        }
+      ]
+    },
+    {
+      "name": "vsb-3d",
+      "description": "Make a 3D model (one GLB file) with Visual Sandbox, from a prompt or from one image, and write the prompt well. Trigger when the user asks for a 3D model, a mesh, a GLB, a game asset, a prop, a 3D print, or wants to turn a photo into 3D via the vsb CLI. `3d/hunyuan-3d-3.1` is the default. Covers the model choice, the prompt slots for text to 3D, the photo rules for image to 3D, the prompt length limit of each model, and the async poll.",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "099fbbf59c6c671cd3afaf94082f9873624953d081731b5f43048d811356e7ba",
+          "bytes": 4358
         }
       ]
     },

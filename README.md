@@ -65,6 +65,7 @@ Every generation is charged to the connected account. Nothing is free.
 | [`vsb-image`](skills/vsb-image/) | Pick the right image model and prompt it well |
 | [`vsb-video`](skills/vsb-video/) | Generate / edit video — async + status polling |
 | [`vsb-audio`](skills/vsb-audio/) | Generate sound effects, ambient audio, speech |
+| [`vsb-3d`](skills/vsb-3d/) | Make a 3D model from a prompt or a photo |
 | [`vsb-vector`](skills/vsb-vector/) | Make SVGs — Quiver for icons, raster-then-Recraft-vectorize for detailed art, colour count asked first |
 | [`vsb-design`](skills/vsb-design/) | Design pages, screens and code drawings on the canvas in named layers — export as HTML, React, SVG or PNG, free |
 | [`vsb-presets`](skills/vsb-presets/) | Run, save, override, and share reproducible model configurations |

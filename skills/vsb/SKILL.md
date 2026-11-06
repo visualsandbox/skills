@@ -223,6 +223,7 @@ list, run `vsb skills install <name>`, then read
 | `vsb-clone-voice` | Clone a voice with consent, then read any script in it (MCP only) |
 | `vsb-video-to-reels` | Cut a long video or a video link into 9:16 reels with captions: transcript, picked passages, one cut (MCP only) |
 | `vsb-vector` | Make an SVG, an icon, or vectorize a picture |
+| `vsb-3d` | Make a 3D model from a prompt or a photo, and write the prompt |
 | `vsb-design` | Design a page, a screen or a card, or draw a picture in code, on the canvas in named layers (free) |
 | `vsb-video` | Make or edit any video. It has the model table, the async poll, and the sound path for people who talk |
 | `vsb-p-video` | Run `video/p-video`, the cheapest video model |
@@ -450,4 +451,4 @@ source of truth — this list goes stale, the registry does not.
 - **Vector**: `vector/quiver-arrow-2` (the default: generate, vectorize, edit and animate an SVG), `vector/quiver-arrow-2-telos` (same four, plus a frontier reasoning model and a much longer brief), `vector/quiver-arrow-1.1` (generate and vectorize only, at a flat price per file), `vector/recraft-v4.1-svg` (prompt to SVG at a flat price per file), `vector/recraft-vectorize` (raster to SVG). Route and prompt rules in [`vsb-vector`](../vsb-vector/SKILL.md): Arrow 2 for icons and for anything that starts from an SVG, raster-then-vectorize for detailed art, and ask the colour count first.
 
 For per-modality recipes, see [Skill packs](#skill-packs).
-`3d/*` has no sibling skill. Run `vsb schema <slug> --json` and drive it from this page.
+For a 3D model, read [`vsb-3d`](../vsb-3d/SKILL.md): the model choice, the prompt slots and the photo rules.

@@ -67,6 +67,7 @@ const SHIPPED = [
   "vsb-seedance-prompting",
   "vsb-audio",
   "vsb-vector",
+  "vsb-3d",
   "vsb-design",
 ];
 
