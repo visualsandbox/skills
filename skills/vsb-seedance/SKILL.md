@@ -282,6 +282,15 @@ JOB=$(vsb run video/seedance-2.5 \
   reference and as a first frame: "may contain likenesses of real people".
   Replicate stops at 720p. For a realistic AI person, run
   `--ai_character true --resolution 720p`. Do not retry 1080p with the face.
+- **`ai_character` covers images only, not reference videos.** A reference
+  video with a realistic face is refused on Cloudflare even with the flag on:
+  "The input video 'content[2]' may contain real person" (job f2101bb4,
+  2026-11-13). fal refuses it too. So motion transfer of a clip with a
+  realistic face onto an AI character does not work on Seedance today. Use
+  `video/kling-v3-motion-control` or `video/p-video-animate`: one `image` of
+  the character and one driving `video`. Muapi says its Seedance 2.5 Motion
+  Control sends a depth clip of the source, which has no face. We have not
+  tested that, and the catalog has no tool that makes a depth clip.
 
 - **Safety filter (E005).** Seedance refuses "drone" and "FPV" wording; write
   "aerial flythrough". On `"Your input was flagged by the model's safety
@@ -294,7 +303,8 @@ JOB=$(vsb run video/seedance-2.5 \
   too. A still with no face passes, but the model then invents the face.
   `--ai_character true` sends the images through ByteDance's virtual avatar
   library on Cloudflare, and a realistic AI face then passes and stays the
-  same. It is a promise that every person in the images is AI-made and that
+  same, in images only (reference videos: see above). It is a
+  promise that every person in the images is AI-made and that
   the user holds the rights: never set it for a photo of a real person, and
   ask the user before you set it. With it on, `image` guides the face only and
   does not fix the opening shot, and Seedance 2.0 and 2.0 Fast cap at
