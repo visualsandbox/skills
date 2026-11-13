@@ -276,6 +276,12 @@ JOB=$(vsb run video/seedance-2.5 \
 - **1080p, Draft and `draft_video` run on fal.** 480p and 720p run on
   Replicate, at about half the fal rate. `ai_character` runs on Cloudflare,
   so it cannot combine with 1080p or Draft.
+- **A realistic AI character tops out at 720p on Seedance 2.5.** No provider
+  has both (checked 2026-11-13). Cloudflare has the avatar input but stops at
+  720p. fal has 1080p but no avatar input, and refuses an AI-made face as a
+  reference and as a first frame: "may contain likenesses of real people".
+  Replicate stops at 720p. For a realistic AI person, run
+  `--ai_character true --resolution 720p`. Do not retry 1080p with the face.
 
 - **Safety filter (E005).** Seedance refuses "drone" and "FPV" wording; write
   "aerial flythrough". On `"Your input was flagged by the model's safety
