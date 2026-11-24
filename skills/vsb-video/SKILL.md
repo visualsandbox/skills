@@ -98,7 +98,8 @@ Verify with `vsb models --modality video --json | jq '.models[] | {slug, categor
 | Cheapest in catalog, iterate fast | `video/p-video` | Pruna AI. Built-in `draft` toggle drops cost ~4× (~$0.005/s at 720p draft). Supports text, image, AND audio conditioning. Looser safety filter than Seedance. See [`vsb-p-video`](../vsb-p-video/SKILL.md). |
 | Storyboard a clip from keyframes, or continue one, with audio | `video/flux-3` | Black Forest Labs. Prompt alone, 1 image (first frame), 2 images (first and last), or 3-10 as an ordered storyboard; or `start_video` to continue a clip. Images and `start_video` are mutually exclusive, and a continuation caps at 15s. 5-20s, 720p/1080p, audio on by default, `draft` for a cheap 720p preview. Cuts between shots unless you ask for one continuous take. |
 | Reference-led shot with dialogue, a set voice, or 2K | `video/minimax-h3` | MiniMax. Generates stereo dialogue, foley and score in the same pass as the picture, and takes a reference audio clip to set the voice. 9 images, 3 videos, 3 audio clips, 4-15s, 768p or 2K. The soundtrack is never optional, so name each speaker and say what must stay quiet. |
-| One long unbroken shot, up to 30 seconds, silent | `video/wan-3` | Alibaba. Ties the longest single clip in the catalog and costs little per second, but it writes no audio at all. 480p/720p/1080p, negative prompt, prompt expansion on by default. |
+| One long unbroken shot, up to 30 seconds | `video/wan-3` | Alibaba. Ties the longest single clip in the catalog and costs little per second. Silent by default. 480p/720p/1080p, negative prompt, prompt expansion on by default. Takes a first frame, or references (see the next row), never both. |
+| Put a subject into a clip you already have, on Wan | `video/wan-3` with `--reference_videos` | Alibaba, reference mode. Up to 5 reference videos (15s in total), 10 images and 5 audio clips. Wan 3.0 has **no video edit**: the clip is a reference, and the model makes a new clip from it. Runs on fal at twice the default Wan rate, plus the seconds of the reference video. See [Wan 3.0](#wan-30-first-frame-or-references). |
 | Fast clip with sound, or any 4K output | `video/ltx-2.5-fast` | Lightricks. Synced audio in one pass, 720p to 4K, first and last frame, seconds to render. Two length limits stack: 2K and 4K stop at 10s, and 48/50 fps stops at 10s at any resolution. 16:9 and 9:16 only. |
 | Quality Pruna tier, with speech and 1080p | `video/p-video-2` | Pruna AI. Successor to `p-video`: 1-20s, 720p/1080p at 24/48 fps, first and last frame, native speech and lip-sync from dialogue written in the prompt, audio-conditioned motion, `draft` halves the rate. An audio track or Auto duration sets the length, so the price settles after the run. |
 | Best Pruna picture, silent | `video/p-video-2-pro` | Pruna AI. Text and image to video, 5-15s, 480p/768p, first and last frame, `mode` speed or quality, `prompt_upsampler` off/turbo/max. No audio at all and no 1080p; finish a delivery on `video/video-upscale`. |
@@ -388,6 +389,41 @@ JOB=$(vsb run video/kling-v3-omni-video \
   exact shape before you write one.
 - `--generate_audio true` costs more per second than audio off. Iterate on
   `standard`, lock the take on `pro`, then re-render on `4k` unchanged.
+
+## Wan 3.0 (first frame or references)
+
+Wan 3.0 has three modes on one slug. The inputs pick the mode:
+
+- A prompt alone makes text-to-video.
+- `--image` animates a first frame.
+- `--reference_images`, `--reference_videos` or `--reference_audios` makes
+  reference-to-video. It cannot take `--image`. Pass that frame as a
+  reference image instead.
+
+Wan 3.0 has no video edit. If the user asks to edit a clip "with Wan", use
+reference mode and say that it makes a new clip from the reference. Do not
+run another model, such as `video/p-video-edit`, without asking first.
+
+```bash
+JOB=$(vsb run video/wan-3 \
+  --reference_videos ./couch.mp4 \
+  --reference_images ./hen.png \
+  --prompt "Put the hen from Image 1 on the couch in Video 1. She jumps and flaps her wings. Keep the camera motion and the room of Video 1." \
+  --duration 10 --resolution 720p --aspect_ratio 9:16 \
+  --async --json | jq -r '.job_id')
+```
+
+- Name each reference by position in the prompt: "Image 1", "Video 1",
+  "Audio 1".
+- The CLI uploads a local file path in each reference field.
+- A reference video must be at least 16 fps. All reference videos together
+  stop at 15 seconds. Trim a long clip first with `vsb video crop --start 0 --duration 15`.
+- Reference mode runs on fal only. The price is fal's rate per output second,
+  plus the same rate for each second of reference video. Before the run the
+  price holds the 15-second maximum. After the run it falls to the real length.
+- `--generate_audio true` adds sound and also runs on fal. The default is a
+  silent clip.
+- `--negative_prompt` does not work with references or audio.
 
 ## Topaz Video Upscale (finish a clip, no prompt)
 
